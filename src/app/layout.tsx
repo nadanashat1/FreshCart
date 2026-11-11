@@ -13,7 +13,7 @@ const exo = Exo({
 });
 
 export const metadata: Metadata = {
-  title: "FreshCart - E-Commerce",
+  title: "FreshCart",
   description: "FreshCart is your one-stop destination for quality products.",
 };
 
