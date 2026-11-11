@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { getProviders, signIn } from "next-auth/react";
 import {
   FaEnvelope, FaLock, FaEye, FaEyeSlash, FaGoogle, FaFacebookF,
   FaTruck, FaShieldHalved, FaClock,
@@ -19,6 +19,34 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
+  const [social, setSocial] = useState<{ google: boolean; facebook: boolean }>({ google: false, facebook: false });
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    getProviders().then((p) =>
+      setSocial({ google: Boolean(p?.google), facebook: Boolean(p?.facebook) })
+    );
+  }, []);
+
+  useEffect(() => {
+    const err = searchParams.get("error");
+    if (err === "AccountExists") {
+      setNotice("An account with this email already exists. Please sign in with your email and password.");
+    } else if (err === "SocialEmailMissing") {
+      setNotice("Your social account did not share an email address, so we could not sign you in. Please use email and password.");
+    } else if (err && err !== "CredentialsSignin") {
+      setNotice("Social sign-in could not be completed. Please try again or use email and password.");
+    }
+  }, [searchParams]);
+
+  function socialSignIn(provider: "google" | "facebook") {
+    setNotice(null);
+    if (social[provider]) {
+      signIn(provider, { callbackUrl: "/" });
+    } else {
+      setNotice("Social sign-in is not available in this build yet. Please use your email and password.");
+    }
+  }
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -78,7 +106,7 @@ export default function LoginPage() {
             <div className="mb-6 space-y-3">
               <button
                 type="button"
-                onClick={() => setNotice("Social sign-in is not available in this build yet. Please use your email and password.")}
+                onClick={() => socialSignIn("google")}
                 className="flex w-full items-center justify-center gap-3 rounded-xl border-2 border-gray-200 px-4 py-3 transition-all duration-200 hover:border-primary-300 hover:bg-primary-50"
               >
                 <Fa7Google className="text-lg text-red-500" />
@@ -86,7 +114,7 @@ export default function LoginPage() {
               </button>
               <button
                 type="button"
-                onClick={() => setNotice("Social sign-in is not available in this build yet. Please use your email and password.")}
+                onClick={() => socialSignIn("facebook")}
                 className="flex w-full items-center justify-center gap-3 rounded-xl border-2 border-gray-200 px-4 py-3 transition-all duration-200 hover:border-primary-300 hover:bg-primary-50"
               >
                 <Fa7FacebookCircle className="text-lg text-blue-600" />

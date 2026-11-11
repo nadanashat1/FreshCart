@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { getProviders, signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
 import { registerUser } from "./actions";
 import {
   FaStar,
@@ -41,6 +41,22 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
+  const [social, setSocial] = useState<{ google: boolean; facebook: boolean }>({ google: false, facebook: false });
+
+  useEffect(() => {
+    getProviders().then((p) =>
+      setSocial({ google: Boolean(p?.google), facebook: Boolean(p?.facebook) })
+    );
+  }, []);
+
+  function socialSignIn(provider: "google" | "facebook") {
+    setNotice(null);
+    if (social[provider]) {
+      signIn(provider, { callbackUrl: "/" });
+    } else {
+      setNotice("Social sign-in is not available in this build yet. Please use the form below.");
+    }
+  }
   const strength = passwordStrength(values.password);
 
   async function onSubmit(e: React.FormEvent) {
@@ -136,14 +152,14 @@ export default function RegisterPage() {
           <div className="grid grid-cols-2 gap-3">
             <button
               type="button"
-              onClick={() => setNotice("Social sign-in is not available in this build yet. Please use your email and password.")}
+              onClick={() => socialSignIn("google")}
               className="flex items-center justify-center gap-2 rounded-lg border border-gray-200 py-3 font-semibold text-gray-700 transition-colors hover:bg-gray-50"
             >
               <FaGoogle className="text-[#ea4335]" /> Google
             </button>
             <button
               type="button"
-              onClick={() => setNotice("Social sign-in is not available in this build yet. Please use your email and password.")}
+              onClick={() => socialSignIn("facebook")}
               className="flex items-center justify-center gap-2 rounded-lg border border-gray-200 py-3 font-semibold text-gray-700 transition-colors hover:bg-gray-50"
             >
               <FaFacebookF className="text-[#1877f2]" /> Facebook
