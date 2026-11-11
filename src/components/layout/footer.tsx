@@ -82,8 +82,10 @@ export default function Footer() {
       <div className="bg-gray-900 text-gray-300">
         <div className="container mx-auto grid gap-10 px-4 py-12 md:grid-cols-6">
           <div className="md:col-span-2">
-            <Link href="/" className="inline-block rounded-lg bg-white px-4 py-2">
-              <Image src="/freshcart-logo.svg" alt="FreshCart" width={160} height={31} className="h-8 w-auto" />
+            <Link href="/" className="mb-6 inline-block">
+              <div className="inline-block rounded-lg bg-white px-4 py-2">
+                <Image src="/freshcart-logo.svg" alt="FreshCart" width={160} height={31} className="h-8 w-auto" />
+              </div>
             </Link>
             <p className="mb-6 text-sm leading-relaxed text-gray-400">
               FreshCart is your one-stop destination for quality products. From
