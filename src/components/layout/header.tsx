@@ -6,9 +6,9 @@ import NavActions from "./nav-actions";
 import { getSessionUser, getApiToken } from "@/lib/get-token";
 
 const categoryLinks = [
-  { id: "6439d58a0049ad0b52b9003f", label: "Electronics" },
-  { id: "6439d5b90049ad0b52b90048", label: "Women's Fashion" },
-  { id: "6439d2d167d9aa4ca970649f", label: "Men's Fashion" },
+  { id: "6439d2d167d9aa4ca970649f", label: "Electronics" },
+  { id: "6439d58a0049ad0b52b9003f", label: "Women's Fashion" },
+  { id: "6439d5b90049ad0b52b90048", label: "Men's Fashion" },
   { id: "6439d40367d9aa4ca97064a8", label: "Beauty & Health" },
 ];
 
