@@ -108,7 +108,7 @@ export default async function Header() {
                 <Link
                   key={l.label}
                   href={l.href}
-                  className={`flex items-center gap-1 text-sm font-medium transition-colors hover:text-primary-600 ${l.active ? "text-primary-600" : "text-gray-700"}`}
+                  className={`flex items-center gap-1 text-sm font-medium transition-colors hover:text-primary-600 text-gray-800`}
                 >
                   {l.label}
                 </Link>
@@ -133,7 +133,7 @@ export default async function Header() {
                 title={user.name ?? "Account"}
                 className="group relative hidden rounded-full p-2.5 transition-colors hover:bg-gray-100 lg:block"
               >
-                <FaRegUser className="text-xl text-gray-500 transition-colors group-hover:text-primary-600" />
+                <FaRegUser className="text-xl text-gray-700 transition-colors group-hover:text-primary-600" />
               </Link>
             ) : (
               <Link

@@ -9,22 +9,22 @@ export default async function TopBar() {
     <div className="hidden border-b border-gray-100 text-sm lg:block">
       <div className="container mx-auto px-4">
         <div className="flex h-10 items-center justify-between">
-          <div className="flex items-center gap-6 text-gray-500">
+          <div className="flex items-center gap-6 text-gray-600">
             <span className="flex items-center gap-2">
-              <FaTruckFast className="text-primary-600" />
+              <FaTruckFast className="text-gray-600" />
               Free Shipping on Orders 500 EGP
             </span>
             <span className="flex items-center gap-2">
-              <FaWandMagicSparkles className="text-primary-600" />
+              <FaWandMagicSparkles className="text-gray-600" />
               New Arrivals Daily
             </span>
           </div>
-          <div className="flex items-center gap-6 text-gray-500">
+          <div className="flex items-center gap-6 text-gray-600">
             <a href="tel:+18001234567" className="flex items-center gap-2 hover:text-primary-600">
-              <FaPhone className="text-primary-600" /> +1 (800) 123-4567
+              <FaPhone className="text-gray-600" /> +1 (800) 123-4567
             </a>
             <a href="mailto:support@freshcart.com" className="flex items-center gap-2 hover:text-primary-600">
-              <FaEnvelope className="text-primary-600" /> support@freshcart.com
+              <FaEnvelope className="text-gray-600" /> support@freshcart.com
             </a>
             <span className="h-4 w-px bg-gray-200" />
             {user ? (

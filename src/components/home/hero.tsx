@@ -38,7 +38,7 @@ export default function Hero() {
     <section className="overflow-hidden">
       <Swiper
         modules={[Autoplay, Navigation, Pagination]}
-        autoplay={freeze ? false : { delay: 5000, disableOnInteraction: false }}
+        autoplay={freeze ? false : { delay: 5000, disableOnInteraction: false, pauseOnMouseEnter: true }}
         pagination={{ clickable: true }}
         navigation={{ prevEl: ".hero-prev", nextEl: ".hero-next" }}
         loop
@@ -52,7 +52,7 @@ export default function Hero() {
               style={{ backgroundImage: "url(/home-slider.png)" }}
             >
               <div className="h-full w-full bg-gradient-to-r from-green-500/90 to-green-400/50 p-4 py-20 text-white">
-                <div className="container mx-auto h-full content-center px-4">
+                <div className="container mx-auto h-full content-center px-8">
                 {i === active && (
                   <>
                     <motion.h2
@@ -102,13 +102,13 @@ export default function Hero() {
         ))}
         <button
           aria-label="Previous slide"
-          className="hero-prev absolute left-4 top-1/2 z-10 hidden size-10 -translate-y-1/2 items-center justify-center rounded-full bg-white text-brand shadow-md hover:bg-green-50 sm:flex"
+          className="hero-prev absolute left-4 top-1/2 z-10 hidden size-12 -translate-y-1/2 items-center justify-center rounded-full bg-white text-brand shadow-md hover:bg-green-50 sm:flex"
         >
           <ChevronLeft className="size-5" />
         </button>
         <button
           aria-label="Next slide"
-          className="hero-next absolute right-4 top-1/2 z-10 hidden size-10 -translate-y-1/2 items-center justify-center rounded-full bg-white text-brand shadow-md hover:bg-green-50 sm:flex"
+          className="hero-next absolute right-4 top-1/2 z-10 hidden size-12 -translate-y-1/2 items-center justify-center rounded-full bg-white text-brand shadow-md hover:bg-green-50 sm:flex"
         >
           <ChevronRight className="size-5" />
         </button>
