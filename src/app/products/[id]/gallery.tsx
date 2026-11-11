@@ -7,20 +7,22 @@ export default function Gallery({ images, title }: { images: string[]; title: st
   return (
     <div className="sticky top-4 rounded-xl bg-white p-4 shadow-sm">
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={images[active]} alt={title} className="h-96 w-full object-contain" />
+      <img src={images[active]} alt={title} className="w-full" />
       {images.length > 1 && (
-        <div className="mt-3 flex gap-3 overflow-x-auto">
+        <div className="mt-[3px] flex gap-[2px] overflow-x-auto py-[3px] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {images.map((src, i) => (
             <button
               key={src + i}
               onClick={() => setActive(i)}
               aria-label={`Image ${i + 1}`}
-              className={`h-20 w-20 shrink-0 overflow-hidden rounded-lg border-2 bg-white transition ${
-                i === active ? "border-primary-600" : "border-transparent hover:border-primary-300"
+              className={`w-[75px] shrink-0 border-[3px] bg-white transition ${
+                i === active
+                  ? "border-[#337ab7]"
+                  : "border-transparent hover:border-[#337ab7]"
               }`}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={src} alt="" className="h-full w-full object-contain" />
+              <img src={src} alt="" className="w-full" />
             </button>
           ))}
         </div>
