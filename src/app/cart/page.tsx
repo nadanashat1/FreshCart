@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FaCartShopping, FaLock, FaTruck, FaShieldHalved } from "react-icons/fa6";
+import { FaBagShopping, FaCartShopping, FaLock, FaTag, FaTruck, FaShieldHalved } from "react-icons/fa6";
 import { getApiToken } from "@/lib/get-token";
 import CartItems from "./cart-items";
 import GuestCartView from "./guest-cart-view";
@@ -83,49 +83,83 @@ export default async function CartPage() {
               <CartItems items={items} discountMap={discountMap} />
             </div>
             <div>
-              <div className="rounded-xl bg-white p-6 shadow-sm">
-                <h2 className="mb-4 text-lg font-bold text-gray-900">Order Summary</h2>
-                <p className="mb-4 text-sm text-gray-500">{numItems} item{numItems === 1 ? "" : "s"} in your cart</p>
-                {freeShipping ? (
-                  <div className="mb-4 flex items-center gap-2 rounded-lg bg-primary-50 p-3 text-sm text-primary-700">
-                    <FaTruck />
-                    <span><span className="font-semibold">Free Shipping!</span> You qualify for free delivery</span>
-                  </div>
-                ) : (
-                  <div className="mb-4 rounded-lg bg-amber-50 p-3 text-sm text-amber-700">
-                    Add {(FREE_SHIPPING_THRESHOLD - total).toLocaleString()} EGP more to qualify for free delivery
-                  </div>
-                )}
-                <div className="space-y-2 border-t border-gray-100 pt-4 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-gray-500">Subtotal</span>
-                    <span className="font-semibold">{total.toLocaleString()} EGP</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-500">Shipping</span>
-                    <span className="font-semibold text-primary-600">{freeShipping ? "FREE" : "Calculated at checkout"}</span>
-                  </div>
-                  <div className="flex justify-between border-t border-gray-100 pt-2 text-base">
-                    <span className="font-bold">Total</span>
-                    <span className="font-bold text-primary-600">{total.toLocaleString()} EGP</span>
-                  </div>
+              <div className="sticky top-24 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm">
+                <div className="bg-gradient-to-r from-primary-600 to-primary-700 px-6 py-4">
+                  <h2 className="flex items-center gap-2 text-lg font-bold text-white">
+                    <FaBagShopping /> Order Summary
+                  </h2>
+                  <p className="mt-1 text-sm text-primary-100">
+                    {numItems} item{numItems === 1 ? "" : "s"} in your cart
+                  </p>
                 </div>
-                <button
-                  disabled
-                  title="Promo codes are not available in this build yet"
-                  className="mt-4 w-full cursor-not-allowed rounded-xl border-2 border-dashed border-gray-200 py-2.5 text-sm text-gray-400"
-                >
-                  Apply Promo Code
-                </button>
-                <Link
-                  href="/checkout"
-                  className="mt-3 flex w-full items-center justify-center gap-2 rounded-xl bg-gray-900 py-3.5 font-semibold text-white transition hover:bg-gray-800"
-                >
-                  <FaLock /> Secure Checkout
-                </Link>
-                <p className="mt-3 flex items-center justify-center gap-2 text-xs text-gray-400">
-                  <FaShieldHalved /> Secure Payment • Fast Delivery
-                </p>
+                <div className="space-y-5 p-6">
+                  {freeShipping ? (
+                    <div className="flex items-center gap-3 rounded-xl bg-gradient-to-r from-green-50 to-emerald-50 p-4">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-green-100 text-green-600">
+                        <FaTruck />
+                      </div>
+                      <div>
+                        <p className="font-semibold text-green-700">Free Shipping!</p>
+                        <p className="text-sm text-green-600">You qualify for free delivery</p>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="rounded-xl bg-amber-50 p-4 text-sm text-amber-700">
+                      Add {(FREE_SHIPPING_THRESHOLD - total).toLocaleString()} EGP more to qualify for free delivery
+                    </div>
+                  )}
+                  <div className="space-y-3">
+                    <div className="flex justify-between text-gray-600">
+                      <span>Subtotal</span>
+                      <span className="font-medium text-gray-900">{total.toLocaleString()} EGP</span>
+                    </div>
+                    <div className="flex justify-between text-gray-600">
+                      <span>Shipping</span>
+                      <span className="font-medium text-green-600">{freeShipping ? "FREE" : "Calculated at checkout"}</span>
+                    </div>
+                    <div className="mt-3 border-t border-dashed border-gray-200 pt-3">
+                      <div className="flex items-baseline justify-between">
+                        <span className="font-semibold text-gray-900">Total</span>
+                        <div className="text-right">
+                          <span className="text-2xl font-bold text-gray-900">{total.toLocaleString()}</span>
+                          <span className="ml-1 text-sm text-gray-500">EGP</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    disabled
+                    title="Promo codes are not available in this build yet"
+                    className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-gray-300 py-3 text-gray-600 transition-all hover:border-primary-400 hover:bg-primary-50/50 hover:text-primary-600 disabled:cursor-not-allowed disabled:opacity-60"
+                  >
+                    <FaTag />
+                    <span className="text-sm font-medium">Apply Promo Code</span>
+                  </button>
+                  <Link
+                    href="/checkout"
+                    className="flex w-full items-center justify-center gap-3 rounded-xl bg-gradient-to-r from-primary-600 to-primary-700 px-6 py-4 font-semibold text-white shadow-lg shadow-primary-600/20 transition-all hover:from-primary-700 hover:to-primary-800 active:scale-[0.98]"
+                  >
+                    <FaLock />
+                    <span>Secure Checkout</span>
+                  </Link>
+                  <div className="flex items-center justify-center gap-4 py-2">
+                    <div className="flex items-center gap-1.5 text-xs text-gray-500">
+                      <FaShieldHalved />
+                      <span>Secure Payment</span>
+                    </div>
+                    <div className="h-4 w-px bg-gray-200"></div>
+                    <div className="flex items-center gap-1.5 text-xs text-gray-500">
+                      <FaTruck />
+                      <span>Fast Delivery</span>
+                    </div>
+                  </div>
+                  <Link
+                    href="/"
+                    className="block py-2 text-center text-sm font-medium text-primary-600 hover:text-primary-700"
+                  >
+                    ← Continue Shopping
+                  </Link>
+                </div>
               </div>
             </div>
           </div>

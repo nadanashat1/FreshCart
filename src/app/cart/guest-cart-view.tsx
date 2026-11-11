@@ -4,11 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   FaCartShopping,
+  FaCheck,
   FaLock,
   FaMinus,
   FaPlus,
   FaShieldHalved,
-  FaTrashCan,
+  FaTrash,
   FaTruck,
 } from "react-icons/fa6";
 import {
@@ -85,60 +86,88 @@ export default function GuestCartView() {
                 {items.map((item) => (
                   <li
                     key={item.productId}
-                    className="flex flex-col gap-4 rounded-xl bg-white p-4 shadow-sm sm:flex-row sm:items-center"
+                    className="relative rounded-2xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:shadow-md"
                   >
-                    <Link
-                      href={`/products/${item.productId}`}
-                      className="relative h-24 w-24 shrink-0 overflow-hidden rounded-lg bg-gray-50"
-                    >
-                      <Image
-                        src={item.product.imageCover}
-                        alt={item.product.title}
-                        fill
-                        sizes="96px"
-                        className="object-contain"
-                      />
-                    </Link>
-                    <div className="min-w-0 flex-1">
-                      <p className="text-xs font-medium text-primary-600">In Stock</p>
-                      <Link href={`/products/${item.productId}`}>
-                        <h3 className="truncate font-semibold text-gray-900 transition hover:text-primary-600">
-                          {item.product.title}
-                        </h3>
-                      </Link>
-                      {item.product.category?.name && (
-                        <p className="text-xs text-gray-500">{item.product.category.name}</p>
-                      )}
-                      <p className="mt-1 text-sm text-gray-500">{item.price} EGP per unit</p>
+                    <div className="p-4 sm:p-5">
+                      <div className="flex gap-4 sm:gap-6">
+                        <Link href={`/products/${item.productId}`} className="group relative shrink-0">
+                          <div className="relative h-28 w-28 overflow-hidden rounded-xl border border-gray-100 bg-gradient-to-br from-gray-50 via-white to-gray-100 p-3 sm:h-32 sm:w-32">
+                            <Image
+                              src={item.product.imageCover}
+                              alt={item.product.title}
+                              fill
+                              sizes="128px"
+                              className="object-contain transition-transform duration-300 group-hover:scale-110"
+                            />
+                          </div>
+                          <div className="absolute -bottom-1 -right-1 flex items-center gap-1 rounded-full bg-green-500 px-2 py-0.5 text-[10px] font-semibold text-white">
+                            <FaCheck className="text-[8px]" />
+                            In Stock
+                          </div>
+                        </Link>
+                        <div className="flex min-w-0 flex-1 flex-col">
+                          <div className="mb-3">
+                            <Link href={`/products/${item.productId}`} className="group/title">
+                              <h3 className="text-base font-semibold leading-relaxed text-gray-900 transition-colors group-hover/title:text-primary-600 sm:text-lg">
+                                {item.product.title}
+                              </h3>
+                            </Link>
+                            {item.product.category?.name && (
+                              <div className="mt-2 flex items-center gap-2">
+                                <span className="inline-block rounded-full bg-gradient-to-r from-primary-50 to-emerald-50 px-2.5 py-1 text-xs font-medium text-primary-700">
+                                  {item.product.category.name}
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                          <div className="mb-4">
+                            <div className="flex items-baseline gap-2">
+                              <span className="text-lg font-bold text-primary-600">{item.price} EGP</span>
+                              <span className="text-xs text-gray-400">per unit</span>
+                            </div>
+                          </div>
+                          <div className="mt-auto flex flex-wrap items-center justify-between gap-4">
+                            <div className="flex items-center">
+                              <div className="flex items-center rounded-xl border border-gray-200 bg-gray-50 p-1">
+                                <button
+                                  onClick={() => guestCartUpdate(item.productId, item.count - 1)}
+                                  disabled={item.count <= 1}
+                                  aria-label="Decrease quantity"
+                                  className="flex h-8 w-8 items-center justify-center rounded-lg bg-white text-gray-500 shadow-sm transition-all hover:bg-gray-50 hover:text-gray-700 disabled:cursor-not-allowed disabled:opacity-40 disabled:shadow-none"
+                                >
+                                  <FaMinus className="text-xs" />
+                                </button>
+                                <span className="w-12 text-center font-bold text-gray-900">{item.count}</span>
+                                <button
+                                  onClick={() => guestCartUpdate(item.productId, item.count + 1)}
+                                  aria-label="Increase quantity"
+                                  className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary-600 text-white shadow-sm shadow-primary-600/30 transition-all hover:bg-primary-700 disabled:opacity-40"
+                                >
+                                  <FaPlus className="text-xs" />
+                                </button>
+                              </div>
+                            </div>
+                            <div className="flex items-center gap-4">
+                              <div className="text-right">
+                                <p className="mb-0.5 text-xs text-gray-400">Total</p>
+                                <p className="text-xl font-bold text-gray-900">
+                                  {(item.price * item.count).toLocaleString()}{" "}
+                                  <span className="text-sm font-medium text-gray-400">EGP</span>
+                                </p>
+                              </div>
+                              <button
+                                onClick={() => guestCartRemove(item.productId)}
+                                title="Remove item"
+                                aria-label="Remove from cart"
+                                className="flex h-10 w-10 items-center justify-center rounded-xl border border-red-200 bg-red-50 text-red-500 transition-all duration-200 hover:border-red-500 hover:bg-red-500 hover:text-white"
+                              >
+                                <FaTrash className="text-sm" />
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={() => guestCartUpdate(item.productId, item.count - 1)}
-                        disabled={item.count <= 1}
-                        aria-label="Decrease quantity"
-                        className="flex h-8 w-8 items-center justify-center rounded-lg border border-gray-200 text-gray-600 transition hover:bg-gray-100 disabled:opacity-40"
-                      >
-                        <FaMinus className="text-xs" />
-                      </button>
-                      <span className="w-8 text-center font-medium">{item.count}</span>
-                      <button
-                        onClick={() => guestCartUpdate(item.productId, item.count + 1)}
-                        aria-label="Increase quantity"
-                        className="flex h-8 w-8 items-center justify-center rounded-lg border border-gray-200 text-gray-600 transition hover:bg-gray-100"
-                      >
-                        <FaPlus className="text-xs" />
-                      </button>
-                    </div>
-                    <p className="w-24 text-right font-bold text-gray-900">
-                      {(item.price * item.count).toLocaleString()} EGP
-                    </p>
-                    <button
-                      onClick={() => guestCartRemove(item.productId)}
-                      aria-label="Remove item"
-                      className="flex h-9 w-9 items-center justify-center rounded-lg text-gray-400 transition hover:bg-red-50 hover:text-red-500"
-                    >
-                      <FaTrashCan />
-                    </button>
                   </li>
                 ))}
               </ul>
