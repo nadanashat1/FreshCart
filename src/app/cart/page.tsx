@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FaBagShopping, FaCartShopping, FaLock, FaTruck, FaShieldHalved } from "react-icons/fa6";
+import { FaBagShopping, FaCartShopping, FaLock, FaTruck, FaShieldHalved, FaBoxOpen, FaArrowRight } from "react-icons/fa6";
 import { getApiToken } from "@/lib/get-token";
 import CartItems from "./cart-items";
 import CouponForm from "./coupon-form";
@@ -51,6 +51,7 @@ export default async function CartPage() {
   return (
     <section className="py-10">
       <div className="container mx-auto px-4">
+        {items.length > 0 && (
         <div className="mb-8">
           <nav className="mb-4 flex items-center gap-2 text-sm text-gray-500">
             <Link href="/" className="transition hover:text-primary-600">Home</Link>
@@ -73,17 +74,29 @@ export default async function CartPage() {
             )}
           </p>
         </div>
+        )}
 
         {items.length === 0 ? (
-          <div className="rounded-xl bg-white p-16 text-center shadow-sm">
-            <FaCartShopping className="mx-auto mb-4 text-5xl text-gray-300" />
-            <p className="mb-6 text-gray-500">Looks like you haven&apos;t added anything yet.</p>
-            <Link
-              href="/products"
-              className="rounded-xl bg-primary-600 px-6 py-3 font-semibold text-white transition hover:bg-primary-700"
-            >
-              Browse Products
-            </Link>
+          <div className="flex min-h-[60vh] items-center justify-center px-4">
+            <div className="max-w-md text-center">
+              <div className="relative mb-8">
+                <div className="mx-auto flex h-32 w-32 items-center justify-center rounded-full bg-gray-100">
+                  <FaBoxOpen className="text-5xl text-gray-300" />
+                </div>
+              </div>
+              <h2 className="mb-3 text-2xl font-bold text-gray-900">Your cart is empty</h2>
+              <p className="mb-8 leading-relaxed text-gray-500">
+                Looks like you haven&apos;t added anything to your cart yet.
+                <br />
+                Start exploring our products!
+              </p>
+              <Link
+                href="/"
+                className="inline-flex items-center gap-2 rounded-xl bg-primary-600 px-8 py-3.5 font-semibold text-white shadow-lg transition-all hover:bg-primary-700 active:scale-[0.98]"
+              >
+                Start Shopping <FaArrowRight className="text-sm" />
+              </Link>
+            </div>
           </div>
         ) : (
           <div className="grid gap-8 lg:grid-cols-3">

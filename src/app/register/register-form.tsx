@@ -98,7 +98,7 @@ export default function RegisterPage() {
     <div className="bg-white px-4 py-12 sm:py-16">
       <div className="container mx-auto grid items-center gap-12 lg:grid-cols-2">
         {/* Left: welcome panel */}
-        <div className="hidden lg:block">
+        <div>
           <h1 className="text-4xl font-bold tracking-tight text-gray-900">
             Welcome to <span className="text-primary-600">FreshCart</span>
           </h1>

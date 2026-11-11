@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { FaHeart } from "react-icons/fa6";
+import { FaHeart, FaArrowRight } from "react-icons/fa6";
+import { FaRegHeart } from "react-icons/fa";
 import { getApiToken } from "@/lib/get-token";
 import WishlistTable from "./wishlist-table";
 import GuestWishlistView from "./guest-wishlist-view";
@@ -39,15 +40,30 @@ export default async function WishlistPage() {
         </div>
 
         {items.length === 0 ? (
-          <div className="rounded-xl bg-white p-16 text-center shadow-sm">
-            <FaHeart className="mx-auto mb-4 text-5xl text-gray-300" />
-            <p className="mb-6 text-gray-500">Your wishlist is empty. Save products you love for later.</p>
-            <Link
-              href="/products"
-              className="rounded-xl bg-primary-600 px-6 py-3 font-semibold text-white transition hover:bg-primary-700"
-            >
-              Browse Products
-            </Link>
+          <div className="flex min-h-[60vh] items-center justify-center px-4">
+            <div className="w-full max-w-sm text-center">
+              <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-2xl bg-gray-100">
+                <FaRegHeart className="text-3xl text-gray-400" />
+              </div>
+              <h2 className="mb-2 text-xl font-bold text-gray-900">Your wishlist is empty</h2>
+              <p className="mb-6 text-sm text-gray-500">
+                Browse products and save your favorites here. Sign in to sync your wishlist across devices.
+              </p>
+              <div className="flex flex-col gap-3">
+                <Link
+                  href="/products"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-primary-700"
+                >
+                  Browse Products <FaArrowRight className="text-sm" />
+                </Link>
+                <Link
+                  href="/login"
+                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-6 py-3 font-semibold text-gray-700 transition-colors hover:bg-gray-50"
+                >
+                  Sign In
+                </Link>
+              </div>
+            </div>
           </div>
         ) : (
           <>

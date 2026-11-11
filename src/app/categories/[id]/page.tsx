@@ -1,22 +1,18 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { FaLayerGroup, FaArrowRight, FaArrowLeft } from "react-icons/fa6";
+import { FaLayerGroup, FaArrowLeft, FaFolder } from "react-icons/fa6";
 import { API_BASE } from "@/lib/api";
 
 type Subcategory = { _id: string; name: string; category: string };
 
 async function fetchSubcategories(categoryId: string): Promise<Subcategory[]> {
-  // API quirks, verified by probing: the category-scoped endpoint ignores its
-  // category filter and returns the same global list as /subcategories; the
-  // global endpoint's page 2 is broken (consistently returns 0 items), so only
-  // the first 40 subcategories are reachable at all. We fetch the stable global
-  // first page and filter to this category ourselves - real filtering instead
-  // of mirroring the demo, which displays all 40 global subcategories (incl.
-  // Kitchen & Dining) under every category.
-  const res = await fetch(`${API_BASE}/subcategories`, { next: { revalidate: 300 } });
+  // The category-scoped endpoint returns exactly this category's
+  // subcategories (same data the demo shows).
+  const res = await fetch(`${API_BASE}/categories/${categoryId}/subcategories`, {
+    next: { revalidate: 300 },
+  });
   if (!res.ok) return [];
-  const all: Subcategory[] = (await res.json()).data ?? [];
-  return all.filter((s) => s.category === categoryId);
+  return (await res.json()).data ?? [];
 }
 
 export default async function CategoryDetailsPage({
@@ -63,7 +59,7 @@ export default async function CategoryDetailsPage({
           </Link>
           {subcategories.length > 0 && (
             <h2 className="mb-6 text-lg font-bold text-gray-900">
-              {subcategories.length} available subcategories in {category.name}
+              {subcategories.length} Subcategories in {category.name}
             </h2>
           )}
           {subcategories.length === 0 ? (
@@ -81,18 +77,16 @@ export default async function CategoryDetailsPage({
           ) : (
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6 lg:grid-cols-4">
               {subcategories.map((s) => (
-                <div
+                <Link
                   key={s._id}
-                  className="rounded-xl bg-white p-5 text-center shadow-sm transition hover:shadow-md"
+                  href={`/products?subcategory=${s._id}`}
+                  className="rounded-xl bg-white p-6 text-center shadow-sm transition hover:shadow-md"
                 >
+                  <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-primary-100 text-primary-600">
+                    <FaFolder className="text-xl" />
+                  </div>
                   <h3 className="font-semibold text-gray-900">{s.name}</h3>
-                  <Link
-                    href={`/products?subcategory=${s._id}`}
-                    className="mt-2 inline-flex items-center gap-1.5 text-sm font-medium text-primary-600 hover:text-primary-700"
-                  >
-                    Browse Products <FaArrowRight className="text-xs" />
-                  </Link>
-                </div>
+                </Link>
               ))}
             </div>
           )}
