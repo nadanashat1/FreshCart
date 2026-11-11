@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { FaClipboardList, FaArrowLeft } from "react-icons/fa6";
 import { redirect } from "next/navigation";
 import { getApiToken } from "@/lib/get-token";
 import CheckoutForm from "./checkout-form";
@@ -55,7 +56,23 @@ export default async function CheckoutPage() {
           <span>/</span>
           <span className="font-medium text-gray-900">Checkout</span>
         </nav>
-        <h1 className="mb-8 text-3xl font-bold text-gray-900">Checkout</h1>
+        <div className="mb-8 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+          <div>
+            <h1 className="flex items-center gap-3 text-3xl font-bold text-gray-900">
+              <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-primary-600 to-primary-700 text-white shadow-lg shadow-primary-600/20">
+                <FaClipboardList />
+              </span>
+              Complete Your Order
+            </h1>
+            <p className="mt-2 text-gray-500">Review your items and complete your purchase</p>
+          </div>
+          <Link
+            href="/cart"
+            className="flex items-center gap-2 rounded-lg px-4 py-2 font-medium text-primary-600 transition-all hover:bg-primary-50 hover:text-primary-700"
+          >
+            <FaArrowLeft /> Back to Cart
+          </Link>
+        </div>
         <CheckoutForm items={items} total={total} addresses={addresses} liveEnabled={liveEnabled} />
       </div>
     </section>

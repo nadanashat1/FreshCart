@@ -1,7 +1,22 @@
 "use client";
 
 import { useState } from "react";
-import { FaCreditCard, FaMoneyBillWave, FaLock, FaLocationDot } from "react-icons/fa6";
+import {
+  FaCreditCard,
+  FaMoneyBillWave,
+  FaLock,
+  FaLocationDot,
+  FaPhone,
+  FaCity,
+  FaBookmark,
+  FaCheck,
+  FaShieldHalved,
+  FaTruckFast,
+  FaCircleInfo,
+  FaBagShopping,
+  FaHouse,
+  FaArrowRotateLeft,
+} from "react-icons/fa6";
 import { placeOrder } from "./actions";
 
 type CartItem = {
@@ -13,6 +28,9 @@ type CartItem = {
 type Address = { _id: string; name: string; details: string; phone: string; city: string };
 
 const EGYPT_PHONE = /^01[0125][0-9]{8}$/;
+
+const fieldCls =
+  "w-full rounded-xl border-2 border-gray-200 px-4 py-3.5 pl-14 transition-all focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-100";
 
 export default function CheckoutForm({
   items,
@@ -71,214 +89,362 @@ export default function CheckoutForm({
     setBusy(false);
   }
 
-  const inputClass =
-    "w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm transition focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500";
+  const showManualFields = useNewAddress || addresses.length === 0;
 
   return (
-    <div className="grid gap-8 lg:grid-cols-3">
+    <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
       <div className="space-y-6 lg:col-span-2">
-        <div className="rounded-xl bg-white p-6 shadow-sm">
-          <h2 className="mb-1 flex items-center gap-2 text-lg font-bold text-gray-900">
-            <FaLocationDot className="text-primary-600" /> Shipping Address
-          </h2>
-          <p className="mb-4 text-sm text-gray-500">Where should we deliver your order?</p>
-
-          {addresses.length > 0 && (
-            <>
-              <p className="mb-2 text-sm font-semibold text-gray-700">Saved Addresses</p>
-              <div className="space-y-3">
-                {addresses.map((a) => (
-                  <label
-                    key={a._id}
-                    className={`flex cursor-pointer items-start gap-3 rounded-lg border p-4 transition hover:border-primary-300 ${
-                      !useNewAddress && addressId === a._id ? "border-primary-500 bg-primary-50/50" : "border-gray-200"
+        <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm">
+          <div className="bg-gradient-to-r from-primary-600 to-primary-700 px-6 py-4">
+            <h2 className="flex items-center gap-2 text-lg font-bold text-white">
+              <FaHouse /> Shipping Address
+            </h2>
+            <p className="mt-1 text-sm text-primary-100">Where should we deliver your order?</p>
+          </div>
+          <div className="space-y-5 p-6">
+            {addresses.length > 0 && (
+              <div className="border-b border-gray-100 pb-5">
+                <div className="mb-3 flex items-center gap-2">
+                  <FaBookmark className="text-primary-600" />
+                  <span className="font-semibold text-gray-800">Saved Addresses</span>
+                </div>
+                <div className="space-y-3">
+                  <p className="text-sm font-medium text-gray-600">
+                    Select a saved address or enter a new one below
+                  </p>
+                  {addresses.map((a) => {
+                    const selected = !useNewAddress && addressId === a._id;
+                    return (
+                      <button
+                        type="button"
+                        key={a._id}
+                        onClick={() => {
+                          setAddressId(a._id);
+                          setUseNewAddress(false);
+                        }}
+                        className={`w-full rounded-xl border-2 p-4 text-left transition-all duration-200 ${
+                          selected
+                            ? "border-primary-500 bg-primary-50"
+                            : "border-gray-200 hover:border-primary-200 hover:bg-gray-50"
+                        }`}
+                      >
+                        <div className="flex items-start gap-3">
+                          <div
+                            className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg transition-colors ${
+                              selected ? "bg-primary-500 text-white" : "bg-gray-100 text-gray-500"
+                            }`}
+                          >
+                            <FaLocationDot />
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <p className="font-semibold text-gray-900">{a.name}</p>
+                            <p className="mt-0.5 line-clamp-1 text-sm text-gray-600">
+                              {a.details}, {a.city}
+                            </p>
+                            <div className="mt-2 flex items-center gap-4 text-xs text-gray-500">
+                              <span className="flex items-center gap-1">
+                                <FaPhone /> {a.phone}
+                              </span>
+                              <span className="flex items-center gap-1">
+                                <FaCity /> {a.city}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </button>
+                    );
+                  })}
+                  <button
+                    type="button"
+                    onClick={() => setUseNewAddress((v) => !v)}
+                    className={`w-full rounded-xl border-2 border-dashed p-4 text-left transition-all duration-200 ${
+                      useNewAddress
+                        ? "border-primary-500 bg-primary-50"
+                        : "border-gray-200 hover:border-primary-200 hover:bg-gray-50"
                     }`}
                   >
-                    <input
-                      type="radio"
-                      name="address"
-                      checked={!useNewAddress && addressId === a._id}
-                      onChange={() => {
-                        setAddressId(a._id);
-                        setUseNewAddress(false);
-                      }}
-                      className="mt-1 accent-primary-600"
-                    />
-                    <span>
-                      <span className="font-semibold text-gray-900">{a.name}</span>
-                      <span className="block text-sm text-gray-600">{a.details}, {a.city}</span>
-                      <span className="block text-sm text-gray-500">{a.phone}</span>
-                    </span>
-                  </label>
-                ))}
+                    <div className="flex items-center gap-3">
+                      <div
+                        className={`flex h-10 w-10 items-center justify-center rounded-lg ${
+                          useNewAddress ? "bg-primary-500 text-white" : "bg-gray-100 text-gray-500"
+                        }`}
+                      >
+                        <FaLocationDot />
+                      </div>
+                      <div>
+                        <p className={`font-semibold ${useNewAddress ? "text-primary-700" : "text-gray-900"}`}>
+                          Use a different address
+                        </p>
+                        <p className="mt-0.5 text-xs text-gray-500">Enter a new shipping address manually</p>
+                      </div>
+                    </div>
+                  </button>
+                </div>
               </div>
-              <button
-                type="button"
-                onClick={() => setUseNewAddress((v) => !v)}
-                className={`mt-3 w-full rounded-lg border-2 border-dashed p-3 text-left text-sm font-medium transition ${
-                  useNewAddress
-                    ? "border-primary-400 bg-primary-50/50 text-primary-700"
-                    : "border-gray-300 text-gray-600 hover:border-primary-300 hover:text-primary-600"
-                }`}
-              >
-                Use a different address
-                <span className="block text-xs font-normal text-gray-500">
-                  Enter a new shipping address manually
-                </span>
-              </button>
-            </>
-          )}
+            )}
 
-          {(useNewAddress || addresses.length === 0) && (
-            <div className={addresses.length > 0 ? "mt-4" : ""}>
-              {addresses.length === 0 && (
-                <p className="mb-3 text-sm text-gray-500">
-                  No saved addresses yet - enter your shipping address below.
-                </p>
-              )}
-              <p className="mb-3 text-xs text-gray-400">
-                Please ensure your address is accurate for smooth delivery
-              </p>
-              <div className="space-y-3">
+            {showManualFields && (
+              <>
+                <div className="flex items-start gap-3 rounded-xl border border-blue-100 bg-blue-50 p-4">
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-100">
+                    <FaCircleInfo className="text-blue-600" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-blue-800">Delivery Information</p>
+                    <p className="mt-0.5 text-xs text-blue-600">
+                      Please ensure your address is accurate for smooth delivery
+                    </p>
+                  </div>
+                </div>
                 <div>
-                  <input
-                    type="text"
-                    placeholder="City *"
-                    value={newAddr.city}
-                    onChange={(e) => setNewAddr((a) => ({ ...a, city: e.target.value }))}
-                    className={inputClass}
-                  />
+                  <label htmlFor="city" className="mb-2 block text-sm font-semibold text-gray-700">
+                    City <span className="text-red-500">*</span>
+                  </label>
+                  <div className="relative">
+                    <div className="absolute left-4 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-lg bg-gray-100">
+                      <FaCity className="text-gray-500" />
+                    </div>
+                    <input
+                      id="city"
+                      type="text"
+                      placeholder="e.g. Cairo, Alexandria, Giza"
+                      value={newAddr.city}
+                      onChange={(e) => setNewAddr((a) => ({ ...a, city: e.target.value }))}
+                      className={fieldCls}
+                    />
+                  </div>
                   {fieldErrors.city && <p className="mt-1 text-xs text-red-600">{fieldErrors.city}</p>}
                 </div>
                 <div>
-                  <input
-                    type="text"
-                    placeholder="Street Address *"
-                    value={newAddr.details}
-                    onChange={(e) => setNewAddr((a) => ({ ...a, details: e.target.value }))}
-                    className={inputClass}
-                  />
-                  {fieldErrors.details && (
-                    <p className="mt-1 text-xs text-red-600">{fieldErrors.details}</p>
-                  )}
+                  <label htmlFor="details" className="mb-2 block text-sm font-semibold text-gray-700">
+                    Street Address <span className="text-red-500">*</span>
+                  </label>
+                  <div className="relative">
+                    <div className="absolute left-4 top-4 flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100">
+                      <FaLocationDot className="text-gray-500" />
+                    </div>
+                    <textarea
+                      id="details"
+                      rows={3}
+                      placeholder="Street name, building number, floor, apartment..."
+                      value={newAddr.details}
+                      onChange={(e) => setNewAddr((a) => ({ ...a, details: e.target.value }))}
+                      className={`${fieldCls} resize-none`}
+                    />
+                  </div>
+                  {fieldErrors.details && <p className="mt-1 text-xs text-red-600">{fieldErrors.details}</p>}
                 </div>
                 <div>
-                  <input
-                    type="tel"
-                    placeholder="Phone Number *"
-                    value={newAddr.phone}
-                    onChange={(e) => setNewAddr((a) => ({ ...a, phone: e.target.value }))}
-                    className={inputClass}
-                  />
+                  <label htmlFor="phone" className="mb-2 block text-sm font-semibold text-gray-700">
+                    Phone Number <span className="text-red-500">*</span>
+                  </label>
+                  <div className="relative">
+                    <div className="absolute left-4 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-lg bg-gray-100">
+                      <FaPhone className="text-gray-500" />
+                    </div>
+                    <input
+                      id="phone"
+                      type="tel"
+                      placeholder="01xxxxxxxxx"
+                      value={newAddr.phone}
+                      onChange={(e) => setNewAddr((a) => ({ ...a, phone: e.target.value }))}
+                      className={fieldCls}
+                    />
+                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xs text-gray-400">
+                      Egyptian numbers only
+                    </span>
+                  </div>
                   {fieldErrors.phone && <p className="mt-1 text-xs text-red-600">{fieldErrors.phone}</p>}
                 </div>
-              </div>
-            </div>
-          )}
+              </>
+            )}
+          </div>
         </div>
 
-        <div className="rounded-xl bg-white p-6 shadow-sm">
-          <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-gray-900">
-            <FaCreditCard className="text-primary-600" /> Payment Method
-          </h2>
-          <div className="space-y-3">
-            <label
-              className={`flex cursor-pointer items-center gap-3 rounded-lg border p-4 transition hover:border-primary-300 ${
-                method === "cash" ? "border-primary-500 bg-primary-50/50" : "border-gray-200"
+        <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm">
+          <div className="bg-gradient-to-r from-primary-600 to-primary-700 px-6 py-4">
+            <h2 className="flex items-center gap-2 text-lg font-bold text-white">
+              <FaCreditCard /> Payment Method
+            </h2>
+            <p className="mt-1 text-sm text-primary-100">Choose how you&apos;d like to pay</p>
+          </div>
+          <div className="space-y-4 p-6">
+            <button
+              type="button"
+              onClick={() => setMethod("cash")}
+              className={`group flex w-full items-center gap-4 rounded-xl border-2 p-5 transition-all ${
+                method === "cash"
+                  ? "border-primary-500 bg-gradient-to-r from-primary-50 to-emerald-50 shadow-sm"
+                  : "border-gray-200 hover:border-primary-200 hover:bg-gray-50"
               }`}
             >
-              <input
-                type="radio"
-                name="payment"
-                checked={method === "cash"}
-                onChange={() => setMethod("cash")}
-                className="accent-primary-600"
-              />
-              <FaMoneyBillWave className="text-primary-600" />
-              <span>
-                <span className="block font-medium text-gray-900">Cash on Delivery</span>
-                <span className="block text-xs text-gray-500">
-                  Pay when your order arrives at your doorstep
-                </span>
-              </span>
-            </label>
-            <label
-              className={`flex items-center gap-3 rounded-lg border p-4 ${
-                liveEnabled ? "cursor-pointer transition hover:border-primary-300" : "cursor-not-allowed opacity-60"
-              } ${method === "card" && liveEnabled ? "border-primary-500 bg-primary-50/50" : "border-gray-200"}`}
+              <div
+                className={`flex h-14 w-14 items-center justify-center rounded-xl transition-all ${
+                  method === "cash"
+                    ? "bg-gradient-to-br from-primary-500 to-primary-600 text-white shadow-lg shadow-primary-500/30"
+                    : "bg-gray-100 text-gray-400 group-hover:bg-gray-200"
+                }`}
+              >
+                <FaMoneyBillWave className="text-2xl" />
+              </div>
+              <div className="flex-1 text-left">
+                <h3 className={`font-bold ${method === "cash" ? "text-primary-700" : "text-gray-900"}`}>
+                  Cash on Delivery
+                </h3>
+                <p className="mt-0.5 text-sm text-gray-500">Pay when your order arrives at your doorstep</p>
+              </div>
+              <div
+                className={`flex h-7 w-7 items-center justify-center rounded-full transition-all ${
+                  method === "cash" ? "bg-primary-600 text-white" : "border-2 border-gray-200"
+                }`}
+              >
+                {method === "cash" && <FaCheck className="text-xs" />}
+              </div>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => liveEnabled && setMethod("card")}
+              disabled={!liveEnabled}
               title={liveEnabled ? undefined : "Online payment is not available in this build"}
+              className={`group flex w-full items-center gap-4 rounded-xl border-2 p-5 transition-all ${
+                !liveEnabled ? "cursor-not-allowed opacity-60" : ""
+              } ${
+                method === "card" && liveEnabled
+                  ? "border-primary-500 bg-gradient-to-r from-primary-50 to-emerald-50 shadow-sm"
+                  : "border-gray-200 hover:border-primary-200 hover:bg-gray-50"
+              }`}
             >
-              <input
-                type="radio"
-                name="payment"
-                disabled={!liveEnabled}
-                checked={method === "card"}
-                onChange={() => setMethod("card")}
-                className="accent-primary-600"
-              />
-              <FaCreditCard />
-              <span className="font-medium text-gray-900">Pay Online</span>
-              {!liveEnabled && <span className="ml-auto text-xs text-gray-400">Not available in this build</span>}
-            </label>
-            <p className="text-xs text-gray-400">
-              Your payment info is protected with 256-bit SSL encryption
-            </p>
+              <div
+                className={`flex h-14 w-14 items-center justify-center rounded-xl transition-all ${
+                  method === "card" && liveEnabled
+                    ? "bg-gradient-to-br from-primary-500 to-primary-600 text-white shadow-lg shadow-primary-500/30"
+                    : "bg-gray-100 text-gray-400 group-hover:bg-gray-200"
+                }`}
+              >
+                <FaCreditCard className="text-2xl" />
+              </div>
+              <div className="flex-1 text-left">
+                <h3 className={`font-bold ${method === "card" && liveEnabled ? "text-primary-700" : "text-gray-900"}`}>
+                  Pay Online
+                </h3>
+                <p className="mt-0.5 text-sm text-gray-500">Secure payment with Credit/Debit Card via Stripe</p>
+                {!liveEnabled && <p className="mt-1 text-xs text-gray-400">Not available in this build</p>}
+              </div>
+              <div
+                className={`flex h-7 w-7 items-center justify-center rounded-full transition-all ${
+                  method === "card" && liveEnabled ? "bg-primary-600 text-white" : "border-2 border-gray-200"
+                }`}
+              >
+                {method === "card" && liveEnabled && <FaCheck className="text-xs" />}
+              </div>
+            </button>
+
+            <div className="mt-4 flex items-center gap-3 rounded-xl border border-green-100 bg-gradient-to-r from-green-50 to-emerald-50 p-4">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-green-100">
+                <FaShieldHalved className="text-green-600" />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-green-800">Secure &amp; Encrypted</p>
+                <p className="mt-0.5 text-xs text-green-600">
+                  Your payment info is protected with 256-bit SSL encryption
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      <div>
-        <div className="rounded-xl bg-white p-6 shadow-sm">
-          <h2 className="mb-4 text-lg font-bold text-gray-900">Order Summary</h2>
-          <div className="mb-4 space-y-3">
-            {items.map((it) => (
-              <div key={it._id} className="flex items-center gap-3">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={it.product.imageCover} alt={it.product.title} className="h-12 w-12 rounded-lg object-contain" />
-                <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-medium text-gray-900">{it.product.title}</p>
-                  <p className="text-xs text-gray-500">Qty {it.count}</p>
+      <div className="lg:col-span-1">
+        <div className="sticky top-4 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm">
+          <div className="bg-gradient-to-r from-primary-600 to-primary-700 px-6 py-4">
+            <h2 className="flex items-center gap-2 text-lg font-bold text-white">
+              <FaBagShopping /> Order Summary
+            </h2>
+            <p className="mt-1 text-sm text-primary-100">{items.length} items</p>
+          </div>
+          <div className="p-5">
+            <div className="mb-5 max-h-56 space-y-3 overflow-y-auto pr-1">
+              {items.map((it) => (
+                <div
+                  key={it._id}
+                  className="flex items-center gap-3 rounded-xl bg-gray-50 p-3 transition-colors hover:bg-gray-100"
+                >
+                  <div className="h-14 w-14 shrink-0 rounded-lg border border-gray-100 bg-white p-1">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={it.product.imageCover}
+                      alt={it.product.title}
+                      className="h-full w-full object-contain"
+                    />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-sm font-medium text-gray-900">{it.product.title}</p>
+                    <p className="mt-0.5 text-xs text-gray-500">
+                      {it.count} × {it.price} EGP
+                    </p>
+                  </div>
+                  <p className="shrink-0 text-sm font-bold text-gray-900">
+                    {(it.price * it.count).toLocaleString()}
+                  </p>
                 </div>
-                <span className="text-sm font-semibold text-gray-900">{(it.price * it.count).toLocaleString()} EGP</span>
+              ))}
+            </div>
+            <hr className="my-4 border-gray-100" />
+            <div className="space-y-3">
+              <div className="flex justify-between text-gray-600">
+                <span>Subtotal</span>
+                <span className="font-medium">{total.toLocaleString()} EGP</span>
               </div>
-            ))}
+              <div className="flex justify-between text-gray-600">
+                <span className="flex items-center gap-2">
+                  <FaTruckFast /> Shipping
+                </span>
+                <span className="font-semibold text-green-600">FREE</span>
+              </div>
+              <hr className="border-gray-100" />
+              <div className="flex items-center justify-between">
+                <span className="text-lg font-bold text-gray-900">Total</span>
+                <div className="text-right">
+                  <span className="text-2xl font-bold text-primary-600">{total.toLocaleString()}</span>
+                  <span className="ml-1 text-sm text-gray-500">EGP</span>
+                </div>
+              </div>
+            </div>
+            <button
+              onClick={submit}
+              disabled={!canSubmit}
+              title={
+                liveEnabled
+                  ? useNewAddress || addressId
+                    ? "Place this order"
+                    : "Select a shipping address first"
+                  : "Ordering is intentionally disabled in this build - no live orders are placed"
+              }
+              className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-primary-600 to-primary-700 py-4 font-bold text-white shadow-lg shadow-primary-600/20 transition-all hover:from-primary-700 hover:to-primary-800 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-70"
+            >
+              <FaLock /> {busy ? "Placing Order..." : "Place Order"}
+            </button>
+            {error && <p className="mt-3 text-center text-xs text-red-600">{error}</p>}
+            {!liveEnabled && (
+              <p className="mt-3 text-center text-xs text-amber-600">
+                Ordering is disabled in this build: this review page never submits a live order or payment.
+              </p>
+            )}
+            <div className="mt-4 flex items-center justify-center gap-4 border-t border-gray-100 py-3">
+              <div className="flex items-center gap-1.5 text-xs text-gray-500">
+                <FaShieldHalved /> <span>Secure</span>
+              </div>
+              <div className="h-4 w-px bg-gray-200" />
+              <div className="flex items-center gap-1.5 text-xs text-gray-500">
+                <FaTruckFast /> <span>Fast Delivery</span>
+              </div>
+              <div className="h-4 w-px bg-gray-200" />
+              <div className="flex items-center gap-1.5 text-xs text-gray-500">
+                <FaArrowRotateLeft /> <span>Easy Returns</span>
+              </div>
+            </div>
           </div>
-          <div className="space-y-2 border-t border-gray-100 pt-4 text-sm">
-            <div className="flex justify-between text-gray-600">
-              <span>Subtotal</span>
-              <span>{total.toLocaleString()} EGP</span>
-            </div>
-            <div className="flex justify-between text-gray-600">
-              <span>Shipping</span>
-              <span className="font-semibold text-primary-600">FREE</span>
-            </div>
-            <div className="flex justify-between border-t border-gray-100 pt-2 text-base font-bold text-gray-900">
-              <span>Total</span>
-              <span className="text-primary-600">{total.toLocaleString()} EGP</span>
-            </div>
-          </div>
-          <button
-            onClick={submit}
-            disabled={!canSubmit}
-            title={
-              liveEnabled
-                ? useNewAddress || addressId
-                  ? "Place this order"
-                  : "Select a shipping address first"
-                : "Ordering is intentionally disabled in this build - no live orders are placed"
-            }
-            className={`mt-6 flex w-full items-center justify-center gap-2 rounded-xl py-3.5 font-medium text-white transition ${
-              canSubmit ? "bg-gray-900 hover:bg-gray-800" : "cursor-not-allowed bg-gray-900 opacity-60"
-            }`}
-          >
-            <FaLock /> {busy ? "Placing Order..." : "Place Order"}
-          </button>
-          {error && <p className="mt-3 text-center text-xs text-red-600">{error}</p>}
-          {!liveEnabled && (
-            <p className="mt-3 text-center text-xs text-amber-600">
-              Ordering is disabled in this build: this review page never submits a live order or payment.
-            </p>
-          )}
         </div>
       </div>
     </div>
