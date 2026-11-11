@@ -23,7 +23,7 @@ export async function updateProfile(input: {
     });
     if (!res.ok) {
       const body = await res.json().catch(() => null);
-      return { ok: false, error: body?.message ?? "Could not update your profile." };
+      return { ok: false, error: body?.errors?.msg ?? body?.message ?? "Could not update your profile." };
     }
     return { ok: true };
   } catch {
@@ -57,7 +57,7 @@ export async function changePassword(input: {
     });
     if (!res.ok) {
       const body = await res.json().catch(() => null);
-      return { ok: false, error: body?.message ?? "Could not change the password." };
+      return { ok: false, error: body?.errors?.msg ?? body?.message ?? "Could not change the password." };
     }
     return { ok: true };
   } catch {
