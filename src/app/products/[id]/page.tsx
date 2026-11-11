@@ -81,7 +81,7 @@ export default async function ProductDetailsPage({
           <Link href="/" className="flex items-center gap-1.5 transition hover:text-primary-600">
             <FaHouse className="text-xs" /> Home
           </Link>
-          <FaChevronRight className="text-xs text-gray-400" />
+          <FaChevronRight className="h-3 w-[15px] shrink-0 text-gray-400" />
           <Link
             href={`/categories/${product.category._id}`}
             className="transition hover:text-primary-600"
@@ -90,11 +90,11 @@ export default async function ProductDetailsPage({
           </Link>
           {product.subcategory?.[0]?.name && (
             <>
-              <FaChevronRight className="text-xs text-gray-400" />
+              <FaChevronRight className="h-3 w-[15px] shrink-0 text-gray-400" />
               <span>{product.subcategory[0].name}</span>
             </>
           )}
-          <FaChevronRight className="text-xs text-gray-400" />
+          <FaChevronRight className="h-3 w-[15px] shrink-0 text-gray-400" />
           <span className="font-medium text-gray-900">{product.title}</span>
         </nav>
 
