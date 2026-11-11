@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { FaMagnifyingGlass, FaHeadset, FaChevronDown, FaRegUser, FaRegCircleUser } from "react-icons/fa6";
+import { FaRegUser, FaRegCircleUser } from "react-icons/fa6";
+import { Fa7Search, Fa7Headset, Fa7ChevronDown } from "@/components/icons/fa7";
 import MobileMenu from "./mobile-menu";
 import NavActions from "./nav-actions";
 import { getSessionUser, getApiToken } from "@/lib/get-token";
@@ -69,7 +70,7 @@ export default async function Header() {
                 aria-label="Search"
                 className="absolute right-1.5 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-primary-600 text-white transition hover:bg-primary-700"
               >
-                <FaMagnifyingGlass />
+                <Fa7Search className="text-sm" />
               </button>
             </div>
           </form>
@@ -83,7 +84,7 @@ export default async function Header() {
                     className="flex items-center gap-1.5 py-2 text-base font-medium text-gray-700 transition-colors hover:text-primary-600"
                   >
                     {l.label}
-                    <FaChevronDown className="text-[10px] transition-transform group-hover:rotate-180" />
+                    <Fa7ChevronDown className="text-[10px] transition-transform group-hover:rotate-180" />
                   </button>
                   <div className="invisible absolute left-0 top-full pt-1 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100">
                     <div className="min-w-[200px] rounded-xl border border-gray-100 bg-white py-2 shadow-xl">
@@ -119,8 +120,8 @@ export default async function Header() {
 
           <div className="ml-auto flex items-center gap-2">
             <Link href="/contact" className="hidden items-center gap-2 border-r border-gray-200 pr-3 mr-2 lg:flex">
-              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-100 text-primary-600">
-                <FaHeadset />
+              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-50 text-primary-600">
+                <Fa7Headset />
               </span>
               <span className="leading-tight">
                 <span className="block text-sm font-medium text-gray-700">Support</span>

@@ -4,7 +4,6 @@ import { useState } from "react";
 import {
   FaCreditCard,
   FaMoneyBillWave,
-  FaLock,
   FaLocationDot,
   FaPhone,
   FaCity,
@@ -18,6 +17,7 @@ import {
   FaArrowRotateLeft,
   FaPlus,
 } from "react-icons/fa6";
+import { Fa7Box, Fa7Shield, Fa7Truck, Fa7Bag } from "@/components/icons/fa7";
 import { placeOrder } from "./actions";
 
 type CartItem = {
@@ -132,7 +132,7 @@ export default function CheckoutForm({
                             {selected ? <FaCheck /> : <FaLocationDot />}
                           </div>
                           <div className="min-w-0 flex-1">
-                            <p className="font-semibold text-gray-900">{a.name}</p>
+                            <p className={`font-semibold ${selected ? "text-primary-700" : "text-gray-900"}`}>{a.name}</p>
                             <p className="mt-0.5 text-sm text-gray-600">
                               {a.details}
                             </p>
@@ -360,7 +360,7 @@ export default function CheckoutForm({
         <div className="sticky top-4 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm">
           <div className="bg-gradient-to-r from-primary-600 to-primary-700 px-6 py-4">
             <h2 className="flex items-center gap-2 text-lg font-bold text-white">
-              <FaBagShopping /> Order Summary
+              <Fa7Bag /> Order Summary
             </h2>
             <p className="mt-1 text-sm text-primary-100">{items.length} {items.length === 1 ? "item" : "items"}</p>
           </div>
@@ -428,7 +428,7 @@ export default function CheckoutForm({
               }
               className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-primary-600 to-primary-700 py-4 font-bold text-white shadow-lg shadow-primary-600/20 transition-all hover:from-primary-700 hover:to-primary-800 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-70"
             >
-              <FaLock /> {busy ? "Placing Order..." : "Place Order"}
+              <Fa7Box /> {busy ? "Placing Order..." : "Place Order"}
             </button>
             {error && <p className="mt-3 text-center text-xs text-red-600">{error}</p>}
             {!liveEnabled && (
@@ -438,15 +438,15 @@ export default function CheckoutForm({
             )}
             <div className="mt-4 flex items-center justify-center gap-4 border-t border-gray-100 py-3">
               <div className="flex items-center gap-1.5 text-xs text-gray-500">
-                <FaShieldHalved className="text-green-500" /> <span>Secure</span>
+                <Fa7Shield className="text-green-500" /> <span>Secure</span>
               </div>
               <div className="h-4 w-px bg-gray-200" />
               <div className="flex items-center gap-1.5 text-xs text-gray-500">
-                <FaTruckFast className="text-blue-600" /> <span>Fast Delivery</span>
+                <Fa7Truck className="text-blue-600" /> <span>Fast Delivery</span>
               </div>
               <div className="h-4 w-px bg-gray-200" />
               <div className="flex items-center gap-1.5 text-xs text-gray-500">
-                <FaArrowRotateLeft className="text-orange-500" /> <span>Easy Returns</span>
+                <Fa7Box className="text-orange-500" /> <span>Easy Returns</span>
               </div>
             </div>
           </div>

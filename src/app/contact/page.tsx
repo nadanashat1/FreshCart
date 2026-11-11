@@ -4,7 +4,6 @@ import {
   FaEnvelope,
   FaLocationDot,
   FaClock,
-  FaHeadset,
   FaPaperPlane,
   FaCircleQuestion,
   FaFacebookF,
@@ -12,6 +11,7 @@ import {
   FaInstagram,
   FaLinkedinIn,
 } from "react-icons/fa6";
+import { Fa7Headset } from "@/components/icons/fa7";
 
 const inputCls =
   "w-full cursor-not-allowed rounded-xl border border-gray-200 px-4 py-3 opacity-60 transition-all focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20";
@@ -45,7 +45,7 @@ export default function ContactPage() {
           </nav>
           <div className="flex items-center gap-5">
             <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white/20 shadow-xl ring-1 ring-white/30 backdrop-blur-sm">
-              <FaHeadset className="text-3xl text-white" />
+              <Fa7Headset className="text-3xl text-white" />
             </div>
             <div>
               <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">Contact Us</h1>
@@ -100,7 +100,7 @@ export default function ContactPage() {
             <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm lg:p-8">
               <div className="mb-6 flex items-center gap-3">
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary-50">
-                  <FaHeadset className="text-lg text-primary-600" />
+                  <Fa7Headset className="text-lg text-primary-600" />
                 </div>
                 <div>
                   <h2 className="text-xl font-bold text-gray-900">Send us a Message</h2>

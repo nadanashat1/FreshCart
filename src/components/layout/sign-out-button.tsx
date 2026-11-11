@@ -1,7 +1,7 @@
 "use client";
 
 import { signOut } from "next-auth/react";
-import { FaArrowRightFromBracket } from "react-icons/fa6";
+import { Fa7SignOut } from "@/components/icons/fa7";
 
 export default function SignOutButton() {
   return (
@@ -9,7 +9,7 @@ export default function SignOutButton() {
       onClick={() => signOut({ callbackUrl: "/" })}
       className="flex items-center gap-2 hover:text-primary-600"
     >
-      <FaArrowRightFromBracket /> Sign Out
+      <Fa7SignOut className="text-xs" /> Sign Out
     </button>
   );
 }

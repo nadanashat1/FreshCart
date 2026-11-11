@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
 import {
-  FaRegCircleUser,
   FaRegUser,
   FaBoxOpen,
   FaRegHeart,
@@ -12,6 +11,7 @@ import {
   FaGear,
   FaArrowRightFromBracket,
 } from "react-icons/fa6";
+import { Fa7CircleUser } from "@/components/icons/fa7";
 
 const itemCls =
   "flex items-center gap-3 px-4 py-2.5 text-sm text-gray-600 transition-colors hover:bg-primary-50 hover:text-primary-600";
@@ -44,7 +44,7 @@ export default function AccountMenu({ name, email }: { name?: string | null; ema
         onClick={() => setOpen((v) => !v)}
         className="rounded-full p-2.5 transition-colors hover:bg-gray-100"
       >
-        <FaRegCircleUser className="text-[25px] text-gray-500 transition-colors group-hover:text-primary-600" />
+        <Fa7CircleUser className="text-[25px] text-gray-600 transition-colors group-hover:text-primary-600" />
       </button>
       <div
         className={`absolute right-0 top-full mt-2 w-64 rounded-2xl border border-gray-100 bg-white shadow-xl transition-all duration-200 ${
