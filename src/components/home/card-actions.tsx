@@ -1,20 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { FaPlus, FaRegHeart, FaHeart, FaCheck } from "react-icons/fa6";
 import { addToCart, addToWishlist } from "@/app/products/[id]/actions";
+import {
+  guestCartAdd,
+  guestWishlistHas,
+  guestWishlistToggle,
+  type GuestProductInput,
+} from "@/lib/guest-store";
 
-export function CardAddToCart({ productId }: { productId: string }) {
+export function CardAddToCart({ product }: { product: GuestProductInput }) {
   const router = useRouter();
   const [state, setState] = useState<"idle" | "loading" | "added" | "error">("idle");
 
   async function onClick() {
     setState("loading");
-    const res = await addToCart(productId, 1);
+    const res = await addToCart(product._id, 1);
     if (res.needAuth) {
-      router.push("/login");
+      // Demo parity: guests add to a local cart instead of being redirected.
+      guestCartAdd(product, 1);
+      setState("added");
       return;
     }
     setState(res.ok ? "added" : "error");
@@ -37,15 +45,25 @@ export function CardAddToCart({ productId }: { productId: string }) {
   );
 }
 
-export function CardAddToWishlist({ productId }: { productId: string }) {
+export function CardAddToWishlist({ product }: { product: GuestProductInput }) {
   const router = useRouter();
   const [state, setState] = useState<"idle" | "loading" | "added" | "error">("idle");
 
+  // Reflect a guest's saved heart on mount (no-op when the guest list is empty,
+  // e.g. right after a login merged it into the account).
+  useEffect(() => {
+    if (guestWishlistHas(product._id)) setState("added");
+    const onChange = () => setState(guestWishlistHas(product._id) ? "added" : "idle");
+    window.addEventListener("guest-store-changed", onChange);
+    return () => window.removeEventListener("guest-store-changed", onChange);
+  }, [product._id]);
+
   async function onClick() {
     setState("loading");
-    const res = await addToWishlist(productId);
+    const res = await addToWishlist(product._id);
     if (res.needAuth) {
-      router.push("/login");
+      guestWishlistToggle(product);
+      setState(guestWishlistHas(product._id) ? "added" : "idle");
       return;
     }
     setState(res.ok ? "added" : "error");

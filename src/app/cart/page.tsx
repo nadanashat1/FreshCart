@@ -1,15 +1,15 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { FaCartShopping, FaLock, FaTruck, FaShieldHalved } from "react-icons/fa6";
 import { getApiToken } from "@/lib/get-token";
 import CartItems from "./cart-items";
+import GuestCartView from "./guest-cart-view";
 
 const API_BASE = process.env.ROUTE_API_BASE ?? "https://ecommerce.routemisr.com/api/v1";
 const FREE_SHIPPING_THRESHOLD = 500;
 
 export default async function CartPage() {
   const token = await getApiToken();
-  if (!token) redirect("/login");
+  if (!token) return <GuestCartView />;
 
   const res = await fetch(`${API_BASE}/cart`, {
     headers: { token },

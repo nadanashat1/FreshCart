@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   FaMinus,
@@ -15,15 +15,26 @@ import {
 } from "react-icons/fa6";
 import { addToCart, addToWishlist } from "./actions";
 import { removeFromWishlist } from "@/app/wishlist/actions";
+import {
+  guestCartAdd,
+  guestWishlistHas,
+  guestWishlistToggle,
+} from "@/lib/guest-store";
 
 export default function PurchasePanel({
   productId,
+  title,
+  imageCover,
+  categoryName,
   price,
   cartUnitPrice,
   available,
   initialInWishlist = false,
 }: {
   productId: string;
+  title: string;
+  imageCover: string;
+  categoryName?: string;
   price: number;
   cartUnitPrice: number;
   available: number;
@@ -33,17 +44,33 @@ export default function PurchasePanel({
   const [qty, setQty] = useState(1);
   const [cartState, setCartState] = useState<"idle" | "loading" | "added" | "error">("idle");
   const [inWishlist, setInWishlist] = useState(initialInWishlist);
+  // Guests see their locally saved heart state once mounted.
+  useEffect(() => {
+    if (!initialInWishlist && guestWishlistHas(productId)) setInWishlist(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [productId]);
   const [wishPending, setWishPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const outOfStock = available <= 0;
+
+  const guestProduct = {
+    _id: productId,
+    title,
+    imageCover,
+    price,
+    category: categoryName ? { name: categoryName } : undefined,
+  };
 
   async function onAddToCart() {
     setError(null);
     setCartState("loading");
     const res = await addToCart(productId, qty);
     if (res.needAuth) {
-      router.push("/login");
+      // Demo parity: guests add to a local cart instead of being redirected.
+      guestCartAdd(guestProduct, qty);
+      setCartState("added");
+      setTimeout(() => setCartState("idle"), 2000);
       return;
     }
     setCartState(res.ok ? "added" : "error");
@@ -61,7 +88,9 @@ export default function PurchasePanel({
       ? await removeFromWishlist(productId)
       : await addToWishlist(productId);
     if (res.needAuth) {
-      router.push("/login");
+      guestWishlistToggle(guestProduct);
+      setInWishlist((w) => !w);
+      setWishPending(false);
       return;
     }
     if (res.ok) {

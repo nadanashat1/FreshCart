@@ -47,7 +47,7 @@ export default function ProductCard({ product }: { product: Product }) {
           </div>
         )}
         <div className="absolute right-3 top-3 z-10 flex flex-col space-y-2">
-          <CardAddToWishlist productId={product._id} />
+          <CardAddToWishlist product={product} />
           <button
             disabled
             title="Compare is not available in this build yet"
@@ -98,7 +98,7 @@ export default function ProductCard({ product }: { product: Product }) {
               <span className="ml-2 text-sm text-gray-500 line-through">{product.price} EGP</span>
             )}
           </div>
-          <CardAddToCart productId={product._id} />
+          <CardAddToCart product={product} />
         </div>
       </div>
     </motion.div>

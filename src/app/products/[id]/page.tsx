@@ -169,6 +169,9 @@ export default async function ProductDetailsPage({
 
               <PurchasePanel
                 productId={product._id}
+                title={product.title}
+                imageCover={product.imageCover}
+                categoryName={product.category?.name}
                 price={price}
                 cartUnitPrice={product.price}
                 available={product.quantity}

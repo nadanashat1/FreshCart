@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { FaRegHeart, FaCartShopping, FaMagnifyingGlass, FaHeadset, FaChevronDown, FaRegUser } from "react-icons/fa6";
+import { FaMagnifyingGlass, FaHeadset, FaChevronDown, FaRegUser } from "react-icons/fa6";
 import MobileMenu from "./mobile-menu";
+import NavActions from "./nav-actions";
 import { getSessionUser, getApiToken } from "@/lib/get-token";
 
 const categoryLinks = [
@@ -125,30 +126,7 @@ export default async function Header() {
                 <span className="block text-xs text-gray-400">24/7 Help</span>
               </span>
             </Link>
-            <Link
-              href="/wishlist"
-              title="Wishlist"
-              className="group relative rounded-full p-2.5 transition-colors hover:bg-gray-100"
-            >
-              <FaRegHeart className="text-xl text-gray-500 transition-colors group-hover:text-primary-600" />
-              {counts.wishlist > 0 && (
-                <span className="absolute -right-0.5 -top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[11px] font-bold text-white">
-                  {counts.wishlist}
-                </span>
-              )}
-            </Link>
-            <Link
-              href="/cart"
-              title="Cart"
-              className="group relative rounded-full p-2.5 transition-colors hover:bg-gray-100"
-            >
-              <FaCartShopping className="text-xl text-gray-500 transition-colors group-hover:text-primary-600" />
-              {counts.cart > 0 && (
-                <span className="absolute -right-0.5 -top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[11px] font-bold text-white">
-                  {counts.cart}
-                </span>
-              )}
-            </Link>
+            <NavActions isAuth={!!user} cartCount={counts.cart} wishlistCount={counts.wishlist} />
             {user ? (
               <Link
                 href="/profile/addresses"

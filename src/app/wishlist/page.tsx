@@ -1,14 +1,14 @@
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { FaHeart } from "react-icons/fa6";
 import { getApiToken } from "@/lib/get-token";
 import WishlistTable from "./wishlist-table";
+import GuestWishlistView from "./guest-wishlist-view";
 
 const API_BASE = process.env.ROUTE_API_BASE ?? "https://ecommerce.routemisr.com/api/v1";
 
 export default async function WishlistPage() {
   const token = await getApiToken();
-  if (!token) redirect("/login");
+  if (!token) return <GuestWishlistView />;
 
   const [wishRes, cartRes] = await Promise.all([
     fetch(`${API_BASE}/wishlist`, { headers: { token }, cache: "no-store" }),
