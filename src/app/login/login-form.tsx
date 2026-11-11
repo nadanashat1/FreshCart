@@ -35,7 +35,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="bg-gray-50">
+    <div>
       <div className="container mx-auto px-4 py-16">
       <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 lg:grid-cols-2">
         <div className="hidden lg:block">
@@ -147,11 +147,10 @@ export default function LoginPage() {
 
               <div className="flex items-center">
                 <input
-                  id="keep" type="checkbox" disabled
-                  title="Not available yet - sessions currently follow the default duration"
-                  className="h-4 w-4 cursor-not-allowed rounded border-gray-300 text-primary-600 opacity-50"
+                  id="keep" type="checkbox" name="rememberMe"
+                  className="h-4 w-4 rounded border-2 border-gray-300 text-primary-600 accent-primary-600 focus:ring-primary-500"
                 />
-                <label htmlFor="keep" className="ml-2 text-sm text-gray-400" title="Not available yet - sessions currently follow the default duration">Keep me signed in</label>
+                <label htmlFor="keep" className="ml-3 text-sm text-gray-700">Keep me signed in</label>
               </div>
 
               {error && (
