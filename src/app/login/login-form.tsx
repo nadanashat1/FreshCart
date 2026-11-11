@@ -35,7 +35,8 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="container mx-auto bg-gray-50 px-4 py-16">
+    <div className="bg-gray-50">
+      <div className="container mx-auto px-4 py-16">
       <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 lg:grid-cols-2">
         <div className="hidden lg:block">
           <div className="space-y-6 text-center">
@@ -159,18 +160,20 @@ export default function LoginPage() {
 
               <button
                 type="submit" disabled={loading}
-                className="w-full rounded-xl bg-primary-600 py-3 font-semibold text-white transition-colors hover:bg-primary-700 disabled:opacity-60"
+                className="w-full rounded-xl bg-primary-600 px-4 py-3 text-lg font-semibold text-white shadow-lg transition-all duration-200 hover:bg-primary-700 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {loading ? "Signing in..." : "Sign In"}
               </button>
             </form>
 
-            <p className="mt-6 text-center text-sm text-gray-600">
-              New to FreshCart?{" "}
-              <Link href="/register" className="font-semibold text-primary-600 hover:text-primary-700">
-                Create an account
-              </Link>
-            </p>
+            <div className="mt-8 border-t border-gray-100 pt-6 text-center">
+              <p className="text-gray-600">
+                New to FreshCart?{" "}
+                <Link href="/register" className="font-semibold text-primary-600 hover:text-primary-700">
+                  Create an account
+                </Link>
+              </p>
+            </div>
 
             <div className="mt-6 flex items-center justify-center space-x-6 text-xs text-gray-500">
               <div className="flex items-center"><Fa7Lock className="mr-1" />SSL Secured</div>
@@ -179,6 +182,7 @@ export default function LoginPage() {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );
