@@ -57,11 +57,11 @@ export default async function Header() {
             />
           </Link>
 
-          <form className="hidden max-w-2xl flex-1 lg:flex" action="/products">
+          <form className="hidden max-w-2xl flex-1 lg:flex" action="/search">
             <div className="relative w-full">
               <input
                 type="search"
-                name="keyword"
+                name="q"
                 placeholder="Search for products, brands and more..."
                 className="w-full rounded-full border border-gray-200 bg-gray-50/50 px-5 py-3 pr-12 text-sm transition-all focus:border-primary-500 focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary-500/20"
               />

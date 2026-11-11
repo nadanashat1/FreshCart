@@ -49,10 +49,10 @@ export default function MobileMenu({
       </button>
       {open && (
         <div className="absolute left-0 right-0 top-16 z-50 border-b border-gray-100 bg-white px-4 pb-4 shadow-lg">
-          <form className="relative my-3" action="/products">
+          <form className="relative my-3" action="/search">
             <input
               type="search"
-              name="keyword"
+              name="q"
               placeholder="Search for products, brands and more..."
               className="h-10 w-full rounded-full border border-gray-200 bg-gray-50 pl-4 pr-12 text-sm outline-none focus:border-brand"
             />
