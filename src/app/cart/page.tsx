@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { FaBagShopping, FaCartShopping, FaLock, FaTag, FaTruck, FaShieldHalved } from "react-icons/fa6";
+import { FaBagShopping, FaCartShopping, FaLock, FaTruck, FaShieldHalved } from "react-icons/fa6";
 import { getApiToken } from "@/lib/get-token";
 import CartItems from "./cart-items";
+import CouponForm from "./coupon-form";
 import GuestCartView from "./guest-cart-view";
 
 const API_BASE = process.env.ROUTE_API_BASE ?? "https://ecommerce.routemisr.com/api/v1";
@@ -38,7 +39,14 @@ export default async function CartPage() {
   );
   const total = data?.data?.totalCartPrice ?? 0;
   const numItems = data?.numOfCartItems ?? 0;
-  const freeShipping = total >= FREE_SHIPPING_THRESHOLD;
+  // Present only after a coupon was applied to this cart (PUT /cart/applyCoupon).
+  const discounted: number | null =
+    typeof data?.data?.totalPriceAfterDiscount === "number" &&
+    data.data.totalPriceAfterDiscount < total
+      ? data.data.totalPriceAfterDiscount
+      : null;
+  const payable = discounted ?? total;
+  const freeShipping = payable >= FREE_SHIPPING_THRESHOLD;
 
   return (
     <section className="py-10">
@@ -105,7 +113,7 @@ export default async function CartPage() {
                     </div>
                   ) : (
                     <div className="rounded-xl bg-amber-50 p-4 text-sm text-amber-700">
-                      Add {(FREE_SHIPPING_THRESHOLD - total).toLocaleString()} EGP more to qualify for free delivery
+                      Add {(FREE_SHIPPING_THRESHOLD - payable).toLocaleString()} EGP more to qualify for free delivery
                     </div>
                   )}
                   <div className="space-y-3">
@@ -113,6 +121,12 @@ export default async function CartPage() {
                       <span>Subtotal</span>
                       <span className="font-medium text-gray-900">{total.toLocaleString()} EGP</span>
                     </div>
+                    {discounted !== null && (
+                      <div className="flex justify-between text-green-600">
+                        <span>Coupon discount</span>
+                        <span className="font-medium">-{(total - discounted).toLocaleString()} EGP</span>
+                      </div>
+                    )}
                     <div className="flex justify-between text-gray-600">
                       <span>Shipping</span>
                       <span className="font-medium text-green-600">{freeShipping ? "FREE" : "Calculated at checkout"}</span>
@@ -121,20 +135,13 @@ export default async function CartPage() {
                       <div className="flex items-baseline justify-between">
                         <span className="font-semibold text-gray-900">Total</span>
                         <div className="text-right">
-                          <span className="text-2xl font-bold text-gray-900">{total.toLocaleString()}</span>
+                          <span className="text-2xl font-bold text-gray-900">{payable.toLocaleString()}</span>
                           <span className="ml-1 text-sm text-gray-500">EGP</span>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <button
-                    disabled
-                    title="Promo codes are not available in this build yet"
-                    className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-gray-300 py-3 text-gray-600 transition-all hover:border-primary-400 hover:bg-primary-50/50 hover:text-primary-600 disabled:cursor-not-allowed disabled:opacity-60"
-                  >
-                    <FaTag />
-                    <span className="text-sm font-medium">Apply Promo Code</span>
-                  </button>
+                  <CouponForm applied={discounted !== null} />
                   <Link
                     href="/checkout"
                     className="flex w-full items-center justify-center gap-3 rounded-xl bg-gradient-to-r from-primary-600 to-primary-700 px-6 py-4 font-semibold text-white shadow-lg shadow-primary-600/20 transition-all hover:from-primary-700 hover:to-primary-800 active:scale-[0.98]"

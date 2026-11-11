@@ -16,6 +16,22 @@ export async function getApiToken(): Promise<string | null> {
   return (decoded as { apiToken?: string } | null)?.apiToken ?? null;
 }
 
+// Server-only: the Route API access token is a plain JWT whose payload carries
+// the API user id; decode the payload (no signature check needed - it came from
+// our own encrypted session cookie).
+export async function getApiUserId(): Promise<string | null> {
+  const token = await getApiToken();
+  if (!token) return null;
+  try {
+    const part = token.split(".")[1] ?? "";
+    const b64 = part.replace(/-/g, "+").replace(/_/g, "/");
+    const payload = JSON.parse(Buffer.from(b64, "base64").toString("utf8")) as { id?: unknown };
+    return typeof payload.id === "string" ? payload.id : null;
+  } catch {
+    return null;
+  }
+}
+
 export async function getSessionUser() {
   const store = await cookies();
   const raw =

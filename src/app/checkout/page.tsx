@@ -24,7 +24,14 @@ export default async function CheckoutPage() {
   ]);
   const cartData = cartRes.ok ? (await cartRes.json()).data : null;
   const items: CartItem[] = cartData?.products ?? [];
-  const total: number = cartData?.totalCartPrice ?? 0;
+  const subtotal: number = cartData?.totalCartPrice ?? 0;
+  // When a coupon is applied the API returns totalPriceAfterDiscount; the
+  // backend charges that amount, so the summary must show the same numbers.
+  const total: number =
+    typeof cartData?.totalPriceAfterDiscount === "number" &&
+    cartData.totalPriceAfterDiscount < subtotal
+      ? cartData.totalPriceAfterDiscount
+      : subtotal;
   const addresses: Address[] = addrRes.ok ? (await addrRes.json()).data ?? [] : [];
 
   // Server-side live-submission gate state, passed down so the client only
@@ -73,7 +80,7 @@ export default async function CheckoutPage() {
             <FaArrowLeft /> Back to Cart
           </Link>
         </div>
-        <CheckoutForm items={items} total={total} addresses={addresses} liveEnabled={liveEnabled} />
+        <CheckoutForm items={items} total={total} subtotal={subtotal} addresses={addresses} liveEnabled={liveEnabled} />
       </div>
     </section>
   );

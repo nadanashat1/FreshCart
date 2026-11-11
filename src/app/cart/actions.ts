@@ -51,6 +51,28 @@ export async function removeCartItem(
   }
 }
 
+export async function applyCoupon(
+  couponName: string
+): Promise<{ ok: boolean; needAuth?: boolean; error?: string }> {
+  const token = await authed();
+  if (!token) return { ok: false, needAuth: true };
+  try {
+    const res = await fetch(`${API_BASE}/cart/applyCoupon`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json", token },
+      body: JSON.stringify({ couponName }),
+      cache: "no-store",
+    });
+    const data = await res.json().catch(() => null);
+    if (!res.ok) return { ok: false, error: data?.message ?? "Could not apply that coupon." };
+    revalidatePath("/cart");
+    revalidatePath("/checkout");
+    return { ok: true };
+  } catch {
+    return { ok: false, error: "Network error. Please try again." };
+  }
+}
+
 export async function clearCart(): Promise<{ ok: boolean; needAuth?: boolean; error?: string }> {
   const token = await authed();
   if (!token) return { ok: false, needAuth: true };

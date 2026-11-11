@@ -12,7 +12,7 @@ import {
 } from "react-icons/fa6";
 import { API_BASE } from "@/lib/api";
 import type { Product } from "@/lib/api";
-import { getApiToken } from "@/lib/get-token";
+import { getApiToken, getApiUserId } from "@/lib/get-token";
 import Gallery from "./gallery";
 import PurchasePanel from "./purchase-panel";
 import ProductTabs from "./tabs";
@@ -38,7 +38,7 @@ export default async function ProductDetailsPage({
   if (!res.ok) notFound();
   const { data: product }: { data: Product } = await res.json();
 
-  const revRes = await fetch(`${API_BASE}/products/${id}/reviews`, { next: { revalidate: 300 } });
+  const revRes = await fetch(`${API_BASE}/products/${id}/reviews`, { cache: "no-store" });
   const reviews = revRes.ok ? (await revRes.json()).data ?? [] : [];
 
   const simRes = await fetch(
@@ -50,6 +50,7 @@ export default async function ProductDetailsPage({
     : [];
 
   const token = await getApiToken();
+  const currentUserId = token ? await getApiUserId() : null;
   let initialInWishlist = false;
   if (token) {
     try {
@@ -201,7 +202,7 @@ export default async function ProductDetailsPage({
           </div>
         </div>
 
-        <ProductTabs product={product} reviews={reviews} />
+        <ProductTabs product={product} reviews={reviews} currentUserId={currentUserId} isAuthed={!!token} />
       </div>
 
       <SimilarProducts products={similar} />

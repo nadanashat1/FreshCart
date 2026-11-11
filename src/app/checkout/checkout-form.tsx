@@ -36,11 +36,13 @@ const fieldCls =
 export default function CheckoutForm({
   items,
   total,
+  subtotal,
   addresses,
   liveEnabled,
 }: {
   items: CartItem[];
   total: number;
+  subtotal?: number;
   addresses: Address[];
   liveEnabled: boolean;
 }) {
@@ -400,8 +402,14 @@ export default function CheckoutForm({
             <div className="space-y-3">
               <div className="flex justify-between text-gray-600">
                 <span>Subtotal</span>
-                <span className="font-medium">{total.toLocaleString()} EGP</span>
+                <span className="font-medium">{(subtotal ?? total).toLocaleString()} EGP</span>
               </div>
+              {subtotal !== undefined && subtotal > total && (
+                <div className="flex justify-between text-green-600">
+                  <span>Coupon discount</span>
+                  <span className="font-medium">-{(subtotal - total).toLocaleString()} EGP</span>
+                </div>
+              )}
               <div className="flex justify-between text-gray-600">
                 <span className="flex items-center gap-2">
                   <FaTruckFast /> Shipping
