@@ -42,7 +42,7 @@ export default function NavActions({
       >
         <FaCartShopping className="text-xl text-gray-500 transition-colors group-hover:text-primary-600" />
         {cart !== null && cart > 0 && (
-          <span className="absolute -right-0.5 -top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[11px] font-bold text-white">
+          <span className="absolute -right-0.5 -top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-green-600 text-[11px] font-bold text-white">
             {cart}
           </span>
         )}

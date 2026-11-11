@@ -131,7 +131,7 @@ export default async function Header() {
               <Link
                 href="/profile/addresses"
                 title={user.name ?? "Account"}
-                className="group relative rounded-full p-2.5 transition-colors hover:bg-gray-100"
+                className="group relative hidden rounded-full p-2.5 transition-colors hover:bg-gray-100 lg:block"
               >
                 <FaRegUser className="text-xl text-gray-500 transition-colors group-hover:text-primary-600" />
               </Link>
@@ -143,7 +143,7 @@ export default async function Header() {
                 <FaRegUser /> Sign In
               </Link>
             )}
-            <MobileMenu />
+            <MobileMenu isAuth={!!user} userName={user?.name} cartCount={counts.cart} wishlistCount={counts.wishlist} />
           </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
-import { FaTruckFast, FaShieldHalved, FaArrowRotateLeft, FaHeadset } from "react-icons/fa6";
+import { FaTruck, FaShieldHalved, FaArrowRotateLeft, FaHeadset } from "react-icons/fa6";
 
 const features = [
-  { icon: FaTruckFast, title: "Free Shipping", text: "On orders over 500 EGP", wrap: "bg-blue-50 text-blue-500" },
+  { icon: FaTruck, title: "Free Shipping", text: "On orders over 500 EGP", wrap: "bg-blue-50 text-blue-500" },
   { icon: FaShieldHalved, title: "Secure Payment", text: "100% secure transactions", wrap: "bg-emerald-50 text-emerald-500" },
   { icon: FaArrowRotateLeft, title: "Easy Returns", text: "14-day return policy", wrap: "bg-orange-50 text-orange-500" },
   { icon: FaHeadset, title: "24/7 Support", text: "Dedicated support team", wrap: "bg-purple-50 text-purple-500" },
