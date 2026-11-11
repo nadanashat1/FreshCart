@@ -9,7 +9,7 @@ import {
   FaEnvelope, FaLock, FaEye, FaEyeSlash, FaGoogle, FaFacebookF,
   FaTruck, FaShieldHalved, FaClock,
 } from "react-icons/fa6";
-import { Fa7Lock, Fa7Users, Fa7Star } from "@/components/icons/fa7";
+import { Fa7Lock, Fa7Users, Fa7Star, Fa7Google, Fa7FacebookCircle } from "@/components/icons/fa7";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -81,7 +81,7 @@ export default function LoginPage() {
                 onClick={() => setNotice("Social sign-in is not available in this build yet. Please use your email and password.")}
                 className="flex w-full items-center justify-center gap-3 rounded-xl border-2 border-gray-200 px-4 py-3 transition-all duration-200 hover:border-primary-300 hover:bg-primary-50"
               >
-                <FaGoogle className="text-lg text-red-500" />
+                <Fa7Google className="text-lg text-red-500" />
                 <span className="font-medium text-gray-700">Continue with Google</span>
               </button>
               <button
@@ -89,7 +89,7 @@ export default function LoginPage() {
                 onClick={() => setNotice("Social sign-in is not available in this build yet. Please use your email and password.")}
                 className="flex w-full items-center justify-center gap-3 rounded-xl border-2 border-gray-200 px-4 py-3 transition-all duration-200 hover:border-primary-300 hover:bg-primary-50"
               >
-                <FaFacebookF className="text-lg text-blue-600" />
+                <Fa7FacebookCircle className="text-lg text-blue-600" />
                 <span className="font-medium text-gray-700">Continue with Facebook</span>
               </button>
             </div>
