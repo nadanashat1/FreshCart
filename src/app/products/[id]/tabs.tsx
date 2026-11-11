@@ -145,6 +145,7 @@ export default function ProductTabs({
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState<Review | null>(null);
   const [busyId, setBusyId] = useState<string | null>(null);
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
   const [listError, setListError] = useState<string | null>(null);
   const tabs = [
     { id: "details" as const, label: "Product Details", icon: FaBox },
@@ -158,7 +159,6 @@ export default function ProductTabs({
   }
 
   async function handleDelete(reviewId: string) {
-    if (!window.confirm("Delete this review?")) return;
     setListError(null);
     setBusyId(reviewId);
     const res = await deleteReview(product._id, reviewId);
@@ -361,12 +361,23 @@ export default function ProductTabs({
                                 </button>
                                 <button
                                   type="button"
-                                  onClick={() => handleDelete(r._id)}
+                                  onClick={() => {
+                                    if (confirmDeleteId === r._id) {
+                                      setConfirmDeleteId(null);
+                                      handleDelete(r._id);
+                                    } else {
+                                      setConfirmDeleteId(r._id);
+                                    }
+                                  }}
                                   disabled={busyId === r._id}
-                                  className="flex items-center gap-1 text-xs font-medium text-red-500 transition hover:text-red-600 disabled:opacity-50"
+                                  className={`flex items-center gap-1 text-xs font-medium transition disabled:opacity-50 ${
+                                    confirmDeleteId === r._id
+                                      ? "text-red-700 underline"
+                                      : "text-red-500 hover:text-red-600"
+                                  }`}
                                 >
                                   {busyId === r._id ? <FaSpinner className="animate-spin" /> : <FaTrash />}
-                                  Delete
+                                  {confirmDeleteId === r._id ? "Confirm delete?" : "Delete"}
                                 </button>
                               </span>
                             )}
