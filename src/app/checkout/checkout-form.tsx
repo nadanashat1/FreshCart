@@ -133,7 +133,7 @@ export default function CheckoutForm({
                           </div>
                           <div className="min-w-0 flex-1">
                             <p className="font-semibold text-gray-900">{a.name}</p>
-                            <p className="mt-0.5 line-clamp-1 text-sm text-gray-600">
+                            <p className="mt-0.5 text-sm text-gray-600">
                               {a.details}, {a.city}
                             </p>
                             <div className="mt-2 flex items-center gap-4 text-xs text-gray-500">
@@ -186,7 +186,7 @@ export default function CheckoutForm({
               <>
                 <div className="flex items-start gap-3 rounded-xl border border-blue-100 bg-blue-50 p-4">
                   <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-100">
-                    <FaCircleInfo className="text-blue-600" />
+                    <FaCircleInfo className="text-sm text-blue-600" />
                   </div>
                   <div>
                     <p className="text-sm font-medium text-blue-800">Delivery Information</p>
@@ -362,7 +362,7 @@ export default function CheckoutForm({
             <h2 className="flex items-center gap-2 text-lg font-bold text-white">
               <FaBagShopping /> Order Summary
             </h2>
-            <p className="mt-1 text-sm text-primary-100">{items.length} items</p>
+            <p className="mt-1 text-sm text-primary-100">{items.length} {items.length === 1 ? "item" : "items"}</p>
           </div>
           <div className="p-5">
             <div className="mb-5 max-h-56 space-y-3 overflow-y-auto pr-1">
@@ -438,15 +438,15 @@ export default function CheckoutForm({
             )}
             <div className="mt-4 flex items-center justify-center gap-4 border-t border-gray-100 py-3">
               <div className="flex items-center gap-1.5 text-xs text-gray-500">
-                <FaShieldHalved /> <span>Secure</span>
+                <FaShieldHalved className="text-green-500" /> <span>Secure</span>
               </div>
               <div className="h-4 w-px bg-gray-200" />
               <div className="flex items-center gap-1.5 text-xs text-gray-500">
-                <FaTruckFast /> <span>Fast Delivery</span>
+                <FaTruckFast className="text-blue-600" /> <span>Fast Delivery</span>
               </div>
               <div className="h-4 w-px bg-gray-200" />
               <div className="flex items-center gap-1.5 text-xs text-gray-500">
-                <FaArrowRotateLeft /> <span>Easy Returns</span>
+                <FaArrowRotateLeft className="text-orange-500" /> <span>Easy Returns</span>
               </div>
             </div>
           </div>

@@ -11,11 +11,11 @@ export default async function TopBar() {
         <div className="flex h-10 items-center justify-between">
           <div className="flex items-center gap-6 text-gray-600">
             <span className="flex items-center gap-2">
-              <FaTruckFast className="text-gray-600" />
+              <FaTruckFast className="text-green-600" />
               Free Shipping on Orders 500 EGP
             </span>
             <span className="flex items-center gap-2">
-              <FaWandMagicSparkles className="text-gray-600" />
+              <FaWandMagicSparkles className="text-green-600" />
               New Arrivals Daily
             </span>
           </div>

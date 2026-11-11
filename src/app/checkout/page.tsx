@@ -47,7 +47,7 @@ export default async function CheckoutPage() {
   }
 
   return (
-    <section className="py-10">
+    <section className="min-h-screen bg-gradient-to-b from-gray-50 to-white py-8">
       <div className="container mx-auto px-4">
         <nav className="mb-6 flex items-center gap-2 text-sm text-gray-500">
           <Link href="/" className="transition hover:text-primary-600">Home</Link>
