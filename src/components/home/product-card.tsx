@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { FaArrowsRotate, FaRegEye, FaStar, FaStarHalfStroke, FaRegStar } from "react-icons/fa6";
+import { FaArrowsRotate, FaRegEye } from "react-icons/fa6";
+import { Fa7Star, Fa7StarHalf, Fa7StarOutline } from "@/components/icons/fa7";
 import { motion } from "framer-motion";
 import type { Product } from "@/lib/api";
 import { CardAddToCart, CardAddToWishlist } from "./card-actions";
@@ -12,11 +13,11 @@ function Stars({ rating }: { rating: number }) {
     <div className="mr-2 flex text-amber-400">
       {[1, 2, 3, 4, 5].map((i) =>
         rating >= i ? (
-          <FaStar key={i} />
+          <Fa7Star key={i} />
         ) : rating >= i - 0.5 ? (
-          <FaStarHalfStroke key={i} />
+          <Fa7StarHalf key={i} />
         ) : (
-          <FaRegStar key={i} />
+          <Fa7StarOutline key={i} />
         )
       )}
     </div>
@@ -80,15 +81,12 @@ export default function ProductCard({ product }: { product: Product }) {
             {product.title}
           </Link>
         </h3>
-        <div className="mb-2 flex items-center">
+        <div className="mb-2 flex h-6 items-center">
           <Stars rating={product.ratingsAverage} />
           <span className="text-xs text-gray-500">
             {product.ratingsAverage} ({product.ratingsQuantity})
           </span>
         </div>
-        {hasDiscount && (
-          <p className="mb-1 text-xs text-amber-600">Cart may charge the pre-discount price.</p>
-        )}
         <div className="flex items-center justify-between">
           <div>
             <span className={`text-lg font-bold ${hasDiscount ? "text-primary-600" : "text-gray-800"}`}>

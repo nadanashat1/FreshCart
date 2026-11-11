@@ -64,7 +64,7 @@ export default function Footer() {
   return (
     <footer>
       <div className="border-y border-primary-100 bg-primary-50">
-        <div className="container mx-auto grid grid-cols-2 gap-6 px-4 py-6 md:grid-cols-4">
+        <div className="container mx-auto grid grid-cols-1 gap-6 px-4 py-6 sm:grid-cols-2 lg:grid-cols-4">
           {perks.map((p) => (
             <div key={p.title} className="flex items-center gap-3">
               <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary-100 text-lg text-primary-600">
@@ -80,8 +80,8 @@ export default function Footer() {
       </div>
 
       <div className="bg-gray-900 text-gray-300">
-        <div className="container mx-auto grid gap-10 px-4 py-12 md:grid-cols-6">
-          <div className="md:col-span-2">
+        <div className="container mx-auto grid grid-cols-1 gap-8 px-4 py-12 md:grid-cols-2 lg:grid-cols-12 lg:gap-12">
+          <div className="lg:col-span-4">
             <Link href="/" className="mb-6 inline-block">
               <div className="inline-block rounded-lg bg-white px-4 py-2">
                 <Image src="/freshcart-logo.svg" alt="FreshCart" width={160} height={31} className="h-8 w-auto" />
@@ -118,7 +118,7 @@ export default function Footer() {
           </div>
 
           {columns.map((col) => (
-            <div key={col.title}>
+            <div key={col.title} className="lg:col-span-2">
               <h3 className="mb-5 text-lg font-semibold text-white">
                 {col.title}
               </h3>
