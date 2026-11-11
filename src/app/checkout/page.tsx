@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { FaClipboardList, FaArrowLeft } from "react-icons/fa6";
+import { FaReceipt, FaArrowLeft } from "react-icons/fa6";
 import { redirect } from "next/navigation";
 import { getApiToken } from "@/lib/get-token";
 import CheckoutForm from "./checkout-form";
@@ -60,7 +60,7 @@ export default async function CheckoutPage() {
           <div>
             <h1 className="flex items-center gap-3 text-3xl font-bold text-gray-900">
               <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-primary-600 to-primary-700 text-white shadow-lg shadow-primary-600/20">
-                <FaClipboardList />
+                <FaReceipt />
               </span>
               Complete Your Order
             </h1>
