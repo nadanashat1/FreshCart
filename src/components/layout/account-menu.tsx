@@ -44,7 +44,7 @@ export default function AccountMenu({ name, email }: { name?: string | null; ema
         onClick={() => setOpen((v) => !v)}
         className="rounded-full p-2.5 transition-colors hover:bg-gray-100"
       >
-        <FaRegCircleUser className="text-xl text-gray-500 transition-colors group-hover:text-primary-600" />
+        <FaRegCircleUser className="text-[25px] text-gray-500 transition-colors group-hover:text-primary-600" />
       </button>
       <div
         className={`absolute right-0 top-full mt-2 w-64 rounded-2xl border border-gray-100 bg-white shadow-xl transition-all duration-200 ${

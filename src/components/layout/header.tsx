@@ -80,7 +80,7 @@ export default async function Header() {
                 <div key={l.label} className="group relative">
                   <button
                     type="button"
-                    className="flex items-center gap-1.5 py-2 text-sm font-medium text-gray-700 transition-colors hover:text-primary-600"
+                    className="flex items-center gap-1.5 py-2 text-base font-medium text-gray-700 transition-colors hover:text-primary-600"
                   >
                     {l.label}
                     <FaChevronDown className="text-[10px] transition-transform group-hover:rotate-180" />

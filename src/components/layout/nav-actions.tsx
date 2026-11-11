@@ -28,7 +28,7 @@ export default function NavActions({
         title="Wishlist"
         className="group relative rounded-full p-2.5 transition-colors hover:bg-gray-100"
       >
-        <FaRegHeart className="text-xl text-gray-600 transition-colors group-hover:text-primary-600" />
+        <FaRegHeart className="text-[25px] text-gray-600 transition-colors group-hover:text-primary-600" />
         {wishlist !== null && wishlist > 0 && (
           <span className="absolute -right-0.5 -top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[11px] font-bold text-white">
             {wishlist}
@@ -40,7 +40,7 @@ export default function NavActions({
         title="Cart"
         className="group relative rounded-full p-2.5 transition-colors hover:bg-gray-100"
       >
-        <FaCartShopping className="text-xl text-gray-600 transition-colors group-hover:text-primary-600" />
+        <FaCartShopping className="text-[25px] text-gray-600 transition-colors group-hover:text-primary-600" />
         {cart !== null && cart > 0 && (
           <span className="absolute -right-0.5 -top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-green-600 text-[11px] font-bold text-white">
             {cart}
