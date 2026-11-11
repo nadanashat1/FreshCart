@@ -12,7 +12,7 @@ const perks = [
 
 export default function Newsletter() {
   return (
-    <section className="overflow-hidden py-10">
+    <section className="overflow-hidden bg-linear-to-b from-white to-gray-50 py-16">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="relative">
           <motion.div
