@@ -4,6 +4,7 @@ import { FaMagnifyingGlass, FaHeadset, FaChevronDown, FaRegUser, FaRegCircleUser
 import MobileMenu from "./mobile-menu";
 import NavActions from "./nav-actions";
 import { getSessionUser, getApiToken } from "@/lib/get-token";
+import AccountMenu from "./account-menu";
 
 const categoryLinks = [
   { id: "6439d2d167d9aa4ca970649f", label: "Electronics" },
@@ -128,13 +129,7 @@ export default async function Header() {
             </Link>
             <NavActions isAuth={!!user} cartCount={counts.cart} wishlistCount={counts.wishlist} />
             {user ? (
-              <Link
-                href="/profile/addresses"
-                title={user.name ?? "Account"}
-                className="group relative hidden rounded-full p-2.5 transition-colors hover:bg-gray-100 lg:block"
-              >
-                <FaRegCircleUser className="text-xl text-gray-500 transition-colors group-hover:text-primary-600" />
-              </Link>
+              <AccountMenu name={user.name} email={user.email} />
             ) : (
               <Link
                 href="/login"
