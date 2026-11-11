@@ -1,9 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { motion } from "framer-motion";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -31,6 +33,7 @@ const slides = [
 
 export default function Hero() {
   const freeze = typeof window !== "undefined" && window.location.search.includes("freeze");
+  const [active, setActive] = useState(0);
   return (
     <section className="overflow-hidden">
       <Swiper
@@ -39,9 +42,10 @@ export default function Hero() {
         pagination={{ clickable: true }}
         navigation={{ prevEl: ".hero-prev", nextEl: ".hero-next" }}
         loop
+        onSlideChange={(s) => setActive(s.realIndex)}
         className="hero-swiper"
       >
-        {slides.map((s) => (
+        {slides.map((s, i) => (
           <SwiperSlide key={s.title}>
             <div
               className="relative flex h-[400px] items-center justify-center bg-cover bg-center"
@@ -49,22 +53,48 @@ export default function Hero() {
             >
               <div className="h-full w-full bg-gradient-to-r from-green-500/90 to-green-400/50 p-4 py-20 text-white">
                 <div className="container mx-auto h-full content-center px-4">
-                <h2 className="mb-4 max-w-96 text-3xl font-bold">{s.title}</h2>
-                <p className="mb-6 font-medium">{s.subtitle}</p>
-                <div className="flex gap-3">
-                  <Link
-                    href={s.primary.href}
-                    className="rounded-lg bg-white px-6 py-2 text-base font-semibold text-brand hover:bg-green-50"
-                  >
-                    {s.primary.label}
-                  </Link>
-                  <Link
-                    href={s.secondary.href}
-                    className="rounded-lg border border-white px-6 py-2 text-base font-semibold text-white hover:bg-white/10"
-                  >
-                    {s.secondary.label}
-                  </Link>
-                </div>
+                {i === active && (
+                  <>
+                    <motion.h2
+                      key={`h2-${active}`}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6 }}
+                      className="mb-4 max-w-96 text-3xl font-bold"
+                    >
+                      {s.title}
+                    </motion.h2>
+                    <motion.p
+                      key={`p-${active}`}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 0.1 }}
+                      className="mb-6 font-medium"
+                    >
+                      {s.subtitle}
+                    </motion.p>
+                    <motion.div
+                      key={`btns-${active}`}
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.8, delay: 0.2 }}
+                      className="flex gap-3"
+                    >
+                      <Link
+                        href={s.primary.href}
+                        className="rounded-lg bg-white px-6 py-2 text-base font-semibold text-brand hover:bg-green-50"
+                      >
+                        {s.primary.label}
+                      </Link>
+                      <Link
+                        href={s.secondary.href}
+                        className="rounded-lg border border-white px-6 py-2 text-base font-semibold text-white hover:bg-white/10"
+                      >
+                        {s.secondary.label}
+                      </Link>
+                    </motion.div>
+                  </>
+                )}
                 </div>
               </div>
             </div>

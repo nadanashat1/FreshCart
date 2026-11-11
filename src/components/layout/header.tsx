@@ -4,6 +4,13 @@ import { FaRegHeart, FaCartShopping, FaMagnifyingGlass, FaHeadset, FaChevronDown
 import MobileMenu from "./mobile-menu";
 import { getSessionUser, getApiToken } from "@/lib/get-token";
 
+const categoryLinks = [
+  { id: "6439d58a0049ad0b52b9003f", label: "Electronics" },
+  { id: "6439d5b90049ad0b52b90048", label: "Women's Fashion" },
+  { id: "6439d2d167d9aa4ca970649f", label: "Men's Fashion" },
+  { id: "6439d40367d9aa4ca97064a8", label: "Beauty & Health" },
+];
+
 const navLinks = [
   { href: "/", label: "Home", active: true },
   { href: "/products", label: "Shop" },
@@ -66,16 +73,46 @@ export default async function Header() {
           </form>
 
           <nav className="hidden items-center gap-6 xl:flex">
-            {navLinks.map((l) => (
-              <Link
-                key={l.label}
-                href={l.href}
-                className={`flex items-center gap-1 text-sm font-medium transition-colors hover:text-primary-600 ${l.active ? "text-primary-600" : "text-gray-700"}`}
-              >
-                {l.label}
-                {l.dropdown && <FaChevronDown className="text-xs" />}
-              </Link>
-            ))}
+            {navLinks.map((l) =>
+              l.dropdown ? (
+                <div key={l.label} className="group relative">
+                  <button
+                    type="button"
+                    className="flex items-center gap-1.5 py-2 text-sm font-medium text-gray-700 transition-colors hover:text-primary-600"
+                  >
+                    {l.label}
+                    <FaChevronDown className="text-[10px] transition-transform group-hover:rotate-180" />
+                  </button>
+                  <div className="invisible absolute left-0 top-full pt-1 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100">
+                    <div className="min-w-[200px] rounded-xl border border-gray-100 bg-white py-2 shadow-xl">
+                      <Link
+                        href="/categories"
+                        className="block px-4 py-2.5 text-sm text-gray-600 transition-colors hover:bg-primary-50 hover:text-primary-600"
+                      >
+                        All Categories
+                      </Link>
+                      {categoryLinks.map((c) => (
+                        <Link
+                          key={c.id}
+                          href={`/products?category=${c.id}`}
+                          className="block px-4 py-2.5 text-sm text-gray-600 transition-colors hover:bg-primary-50 hover:text-primary-600"
+                        >
+                          {c.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <Link
+                  key={l.label}
+                  href={l.href}
+                  className={`flex items-center gap-1 text-sm font-medium transition-colors hover:text-primary-600 ${l.active ? "text-primary-600" : "text-gray-700"}`}
+                >
+                  {l.label}
+                </Link>
+              )
+            )}
           </nav>
 
           <div className="ml-auto flex items-center gap-2">

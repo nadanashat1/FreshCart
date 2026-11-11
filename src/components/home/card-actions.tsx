@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { FaPlus, FaRegHeart, FaHeart, FaCheck } from "react-icons/fa6";
 import { addToCart, addToWishlist } from "@/app/products/[id]/actions";
@@ -20,7 +21,8 @@ export function CardAddToCart({ productId }: { productId: string }) {
   }
 
   return (
-    <button
+    <motion.button
+      whileTap={{ scale: 0.9 }}
       onClick={onClick}
       disabled={state === "loading"}
       aria-label="Add to cart"
@@ -30,7 +32,7 @@ export function CardAddToCart({ productId }: { productId: string }) {
       }`}
     >
       {state === "added" ? <FaCheck /> : <FaPlus />}
-    </button>
+    </motion.button>
   );
 }
 
@@ -49,7 +51,8 @@ export function CardAddToWishlist({ productId }: { productId: string }) {
   }
 
   return (
-    <button
+    <motion.button
+      whileTap={{ scale: 0.9 }}
       onClick={onClick}
       disabled={state === "loading"}
       aria-label="Add to wishlist"
@@ -57,6 +60,6 @@ export function CardAddToWishlist({ productId }: { productId: string }) {
       className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-gray-600 shadow-sm transition hover:text-red-500 disabled:opacity-60"
     >
       {state === "added" ? <FaHeart className="text-red-500" /> : <FaRegHeart />}
-    </button>
+    </motion.button>
   );
 }

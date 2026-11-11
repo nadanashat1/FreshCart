@@ -1,3 +1,6 @@
+"use client";
+
+import { motion } from "framer-motion";
 import { FaEnvelope, FaLeaf, FaTruckFast, FaPercent, FaArrowRight, FaApple, FaGooglePlay } from "react-icons/fa6";
 
 const perks = [
@@ -11,7 +14,12 @@ export default function Newsletter() {
     <section className="overflow-hidden py-10">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="relative">
-          <div className="overflow-hidden rounded-[2.5rem] border border-emerald-100/50 bg-gradient-to-br from-emerald-50 via-white to-teal-50 shadow-2xl shadow-emerald-500/10">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="overflow-hidden rounded-[2.5rem] border border-emerald-100/50 bg-gradient-to-br from-emerald-50 via-white to-teal-50 shadow-2xl shadow-emerald-500/10">
             <div className="pointer-events-none absolute right-0 top-0 h-80 w-80 -translate-y-1/2 translate-x-1/4 rounded-full bg-gradient-to-br from-emerald-200/40 to-transparent blur-3xl" />
             <div className="pointer-events-none absolute bottom-0 left-0 h-64 w-64 -translate-x-1/4 translate-y-1/2 rounded-full bg-gradient-to-tr from-teal-200/30 to-transparent blur-3xl" />
             <div className="relative grid gap-8 p-8 lg:grid-cols-5 lg:p-14">
@@ -105,7 +113,7 @@ export default function Newsletter() {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

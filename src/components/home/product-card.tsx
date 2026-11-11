@@ -1,6 +1,9 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { FaArrowsRotate, FaRegEye, FaStar, FaStarHalfStroke, FaRegStar } from "react-icons/fa6";
+import { motion } from "framer-motion";
 import type { Product } from "@/lib/api";
 import { CardAddToCart, CardAddToWishlist } from "./card-actions";
 
@@ -29,7 +32,14 @@ export default function ProductCard({ product }: { product: Product }) {
   const price = hasDiscount ? product.priceAfterDiscount! : product.price;
 
   return (
-    <div className="overflow-hidden rounded-lg border border-gray-200 bg-white">
+    <motion.div
+      whileHover={{
+        y: -5,
+        boxShadow: "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)",
+      }}
+      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+      className="overflow-hidden rounded-lg border border-gray-200 bg-white"
+    >
       <div className="relative">
         {discount && (
           <div className="absolute left-3 top-3 z-10">
@@ -91,6 +101,6 @@ export default function ProductCard({ product }: { product: Product }) {
           <CardAddToCart productId={product._id} />
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
