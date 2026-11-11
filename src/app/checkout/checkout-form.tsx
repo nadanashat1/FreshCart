@@ -16,6 +16,7 @@ import {
   FaBagShopping,
   FaHouse,
   FaArrowRotateLeft,
+  FaPlus,
 } from "react-icons/fa6";
 import { placeOrder } from "./actions";
 
@@ -45,38 +46,34 @@ export default function CheckoutForm({
 }) {
   const [addressId, setAddressId] = useState<string | null>(addresses[0]?._id ?? null);
   const [useNewAddress, setUseNewAddress] = useState(addresses.length === 0);
-  const [newAddr, setNewAddr] = useState({ city: "", details: "", phone: "" });
+  const [newAddr, setNewAddr] = useState(
+    addresses[0]
+      ? { city: addresses[0].city, details: addresses[0].details, phone: addresses[0].phone }
+      : { city: "", details: "", phone: "" }
+  );
   const [fieldErrors, setFieldErrors] = useState<{ city?: string; details?: string; phone?: string }>({});
   const [method, setMethod] = useState<"cash" | "card">("cash");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const canSubmit = liveEnabled && !busy && (useNewAddress || !!addressId);
+  const canSubmit = liveEnabled && !busy;
 
   async function submit() {
     if (busy || !liveEnabled) return;
 
-    let shippingAddress: { details: string; phone: string; city: string } | null = null;
-
-    if (useNewAddress) {
-      const errs: typeof fieldErrors = {};
-      if (!newAddr.city.trim()) errs.city = "City is required";
-      if (!newAddr.details.trim()) errs.details = "Street address is required";
-      if (!newAddr.phone.trim()) errs.phone = "Phone number is required";
-      else if (!EGYPT_PHONE.test(newAddr.phone.trim()))
-        errs.phone = "Please enter a valid Egyptian phone number";
-      setFieldErrors(errs);
-      if (Object.keys(errs).length > 0) return;
-      shippingAddress = {
-        city: newAddr.city.trim(),
-        details: newAddr.details.trim(),
-        phone: newAddr.phone.trim(),
-      };
-    } else {
-      const addr = addresses.find((a) => a._id === addressId);
-      if (!addr) return;
-      shippingAddress = { details: addr.details, phone: addr.phone, city: addr.city };
-    }
+    const errs: typeof fieldErrors = {};
+    if (!newAddr.city.trim()) errs.city = "City is required";
+    if (!newAddr.details.trim()) errs.details = "Street address is required";
+    if (!newAddr.phone.trim()) errs.phone = "Phone number is required";
+    else if (!EGYPT_PHONE.test(newAddr.phone.trim()))
+      errs.phone = "Please enter a valid Egyptian phone number";
+    setFieldErrors(errs);
+    if (Object.keys(errs).length > 0) return;
+    const shippingAddress = {
+      city: newAddr.city.trim(),
+      details: newAddr.details.trim(),
+      phone: newAddr.phone.trim(),
+    };
 
     setBusy(true);
     setError(null);
@@ -89,7 +86,6 @@ export default function CheckoutForm({
     setBusy(false);
   }
 
-  const showManualFields = useNewAddress || addresses.length === 0;
 
   return (
     <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
@@ -121,6 +117,8 @@ export default function CheckoutForm({
                         onClick={() => {
                           setAddressId(a._id);
                           setUseNewAddress(false);
+                          setNewAddr({ city: a.city, details: a.details, phone: a.phone });
+                          setFieldErrors({});
                         }}
                         className={`w-full rounded-xl border-2 p-4 text-left transition-all duration-200 ${
                           selected
@@ -134,7 +132,7 @@ export default function CheckoutForm({
                               selected ? "bg-primary-500 text-white" : "bg-gray-100 text-gray-500"
                             }`}
                           >
-                            <FaLocationDot />
+                            {selected ? <FaCheck /> : <FaLocationDot />}
                           </div>
                           <div className="min-w-0 flex-1">
                             <p className="font-semibold text-gray-900">{a.name}</p>
@@ -156,7 +154,11 @@ export default function CheckoutForm({
                   })}
                   <button
                     type="button"
-                    onClick={() => setUseNewAddress((v) => !v)}
+                    onClick={() => {
+                      setUseNewAddress(true);
+                      setNewAddr({ city: "", details: "", phone: "" });
+                      setFieldErrors({});
+                    }}
                     className={`w-full rounded-xl border-2 border-dashed p-4 text-left transition-all duration-200 ${
                       useNewAddress
                         ? "border-primary-500 bg-primary-50"
@@ -169,7 +171,7 @@ export default function CheckoutForm({
                           useNewAddress ? "bg-primary-500 text-white" : "bg-gray-100 text-gray-500"
                         }`}
                       >
-                        <FaLocationDot />
+                        <FaPlus />
                       </div>
                       <div>
                         <p className={`font-semibold ${useNewAddress ? "text-primary-700" : "text-gray-900"}`}>
@@ -183,7 +185,7 @@ export default function CheckoutForm({
               </div>
             )}
 
-            {showManualFields && (
+            {true && (
               <>
                 <div className="flex items-start gap-3 rounded-xl border border-blue-100 bg-blue-50 p-4">
                   <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-100">
@@ -192,7 +194,9 @@ export default function CheckoutForm({
                   <div>
                     <p className="text-sm font-medium text-blue-800">Delivery Information</p>
                     <p className="mt-0.5 text-xs text-blue-600">
-                      Please ensure your address is accurate for smooth delivery
+                      {useNewAddress || addresses.length === 0
+                        ? "Please ensure your address is accurate for smooth delivery"
+                        : "Using your saved address. You can edit the details below if needed."}
                     </p>
                   </div>
                 </div>
