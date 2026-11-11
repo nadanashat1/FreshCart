@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { FaMagnifyingGlass, FaHeadset, FaChevronDown, FaRegUser } from "react-icons/fa6";
+import { FaMagnifyingGlass, FaHeadset, FaChevronDown, FaRegUser, FaRegCircleUser } from "react-icons/fa6";
 import MobileMenu from "./mobile-menu";
 import NavActions from "./nav-actions";
 import { getSessionUser, getApiToken } from "@/lib/get-token";
@@ -108,7 +108,7 @@ export default async function Header() {
                 <Link
                   key={l.label}
                   href={l.href}
-                  className={`flex items-center gap-1 text-sm font-medium transition-colors hover:text-primary-600 text-gray-800`}
+                  className={`flex items-center gap-1 text-base font-medium transition-colors hover:text-primary-600 text-gray-800`}
                 >
                   {l.label}
                 </Link>
@@ -117,7 +117,7 @@ export default async function Header() {
           </nav>
 
           <div className="ml-auto flex items-center gap-2">
-            <Link href="/contact" className="hidden items-center gap-2 xl:flex">
+            <Link href="/contact" className="hidden items-center gap-2 border-r border-gray-200 pr-3 mr-2 lg:flex">
               <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-100 text-primary-600">
                 <FaHeadset />
               </span>
@@ -133,7 +133,7 @@ export default async function Header() {
                 title={user.name ?? "Account"}
                 className="group relative hidden rounded-full p-2.5 transition-colors hover:bg-gray-100 lg:block"
               >
-                <FaRegUser className="text-xl text-gray-700 transition-colors group-hover:text-primary-600" />
+                <FaRegCircleUser className="text-xl text-gray-500 transition-colors group-hover:text-primary-600" />
               </Link>
             ) : (
               <Link

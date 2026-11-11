@@ -52,7 +52,7 @@ export default function Hero() {
               style={{ backgroundImage: "url(/home-slider.png)" }}
             >
               <div className="h-full w-full bg-gradient-to-r from-green-500/90 to-green-400/50 p-4 py-20 text-white">
-                <div className="container mx-auto h-full content-center px-8">
+                <div className="container mx-auto h-full content-center px-4 md:px-8">
                 {i === active && (
                   <>
                     <motion.h2

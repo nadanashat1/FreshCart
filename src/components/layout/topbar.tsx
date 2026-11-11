@@ -30,7 +30,7 @@ export default async function TopBar() {
             {user ? (
               <>
                 <span className="flex items-center gap-2 text-gray-700">
-                  <FaUser className="text-primary-600" /> {user.name}
+                  <FaUser className="text-gray-700" /> {user.name}
                 </span>
                 <SignOutButton />
               </>
