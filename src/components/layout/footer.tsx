@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Fa7Phone, Fa7EnvelopeSolid, Fa7LocationDot, Fa7Facebook, Fa7Twitter, Fa7Instagram, Fa7Youtube } from "@/components/icons/fa7";
-import { Fa7Truck, Fa7Rotate, Fa7Shield, Fa7Headset } from "@/components/icons/fa7";
+import { Fa7Truck, Fa7Rotate, Fa7Shield, Fa7Headset, Fa7CreditCard } from "@/components/icons/fa7";
 
 const socialIcons = [
   { name: "Facebook", Icon: Fa7Facebook },
@@ -142,11 +142,12 @@ export default function Footer() {
         <div className="border-t border-gray-800">
           <div className="container mx-auto flex flex-col items-center justify-between gap-3 px-4 py-5 text-xs text-gray-500 sm:flex-row">
             <p>© {new Date().getFullYear()} FreshCart. All rights reserved.</p>
-            <div className="flex gap-2">
+            <div className="flex items-center gap-4">
               {["Visa", "Mastercard", "PayPal"].map((p) => (
-                <span key={p} className="rounded bg-gray-800 px-2.5 py-1 font-medium text-gray-300">
-                  {p}
-                </span>
+                <div key={p} className="flex items-center gap-2 text-sm text-gray-500">
+                  <Fa7CreditCard />
+                  <span>{p}</span>
+                </div>
               ))}
             </div>
           </div>
