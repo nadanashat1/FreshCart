@@ -11,11 +11,12 @@ export type PlaceOrderResult =
   | { ok: true; redirect: string }
   | { ok: false; error: string; gated?: boolean };
 
-// LIVE ORDER GATE: ordering is OFF unless ALLOW_LIVE_ORDER_SUBMISSION=true is
-// set in the server environment. When the gate is off this action returns
-// before any network call: it never sends a request to the orders endpoints.
-// Enabling the gate places REAL orders in the shared Route course database
-// and, for card payments, creates a REAL Stripe checkout session.
+// ORDER SUBMISSION GATE: ordering requires ALLOW_LIVE_ORDER_SUBMISSION=true in
+// the server environment; when the gate is off this action returns before any
+// network call. Verified 2026-11-11 against the live API: card payment creates
+// a Stripe TEST-mode checkout session (cs_test_ id) - only Stripe test cards
+// work and no real charge is possible. Cash orders create demo records in the
+// shared Route course database, the intended course behavior.
 export async function placeOrder(input: {
   shippingAddress: ShippingAddress;
   method: "cash" | "card";

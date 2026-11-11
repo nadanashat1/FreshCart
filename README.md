@@ -38,10 +38,12 @@ isolated mock - simulated, not live-verified.
   real API endpoints; full happy-path UI fixture-verified only - real code
   receipt is untested (test mailbox is non-deliverable).
 - Header: session-aware, real cart/wishlist count badges.
-- Checkout: full instructor flow implemented - address selection, Cash on
-  Delivery (POST /orders/{cartId}) and Credit/Debit Card (POST
-  /orders/checkout-session/{cartId}, Stripe hosted redirect). Submission is
-  gated server-side and OFF by default (see below).
+- Checkout: full instructor flow - address selection, Cash on Delivery
+  (POST /orders/{cartId}) and Credit/Debit Card (POST
+  /orders/checkout-session/{cartId}, Stripe hosted redirect). The Stripe
+  success URL lands on /allorders, which redirects to /orders. Submission is
+  gated server-side by ALLOW_LIVE_ORDER_SUBMISSION (see below); enabled in
+  the production deployment.
 - Contact: demo-verbatim page; the form is intentionally unwired (no backend).
 
 ## Known divergences from the demo (each deliberate)
@@ -59,17 +61,19 @@ isolated mock - simulated, not live-verified.
   discounted products we tested.
 - /register exists here while the demo's own register route 404s.
 
-## Live order gate
-Order submission is implemented but disabled by default. The server action
-returns before any network call unless the server environment sets:
+## Order submission gate
+Order submission requires the server environment to set:
 ```
 ALLOW_LIVE_ORDER_SUBMISSION=true
 ```
 With the gate off, the UI shows Place Order and the card option disabled, and
 no order-creation or payment-session request (POST) is ever sent - reading
-order history (GET) still works. WARNING: enabling the gate
-places REAL orders in the shared Route course database and, for card payment,
-creates a REAL Stripe checkout session. The Route API has no sandbox/test mode.
+order history (GET) still works. The production deployment has the gate ON.
+Safety, verified against the live API on 2026-11-11: card payment creates a
+Stripe TEST-mode checkout session (session id starts cs_test_), so only
+Stripe test cards (e.g. 4242 4242 4242 4242) work and no real charge is
+possible; cash orders create demo records in the shared Route course
+database, which is the intended behavior for this course project.
 
 ## Intentionally not implemented / disabled (honest, not fake)
 - Contact form submit (no backend endpoint exists).
