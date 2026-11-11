@@ -85,12 +85,12 @@ export default function Footer() {
             <Link href="/" className="inline-block rounded-lg bg-white px-4 py-2">
               <Image src="/freshcart-logo.svg" alt="FreshCart" width={160} height={31} className="h-8 w-auto" />
             </Link>
-            <p className="mt-4 max-w-sm text-sm leading-relaxed text-gray-400">
+            <p className="mb-6 text-sm leading-relaxed text-gray-400">
               FreshCart is your one-stop destination for quality products. From
               fashion to electronics, we bring you the best brands at
               competitive prices with a seamless shopping experience.
             </p>
-            <div className="mt-5 space-y-2 text-sm">
+            <div className="mb-6 space-y-3 text-sm">
               <p className="flex items-center gap-2">
                 <Fa7Phone className="text-sm text-brand" /> +1 (800) 123-4567
               </p>
@@ -140,7 +140,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-gray-800">
-          <div className="container mx-auto flex flex-col items-center justify-between gap-3 px-4 py-5 text-xs text-gray-500 sm:flex-row">
+          <div className="container mx-auto flex flex-col items-center justify-between gap-4 px-4 py-6 text-sm text-gray-500 sm:flex-row">
             <p>© {new Date().getFullYear()} FreshCart. All rights reserved.</p>
             <div className="flex items-center gap-4">
               {["Visa", "Mastercard", "PayPal"].map((p) => (
