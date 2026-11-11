@@ -113,10 +113,10 @@ export default function SearchView({
   };
 
   const sidebar = (
-    <aside className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
+    <aside className="rounded-2xl border border-gray-100 bg-white p-6">
       <div className="mb-6">
         <h3 className="mb-4 font-bold text-gray-900">Categories</h3>
-        <div className="max-h-56 space-y-3 overflow-y-auto pr-2">
+        <div className="max-h-52 space-y-2 overflow-y-auto pr-2">
           {categories.map((c) => (
             <label key={c._id} className="flex cursor-pointer items-center gap-3 text-sm text-gray-600 transition-colors hover:text-gray-900">
               <input
@@ -169,7 +169,7 @@ export default function SearchView({
       </div>
       <div className="mb-6 border-t border-gray-100 pt-6">
         <h3 className="mb-4 font-bold text-gray-900">Brands</h3>
-        <div className="max-h-56 space-y-3 overflow-y-auto pr-2">
+        <div className="max-h-52 space-y-2 overflow-y-auto pr-2">
           {brands.map((b) => (
             <label key={b._id} className="flex cursor-pointer items-center gap-3 text-sm text-gray-600 transition-colors hover:text-gray-900">
               <input
@@ -186,7 +186,7 @@ export default function SearchView({
       <button
         type="button"
         onClick={clearAll}
-        className="w-full rounded-lg border border-gray-200 py-2.5 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-50"
+        className="w-full rounded-lg border border-gray-200 py-2.5 text-sm font-medium text-gray-600 transition-colors hover:border-gray-300 hover:bg-gray-50"
       >
         Clear All Filters
       </button>
@@ -194,36 +194,40 @@ export default function SearchView({
   );
 
   return (
-    <section className="py-10">
-      <div className="container mx-auto px-4">
-        <nav className="mb-6 flex items-center gap-2 text-sm text-gray-500">
+    <div className="min-h-screen bg-gray-50/50">
+      <div className="border-b border-gray-100 bg-white">
+        <div className="container mx-auto px-4 py-6">
+        <nav className="mb-4 flex items-center gap-2 text-sm text-gray-500">
           <Link href="/" className="transition hover:text-primary-600">Home</Link>
           <span>/</span>
           <span className="font-medium text-gray-900">Search Results</span>
         </nav>
 
-        <form onSubmit={submit} className="mb-6 max-w-xl">
+        <form onSubmit={submit} className="max-w-2xl">
           <div className="relative">
-            <FaMagnifyingGlass className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+            <FaMagnifyingGlass className="absolute left-4 top-1/2 -translate-y-1/2 text-lg text-gray-400" />
             <input
               type="search"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Search for products..."
-              className="w-full rounded-xl border border-gray-200 bg-white py-3.5 pl-11 pr-4 text-sm outline-none transition-all focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20"
+              className="w-full rounded-xl border border-gray-200 py-3 pl-12 pr-4 text-lg outline-none transition-all focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20"
             />
           </div>
         </form>
 
-        <div className="mb-8">
-          <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
+        <div className="mt-4">
+          <h1 className="text-2xl font-bold text-gray-900">
             Search Results{query.trim() ? ` for "${query.trim()}"` : ""}
           </h1>
-          <p className="mt-1 text-gray-500">We found {results.length} products for you</p>
+          <p className="mt-1 text-sm text-gray-500">We found {results.length} products for you</p>
         </div>
+        </div>
+      </div>
 
+      <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col gap-8 lg:flex-row">
-          <div className="hidden w-64 shrink-0 lg:block">{sidebar}</div>
+          <aside className="hidden w-64 shrink-0 lg:block"><div className="sticky top-24">{sidebar}</div></aside>
 
           <div className="min-w-0 flex-1">
             <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
@@ -268,7 +272,15 @@ export default function SearchView({
               </div>
             </div>
 
-            {filtersOpen && <div className="mb-6 lg:hidden">{sidebar}</div>}
+            <div
+              className={`fixed inset-0 z-40 bg-black/40 transition-opacity lg:hidden ${filtersOpen ? "opacity-100" : "pointer-events-none opacity-0"}`}
+              onClick={() => setFiltersOpen(false)}
+            />
+            <div
+              className={`fixed right-0 top-0 z-50 h-full w-80 max-w-[85vw] overflow-y-auto bg-white p-4 shadow-2xl transition-transform duration-300 lg:hidden ${filtersOpen ? "translate-x-0" : "translate-x-full"}`}
+            >
+              {sidebar}
+            </div>
 
             {hasFilters && (
               <div className="mb-6 flex flex-wrap items-center gap-2">
@@ -344,6 +356,6 @@ export default function SearchView({
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }
