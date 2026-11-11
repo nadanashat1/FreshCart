@@ -330,6 +330,11 @@ export default function CheckoutForm({
                   Pay Online
                 </h3>
                 <p className="mt-0.5 text-sm text-gray-500">Secure payment with Credit/Debit Card via Stripe</p>
+                <div className="mt-2 flex items-center gap-2">
+                  <img alt="Visa" className="h-5" src="https://img.icons8.com/color/48/visa.png" />
+                  <img alt="Mastercard" className="h-5" src="https://img.icons8.com/color/48/mastercard.png" />
+                  <img alt="Amex" className="h-5" src="https://img.icons8.com/color/48/amex.png" />
+                </div>
                 {!liveEnabled && <p className="mt-1 text-xs text-gray-400">Not available in this build</p>}
               </div>
               <div
