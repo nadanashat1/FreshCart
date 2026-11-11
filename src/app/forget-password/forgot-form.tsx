@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FaEnvelope, FaLock, FaShieldHalved, FaEye, FaEyeSlash, FaCircleCheck } from "react-icons/fa6";
+import { FaEnvelope, FaLock, FaShieldHalved, FaEye, FaEyeSlash, FaCircleCheck, FaKey, FaArrowLeft } from "react-icons/fa6";
 import { requestResetCode, verifyResetCode, resetPassword } from "./actions";
 
 type Step = "email" | "code" | "password" | "done";
@@ -82,6 +82,33 @@ export default function ForgetPasswordPage() {
               {step === "done" && "Your password has been reset successfully"}
             </p>
           </div>
+
+          {step !== "done" && (
+            <div className="mb-8 flex items-center justify-center gap-0">
+              {(["email", "code", "password"] as const).map((s, i) => {
+                const activeIdx = step === "email" ? 0 : step === "code" ? 1 : 2;
+                const Icon = i === 0 ? FaEnvelope : i === 1 ? FaKey : FaLock;
+                const active = i === activeIdx;
+                const doneStep = i < activeIdx;
+                return (
+                  <div key={s} className="flex items-center">
+                    <div
+                      className={`flex h-11 w-11 items-center justify-center rounded-full transition ${
+                        active
+                          ? "bg-primary-600 text-white ring-4 ring-primary-100"
+                          : doneStep
+                            ? "bg-primary-100 text-primary-600"
+                            : "bg-gray-100 text-gray-400"
+                      }`}
+                    >
+                      <Icon />
+                    </div>
+                    {i < 2 && <div className="h-px w-10 bg-gray-200 sm:w-16"></div>}
+                  </div>
+                );
+              })}
+            </div>
+          )}
 
           {error && (
             <p className="mb-4 rounded-lg bg-red-50 px-4 py-2 text-sm text-red-600">{error}</p>
@@ -209,12 +236,24 @@ export default function ForgetPasswordPage() {
           )}
 
           {step !== "done" && (
-            <p className="mt-6 text-center text-sm text-gray-500">
-              Remember your password?{" "}
-              <Link href="/login" className="font-medium text-primary-600 hover:text-primary-700">
-                Sign In
-              </Link>
-            </p>
+            <>
+              <div className="mt-6 text-center">
+                <Link
+                  href="/login"
+                  className="inline-flex items-center gap-2 text-sm font-medium text-primary-600 hover:text-primary-700"
+                >
+                  <FaArrowLeft className="text-xs" /> Back to Sign In
+                </Link>
+              </div>
+              <div className="mt-6 border-t border-gray-100 pt-6">
+                <p className="text-center text-sm text-gray-500">
+                  Remember your password?{" "}
+                  <Link href="/login" className="font-medium text-primary-600 hover:text-primary-700">
+                    Sign In
+                  </Link>
+                </p>
+              </div>
+            </>
           )}
         </div>
       </div>
