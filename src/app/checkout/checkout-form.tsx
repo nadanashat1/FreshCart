@@ -56,13 +56,17 @@ export default function CheckoutForm({
             <FaLocationDot className="text-primary-600" /> Shipping Address
           </h2>
           {addresses.length === 0 ? (
-            <p className="text-sm text-gray-500">
-              No saved addresses.{" "}
-              <Link href="/profile/addresses" className="font-medium text-primary-600 hover:text-primary-700">
-                Add one in My Addresses
-              </Link>{" "}
-              first.
-            </p>
+            <div className="rounded-lg border border-amber-200 bg-amber-50 p-4">
+              <p className="mb-2 text-sm font-medium text-amber-800">
+                You need a delivery address before you can place an order.
+              </p>
+              <Link
+                href="/profile/addresses"
+                className="inline-block rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-primary-700"
+              >
+                Add an Address
+              </Link>
+            </div>
           ) : (
             <div className="space-y-3">
               {addresses.map((a) => (
@@ -170,6 +174,11 @@ export default function CheckoutForm({
             <FaLock /> {busy ? "Placing Order..." : "Place Order"}
           </button>
           {error && <p className="mt-3 text-center text-xs text-red-600">{error}</p>}
+          {liveEnabled && !addressId && !busy && (
+            <p className="mt-3 text-center text-xs text-amber-600">
+              Select or add a shipping address above to place your order.
+            </p>
+          )}
           {!liveEnabled && (
             <p className="mt-3 text-center text-xs text-amber-600">
               Ordering is disabled in this build: this review page never submits a live order or payment.
