@@ -15,7 +15,7 @@ export default function Gallery({ images, title }: { images: string[]; title: st
               key={src + i}
               onClick={() => setActive(i)}
               aria-label={`Image ${i + 1}`}
-              className={`w-[75px] shrink-0 border-[3px] bg-white transition ${
+              className={`w-[81px] shrink-0 border-[3px] bg-white transition ${
                 i === active
                   ? "border-[#337ab7]"
                   : "border-transparent hover:border-[#337ab7]"
