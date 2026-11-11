@@ -45,7 +45,7 @@ export default function ContactPage() {
           </nav>
           <div className="flex items-center gap-5">
             <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white/20 shadow-xl ring-1 ring-white/30 backdrop-blur-sm">
-              <FaHeadset className="text-2xl text-white" />
+              <FaHeadset className="text-3xl text-white" />
             </div>
             <div>
               <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">Contact Us</h1>
