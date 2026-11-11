@@ -24,20 +24,24 @@ export default async function WishlistPage() {
   return (
     <section className="py-10">
       <div className="container mx-auto px-4">
-        <nav className="mb-6 flex items-center gap-2 text-sm text-gray-500">
-          <Link href="/" className="transition hover:text-primary-600">Home</Link>
-          <span>/</span>
-          <span className="font-medium text-gray-900">Wishlist</span>
-        </nav>
-        <div className="mb-8 flex items-center gap-4">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-red-50">
-            <FaHeart className="text-xl text-red-500" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">My Wishlist</h1>
-            <p className="text-sm text-gray-500">{items.length} item{items.length === 1 ? "" : "s"} saved</p>
-          </div>
-        </div>
+        {items.length > 0 && (
+          <>
+            <nav className="mb-6 flex items-center gap-2 text-sm text-gray-500">
+              <Link href="/" className="transition hover:text-primary-600">Home</Link>
+              <span>/</span>
+              <span className="font-medium text-gray-900">Wishlist</span>
+            </nav>
+            <div className="mb-8 flex items-center gap-4">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-red-50">
+                <FaHeart className="text-xl text-red-500" />
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900">My Wishlist</h1>
+                <p className="text-sm text-gray-500">{items.length} item{items.length === 1 ? "" : "s"} saved</p>
+              </div>
+            </div>
+          </>
+        )}
 
         {items.length === 0 ? (
           <div className="flex min-h-[60vh] items-center justify-center px-4">
