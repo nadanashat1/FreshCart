@@ -45,12 +45,8 @@ export default function CheckoutForm({
   liveEnabled: boolean;
 }) {
   const [addressId, setAddressId] = useState<string | null>(addresses[0]?._id ?? null);
-  const [useNewAddress, setUseNewAddress] = useState(addresses.length === 0);
-  const [newAddr, setNewAddr] = useState(
-    addresses[0]
-      ? { city: addresses[0].city, details: addresses[0].details, phone: addresses[0].phone }
-      : { city: "", details: "", phone: "" }
-  );
+  const [useNewAddress, setUseNewAddress] = useState(true);
+  const [newAddr, setNewAddr] = useState({ city: "", details: "", phone: "" });
   const [fieldErrors, setFieldErrors] = useState<{ city?: string; details?: string; phone?: string }>({});
   const [method, setMethod] = useState<"cash" | "card">("cash");
   const [busy, setBusy] = useState(false);
