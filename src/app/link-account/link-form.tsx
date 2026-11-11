@@ -86,9 +86,10 @@ export default function LinkForm({ email, name }: { email: string; name: string 
                 <p className="text-gray-600">
                   {name ? `Welcome, ${name}! ` : ""}The email{" "}
                   <span className="font-medium text-gray-800">{email}</span>{" "}
-                  already has a FreshCart account protected by a password. Enter
-                  that account&apos;s password once to link it to your social
-                  sign-in. We never store this password.
+                  already has a FreshCart account protected by a password.
+                  Confirm your account password to continue this sign-in. You
+                  may be asked again the next time you sign in with Google. We
+                  never store this password.
                 </p>
               </div>
 
