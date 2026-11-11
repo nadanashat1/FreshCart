@@ -18,6 +18,7 @@ export function CardAddToCart({ productId }: { productId: string }) {
       return;
     }
     setState(res.ok ? "added" : "error");
+    if (res.ok) router.refresh();
   }
 
   return (
@@ -48,6 +49,7 @@ export function CardAddToWishlist({ productId }: { productId: string }) {
       return;
     }
     setState(res.ok ? "added" : "error");
+    if (res.ok) router.refresh();
   }
 
   return (

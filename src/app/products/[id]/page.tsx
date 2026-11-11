@@ -1,11 +1,20 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { FaStar, FaStarHalfStroke, FaRegStar, FaTruck, FaRotateLeft, FaShieldHalved } from "react-icons/fa6";
+import {
+  FaStar,
+  FaStarHalfStroke,
+  FaRegStar,
+  FaTruckFast,
+  FaArrowRotateLeft,
+  FaShieldHalved,
+} from "react-icons/fa6";
 import { API_BASE } from "@/lib/api";
 import type { Product } from "@/lib/api";
+import { getApiToken } from "@/lib/get-token";
 import Gallery from "./gallery";
 import PurchasePanel from "./purchase-panel";
 import ProductTabs from "./tabs";
+import SimilarProducts from "./similar-products";
 
 function Stars({ rating }: { rating: number }) {
   return (
@@ -30,33 +39,51 @@ export default async function ProductDetailsPage({
   const revRes = await fetch(`${API_BASE}/products/${id}/reviews`, { next: { revalidate: 300 } });
   const reviews = revRes.ok ? (await revRes.json()).data ?? [] : [];
 
+  const simRes = await fetch(
+    `${API_BASE}/products?category%5Bin%5D=${product.category._id}&limit=13`,
+    { next: { revalidate: 300 } }
+  );
+  const similar: Product[] = simRes.ok
+    ? ((await simRes.json()).data ?? []).filter((p: Product) => p._id !== product._id).slice(0, 12)
+    : [];
+
+  const token = await getApiToken();
+  let initialInWishlist = false;
+  if (token) {
+    try {
+      const wishRes = await fetch(`${API_BASE}/wishlist`, {
+        headers: { token },
+        cache: "no-store",
+      });
+      if (wishRes.ok) {
+        const wishData = (await wishRes.json()).data ?? [];
+        initialInWishlist = wishData.some((w: { _id: string }) => w._id === product._id);
+      }
+    } catch {
+      initialInWishlist = false;
+    }
+  }
+
   const hasDiscount =
     !!product.priceAfterDiscount && product.priceAfterDiscount < product.price;
   const price = hasDiscount ? product.priceAfterDiscount! : product.price;
   const savePct = hasDiscount
     ? Math.round(((product.price - product.priceAfterDiscount!) / product.price) * 100)
     : null;
+  const lowStock = product.quantity > 0 && product.quantity <= 10;
 
   return (
-    <section className="py-8">
+    <section id="product-detail" className="py-6">
       <div className="container mx-auto px-4">
-        <nav className="mb-6 flex flex-wrap items-center gap-2 text-sm text-gray-500">
-          <Link href="/" className="hover:text-primary-600">Home</Link>
-          <span>/</span>
-          <Link href={`/categories/${product.category._id}`} className="hover:text-primary-600">
-            {product.category.name}
-          </Link>
-          <span>/</span>
-          <span className="font-medium text-gray-800">{product.title}</span>
-        </nav>
-
         <div className="flex flex-col gap-8 lg:flex-row">
-          <Gallery
-            images={product.images?.length ? product.images : [product.imageCover]}
-            title={product.title}
-          />
+          <div id="product-images" className="lg:w-1/4">
+            <Gallery
+              images={product.images?.length ? product.images : [product.imageCover]}
+              title={product.title}
+            />
+          </div>
 
-          <div id="product-info" className="lg:w-3/5">
+          <div id="product-info" className="lg:w-3/4">
             <div className="rounded-xl bg-white p-6 shadow-sm">
               <div className="mb-4 flex flex-wrap gap-2">
                 <Link
@@ -76,54 +103,82 @@ export default async function ProductDetailsPage({
 
               <div className="mb-4 flex items-center gap-3">
                 <Stars rating={product.ratingsAverage} />
-                <span className="text-sm text-gray-500">
+                <span className="text-sm text-gray-600">
                   {product.ratingsAverage} ({product.ratingsQuantity} reviews)
                 </span>
               </div>
 
-              <div className="mb-4 flex flex-wrap items-center gap-3">
+              <div className="mb-6 flex flex-wrap items-center gap-3">
                 <span className="text-3xl font-bold text-gray-900">{price} EGP</span>
                 {hasDiscount && (
                   <>
                     <span className="text-lg text-gray-400 line-through">{product.price} EGP</span>
-                    <span className="rounded-full bg-red-100 px-2.5 py-1 text-xs font-semibold text-red-600">
+                    <span className="rounded-full bg-red-500 px-3 py-1 text-sm font-medium text-white">
                       Save {savePct}%
                     </span>
                   </>
                 )}
-                <span className="rounded-full bg-primary-50 px-2.5 py-1 text-xs font-semibold text-primary-700">
-                  In Stock
-                </span>
               </div>
 
-              <p className="mb-6 leading-relaxed text-gray-600">{product.description}</p>
+              <div className="mb-6 flex items-center gap-2">
+                {product.quantity > 0 ? (
+                  <span
+                    className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm ${
+                      lowStock ? "bg-amber-50 text-amber-700" : "bg-green-50 text-green-700"
+                    }`}
+                  >
+                    <span
+                      className={`h-2 w-2 rounded-full ${lowStock ? "bg-amber-500" : "bg-green-500"}`}
+                    />
+                    {lowStock ? `Only ${product.quantity} left - Order soon!` : "In Stock"}
+                  </span>
+                ) : (
+                  <span className="flex items-center gap-1.5 rounded-full bg-red-50 px-3 py-1.5 text-sm text-red-700">
+                    <span className="h-2 w-2 rounded-full bg-red-500" />
+                    Out of Stock
+                  </span>
+                )}
+              </div>
+
+              <div className="mb-6 border-t border-gray-100 pt-5">
+                <p className="leading-relaxed text-gray-600">{product.description}</p>
+              </div>
 
               <PurchasePanel
                 productId={product._id}
                 price={price}
                 cartUnitPrice={product.price}
                 available={product.quantity}
+                initialInWishlist={initialInWishlist}
               />
-            </div>
 
-            <div className="mt-4 grid grid-cols-3 gap-3">
-              {[
-                { icon: FaTruck, title: "Free Delivery", sub: "Orders over $50" },
-                { icon: FaRotateLeft, title: "30 Days Return", sub: "Money back" },
-                { icon: FaShieldHalved, title: "Secure Payment", sub: "100% Protected" },
-              ].map(({ icon: Icon, title, sub }) => (
-                <div key={title} className="rounded-xl bg-white p-4 text-center shadow-sm">
-                  <Icon className="mx-auto mb-2 text-xl text-primary-600" />
-                  <p className="text-sm font-semibold text-gray-800">{title}</p>
-                  <p className="text-xs text-gray-500">{sub}</p>
+              <div className="border-t border-gray-100 pt-6">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                  {[
+                    { icon: FaTruckFast, title: "Free Delivery", sub: "Orders over $50" },
+                    { icon: FaArrowRotateLeft, title: "30 Days Return", sub: "Money back" },
+                    { icon: FaShieldHalved, title: "Secure Payment", sub: "100% Protected" },
+                  ].map(({ icon: Icon, title, sub }) => (
+                    <div key={title} className="flex items-center gap-3">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary-100 text-primary-600">
+                        <Icon />
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-medium text-gray-900">{title}</h4>
+                        <p className="text-xs text-gray-500">{sub}</p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
+              </div>
             </div>
           </div>
         </div>
 
-        <ProductTabs description={product.description} reviews={reviews} />
+        <ProductTabs product={product} reviews={reviews} />
       </div>
+
+      <SimilarProducts products={similar} />
     </section>
   );
 }

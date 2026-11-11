@@ -18,10 +18,12 @@ export interface Product {
   priceAfterDiscount?: number;
   imageCover: string;
   images: string[];
+  subcategory?: { _id: string; name: string; slug: string; category: string }[];
   category: { _id: string; name: string; slug: string; image: string };
   brand: { _id: string; name: string; slug: string; image: string };
   ratingsAverage: number;
   ratingsQuantity: number;
+  sold: number;
 }
 
 interface ApiListResponse<T> {

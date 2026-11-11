@@ -5,11 +5,9 @@ import { useState } from "react";
 export default function Gallery({ images, title }: { images: string[]; title: string }) {
   const [active, setActive] = useState(0);
   return (
-    <div className="lg:w-2/5">
-      <div className="overflow-hidden rounded-xl bg-white shadow-sm">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={images[active]} alt={title} className="h-96 w-full object-contain" />
-      </div>
+    <div className="sticky top-4 rounded-xl bg-white p-4 shadow-sm">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={images[active]} alt={title} className="h-96 w-full object-contain" />
       {images.length > 1 && (
         <div className="mt-3 flex gap-3 overflow-x-auto">
           {images.map((src, i) => (
