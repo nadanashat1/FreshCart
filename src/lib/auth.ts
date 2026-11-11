@@ -102,7 +102,19 @@ export const authOptions: NextAuthOptions = {
         email,
         profile.name ?? "FreshCart user"
       );
-      if ("error" in result) return `/login?error=${result.error}`;
+      if ("error" in result) {
+        // The email already has a Route account with its own password (e.g.
+        // registered via the form, or reset after social provisioning). Allow
+        // a limited session with NO Route token: the user proves ownership of
+        // that account once per session via /link-account (see api/auth/
+        // link-account). The identity stays fixed to the provider-verified
+        // email; nothing about the Route account is changed.
+        if (result.error === "AccountExists") {
+          (account as unknown as Record<string, unknown>).pendingLink = true;
+          return true;
+        }
+        return `/login?error=${result.error}`;
+      }
       (account as unknown as Record<string, unknown>).routeApiToken =
         result.apiToken;
       return true;
@@ -112,11 +124,18 @@ export const authOptions: NextAuthOptions = {
       const routeToken = (account as unknown as Record<string, unknown> | null)
         ?.routeApiToken;
       if (typeof routeToken === "string") token.apiToken = routeToken;
+      const pending = (account as unknown as Record<string, unknown> | null)
+        ?.pendingLink;
+      if (pending === true) {
+        token.pendingLink = true;
+        delete token.apiToken;
+      }
       return token;
     },
     async session({ session }) {
-      // apiToken stays server-side only (decoded from the httpOnly JWT cookie
-      // in server code); it is never exposed to the client session.
+      // apiToken and the pendingLink flag stay server-side only (decoded from
+      // the httpOnly JWT cookie in server code); neither is exposed to the
+      // client session.
       return session;
     },
   },

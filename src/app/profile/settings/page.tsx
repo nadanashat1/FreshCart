@@ -1,12 +1,15 @@
 import { redirect } from "next/navigation";
-import { getApiToken, getSessionUser } from "@/lib/get-token";
+import { getApiToken, getLinkState, getSessionUser } from "@/lib/get-token";
 import SettingsForms from "./settings-forms";
 
 const API_BASE = process.env.ROUTE_API_BASE ?? "https://ecommerce.routemisr.com/api/v1";
 
 export default async function SettingsPage() {
   const token = await getApiToken();
-  if (!token) redirect("/login");
+  if (!token) {
+    const link = await getLinkState();
+    redirect(link?.pendingLink ? "/link-account" : "/login");
+  }
   const user = await getSessionUser();
 
   let userId = "";

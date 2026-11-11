@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { FaReceipt, FaArrowLeft } from "react-icons/fa6";
 import { redirect } from "next/navigation";
-import { getApiToken } from "@/lib/get-token";
+import { getApiToken, getLinkState } from "@/lib/get-token";
 import CheckoutForm from "./checkout-form";
 
 const API_BASE = process.env.ROUTE_API_BASE ?? "https://ecommerce.routemisr.com/api/v1";
@@ -16,7 +16,10 @@ type Address = { _id: string; name: string; details: string; phone: string; city
 
 export default async function CheckoutPage() {
   const token = await getApiToken();
-  if (!token) redirect("/login");
+  if (!token) {
+    const link = await getLinkState();
+    redirect(link?.pendingLink ? "/link-account" : "/login");
+  }
 
   const [cartRes, addrRes] = await Promise.all([
     fetch(`${API_BASE}/cart`, { headers: { token }, cache: "no-store" }),

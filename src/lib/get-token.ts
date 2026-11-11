@@ -32,6 +32,32 @@ export async function getApiUserId(): Promise<string | null> {
   }
 }
 
+// Server-only: link state for social sign-ins whose email already owns a
+// Route account with its own password. pendingLink sessions carry no Route
+// token, so every API-backed page/action treats them as unauthenticated until
+// the user completes /link-account with the account's current password.
+export async function getLinkState(): Promise<{
+  pendingLink: boolean;
+  email: string;
+  name?: string | null;
+} | null> {
+  const store = await cookies();
+  const raw =
+    store.get("__Secure-next-auth.session-token")?.value ??
+    store.get("next-auth.session-token")?.value;
+  if (!raw) return null;
+  const decoded = await decode({
+    token: raw,
+    secret: process.env.NEXTAUTH_SECRET!,
+  });
+  if (!decoded?.email) return null;
+  return {
+    pendingLink: (decoded as { pendingLink?: boolean }).pendingLink === true,
+    email: decoded.email,
+    name: decoded.name,
+  };
+}
+
 export async function getSessionUser() {
   const store = await cookies();
   const raw =

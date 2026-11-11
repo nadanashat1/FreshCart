@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { FaBoxOpen, FaTruck, FaCircleCheck } from "react-icons/fa6";
-import { getApiToken } from "@/lib/get-token";
+import { getApiToken, getLinkState } from "@/lib/get-token";
 
 const API_BASE = process.env.ROUTE_API_BASE ?? "https://ecommerce.routemisr.com/api/v1";
 
@@ -27,7 +27,10 @@ function userIdFromToken(token: string): string | null {
 
 export default async function OrdersPage() {
   const token = await getApiToken();
-  if (!token) redirect("/login");
+  if (!token) {
+    const link = await getLinkState();
+    redirect(link?.pendingLink ? "/link-account" : "/login");
+  }
   const userId = userIdFromToken(token);
 
   let orders: Order[] = [];
