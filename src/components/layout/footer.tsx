@@ -1,13 +1,13 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Phone, Mail, MapPin } from "lucide-react";
-import { FaTruckFast, FaArrowRotateLeft, FaShieldHalved, FaHeadset } from "react-icons/fa6";
+import { Fa7Phone, Fa7EnvelopeSolid, Fa7LocationDot, Fa7Facebook, Fa7Twitter, Fa7Instagram, Fa7Youtube } from "@/components/icons/fa7";
+import { Fa7Truck, Fa7Rotate, Fa7Shield, Fa7Headset } from "@/components/icons/fa7";
 
 const socialIcons = [
-  { name: "Facebook", path: "M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" },
-  { name: "Twitter", path: "M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" },
-  { name: "Instagram", path: "M16 3H8a5 5 0 0 0-5 5v8a5 5 0 0 0 5 5h8a5 5 0 0 0 5-5V8a5 5 0 0 0-5-5zm-4 12.5A3.5 3.5 0 1 1 15.5 12 3.5 3.5 0 0 1 12 15.5zm5.3-7.8a.9.9 0 1 1 .9-.9.9.9 0 0 1-.9.9z" },
-  { name: "Youtube", path: "M21.6 7.2a2.8 2.8 0 0 0-2-2C17.9 4.8 12 4.8 12 4.8s-5.9 0-7.6.4a2.8 2.8 0 0 0-2 2A29 29 0 0 0 2 12a29 29 0 0 0 .4 4.8 2.8 2.8 0 0 0 2 2c1.7.4 7.6.4 7.6.4s5.9 0 7.6-.4a2.8 2.8 0 0 0 2-2A29 29 0 0 0 22 12a29 29 0 0 0-.4-4.8zM10 15V9l5.2 3z" },
+  { name: "Facebook", Icon: Fa7Facebook },
+  { name: "Twitter", Icon: Fa7Twitter },
+  { name: "Instagram", Icon: Fa7Instagram },
+  { name: "Youtube", Icon: Fa7Youtube },
 ];
 
 const columns: { title: string; links: { label: string; href: string | null }[] }[] = [
@@ -54,10 +54,10 @@ const columns: { title: string; links: { label: string; href: string | null }[] 
 ];
 
 const perks = [
-  { icon: FaTruckFast, title: "Free Shipping", text: "On orders over 500 EGP" },
-  { icon: FaArrowRotateLeft, title: "Easy Returns", text: "14-day return policy" },
-  { icon: FaShieldHalved, title: "Secure Payment", text: "100% secure checkout" },
-  { icon: FaHeadset, title: "24/7 Support", text: "Contact us anytime" },
+  { icon: Fa7Truck, title: "Free Shipping", text: "On orders over 500 EGP" },
+  { icon: Fa7Rotate, title: "Easy Returns", text: "14-day return policy" },
+  { icon: Fa7Shield, title: "Secure Payment", text: "100% secure checkout" },
+  { icon: Fa7Headset, title: "24/7 Support", text: "Contact us anytime" },
 ];
 
 export default function Footer() {
@@ -92,13 +92,13 @@ export default function Footer() {
             </p>
             <div className="mt-5 space-y-2 text-sm">
               <p className="flex items-center gap-2">
-                <Phone className="size-4 text-brand" /> +1 (800) 123-4567
+                <Fa7Phone className="text-sm text-brand" /> +1 (800) 123-4567
               </p>
               <p className="flex items-center gap-2">
-                <Mail className="size-4 text-brand" /> support@freshcart.com
+                <Fa7EnvelopeSolid className="text-sm text-brand" /> support@freshcart.com
               </p>
               <p className="flex items-center gap-2">
-                <MapPin className="size-4 text-brand" /> 123 Commerce Street, New York, NY 10001
+                <Fa7LocationDot className="text-sm text-brand" /> 123 Commerce Street, New York, NY 10001
               </p>
             </div>
             <div className="mt-5 flex gap-3">
@@ -109,9 +109,7 @@ export default function Footer() {
                   aria-label={s.name}
                   className="rounded-full bg-gray-800 p-2 text-gray-300 hover:bg-brand hover:text-white"
                 >
-                  <svg viewBox="0 0 24 24" fill="currentColor" className="size-4">
-                    <path d={s.path} />
-                  </svg>
+                  <s.Icon className="text-base" />
                 </a>
               ))}
             </div>

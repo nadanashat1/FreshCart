@@ -17,7 +17,7 @@ import {
   FaArrowRotateLeft,
   FaPlus,
 } from "react-icons/fa6";
-import { Fa7Box, Fa7Shield, Fa7Truck, Fa7Bag } from "@/components/icons/fa7";
+import { Fa7Box, Fa7Shield, Fa7Truck, Fa7Bag, Fa7CreditCard, Fa7MoneyBill, Fa7LocationDot, Fa7Phone, Fa7City, Fa7Bookmark, Fa7Check, Fa7CircleInfo, Fa7House, Fa7Plus, Fa7Receipt, Fa7ArrowLeft } from "@/components/icons/fa7";
 import { placeOrder } from "./actions";
 
 type CartItem = {
@@ -90,7 +90,7 @@ export default function CheckoutForm({
         <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm">
           <div className="bg-gradient-to-r from-primary-600 to-primary-700 px-6 py-4">
             <h2 className="flex items-center gap-2 text-lg font-bold text-white">
-              <FaHouse /> Shipping Address
+              <Fa7House /> Shipping Address
             </h2>
             <p className="mt-1 text-sm text-primary-100">Where should we deliver your order?</p>
           </div>
@@ -98,7 +98,7 @@ export default function CheckoutForm({
             {addresses.length > 0 && (
               <div className="border-b border-gray-100 pb-5">
                 <div className="mb-3 flex items-center gap-2">
-                  <FaBookmark className="text-primary-600" />
+                  <Fa7Bookmark className="text-primary-600" />
                   <span className="font-semibold text-gray-800">Saved Addresses</span>
                 </div>
                 <div className="space-y-3">
@@ -129,7 +129,7 @@ export default function CheckoutForm({
                               selected ? "bg-primary-500 text-white" : "bg-gray-100 text-gray-500"
                             }`}
                           >
-                            {selected ? <FaCheck /> : <FaLocationDot />}
+                            {selected ? <Fa7Check /> : <Fa7LocationDot />}
                           </div>
                           <div className="min-w-0 flex-1">
                             <p className={`font-semibold ${selected ? "text-primary-700" : "text-gray-900"}`}>{a.name}</p>
@@ -138,10 +138,10 @@ export default function CheckoutForm({
                             </p>
                             <div className="mt-2 flex items-center gap-4 text-xs text-gray-500">
                               <span className="flex items-center gap-1">
-                                <FaPhone /> {a.phone}
+                                <Fa7Phone /> {a.phone}
                               </span>
                               <span className="flex items-center gap-1">
-                                <FaCity /> {a.city}
+                                <Fa7City /> {a.city}
                               </span>
                             </div>
                           </div>
@@ -168,7 +168,7 @@ export default function CheckoutForm({
                           useNewAddress ? "bg-primary-500 text-white" : "bg-gray-100 text-gray-500"
                         }`}
                       >
-                        <FaPlus />
+                        <Fa7Plus />
                       </div>
                       <div>
                         <p className={`font-semibold ${useNewAddress ? "text-primary-700" : "text-gray-900"}`}>
@@ -186,7 +186,7 @@ export default function CheckoutForm({
               <>
                 <div className="flex items-start gap-3 rounded-xl border border-blue-100 bg-blue-50 p-4">
                   <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-blue-100">
-                    <FaCircleInfo className="text-sm text-blue-600" />
+                    <Fa7CircleInfo className="text-sm text-blue-600" />
                   </div>
                   <div>
                     <p className="text-sm font-medium text-blue-800">Delivery Information</p>
@@ -203,7 +203,7 @@ export default function CheckoutForm({
                   </label>
                   <div className="relative">
                     <div className="absolute left-4 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-lg bg-gray-100">
-                      <FaCity className="text-gray-500" />
+                      <Fa7City className="text-gray-500" />
                     </div>
                     <input
                       id="city"
@@ -222,7 +222,7 @@ export default function CheckoutForm({
                   </label>
                   <div className="relative">
                     <div className="absolute left-4 top-4 flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100">
-                      <FaLocationDot className="text-gray-500" />
+                      <Fa7LocationDot className="text-gray-500" />
                     </div>
                     <textarea
                       id="details"
@@ -241,7 +241,7 @@ export default function CheckoutForm({
                   </label>
                   <div className="relative">
                     <div className="absolute left-4 top-1/2 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-lg bg-gray-100">
-                      <FaPhone className="text-gray-500" />
+                      <Fa7Phone className="text-gray-500" />
                     </div>
                     <input
                       id="phone"
@@ -265,7 +265,7 @@ export default function CheckoutForm({
         <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm">
           <div className="bg-gradient-to-r from-primary-600 to-primary-700 px-6 py-4">
             <h2 className="flex items-center gap-2 text-lg font-bold text-white">
-              <FaCreditCard /> Payment Method
+              <Fa7CreditCard /> Payment Method
             </h2>
             <p className="mt-1 text-sm text-primary-100">Choose how you&apos;d like to pay</p>
           </div>
@@ -286,7 +286,7 @@ export default function CheckoutForm({
                     : "bg-gray-100 text-gray-400 group-hover:bg-gray-200"
                 }`}
               >
-                <FaMoneyBillWave className="text-2xl" />
+                <Fa7MoneyBill className="text-2xl" />
               </div>
               <div className="flex-1 text-left">
                 <h3 className={`font-bold ${method === "cash" ? "text-primary-700" : "text-gray-900"}`}>
@@ -299,7 +299,7 @@ export default function CheckoutForm({
                   method === "cash" ? "bg-primary-600 text-white" : "border-2 border-gray-200"
                 }`}
               >
-                {method === "cash" && <FaCheck className="text-xs" />}
+                {method === "cash" && <Fa7Check className="text-xs" />}
               </div>
             </button>
 
@@ -323,7 +323,7 @@ export default function CheckoutForm({
                     : "bg-gray-100 text-gray-400 group-hover:bg-gray-200"
                 }`}
               >
-                <FaCreditCard className="text-2xl" />
+                <Fa7CreditCard className="text-2xl" />
               </div>
               <div className="flex-1 text-left">
                 <h3 className={`font-bold ${method === "card" && liveEnabled ? "text-primary-700" : "text-gray-900"}`}>
@@ -337,7 +337,7 @@ export default function CheckoutForm({
                   method === "card" && liveEnabled ? "bg-primary-600 text-white" : "border-2 border-gray-200"
                 }`}
               >
-                {method === "card" && liveEnabled && <FaCheck className="text-xs" />}
+                {method === "card" && liveEnabled && <Fa7Check className="text-xs" />}
               </div>
             </button>
 

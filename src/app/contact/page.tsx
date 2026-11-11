@@ -1,34 +1,22 @@
 import Link from "next/link";
-import {
-  FaPhone,
-  FaEnvelope,
-  FaLocationDot,
-  FaClock,
-  FaPaperPlane,
-  FaCircleQuestion,
-  FaFacebookF,
-  FaTwitter,
-  FaInstagram,
-  FaLinkedinIn,
-} from "react-icons/fa6";
-import { Fa7Headset } from "@/components/icons/fa7";
+import { Fa7Headset, Fa7Phone, Fa7EnvelopeSolid, Fa7LocationDot, Fa7Clock, Fa7PaperPlane, Fa7CircleQuestion, Fa7Facebook, Fa7Twitter, Fa7Instagram, Fa7Linkedin } from "@/components/icons/fa7";
 
 const inputCls =
   "w-full cursor-not-allowed rounded-xl border border-gray-200 px-4 py-3 opacity-60 transition-all focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20";
 const labelCls = "mb-2 block text-sm font-medium text-gray-700";
 
 const infoCards = [
-  { icon: FaPhone, title: "Phone", sub: "Mon-Fri from 8am to 6pm", value: "+1 (800) 123-4567", href: "tel:+18001234567" },
-  { icon: FaEnvelope, title: "Email", sub: "We'll respond within 24 hours", value: "support@freshcart.com", href: "mailto:support@freshcart.com" },
-  { icon: FaLocationDot, title: "Office", sub: "", value: "123 Commerce Street\nNew York, NY 10001\nUnited States", href: "" },
-  { icon: FaClock, title: "Business Hours", sub: "", value: "Monday - Friday: 8am - 6pm\nSaturday: 9am - 4pm\nSunday: Closed", href: "" },
+  { icon: Fa7Phone, title: "Phone", sub: "Mon-Fri from 8am to 6pm", value: "+1 (800) 123-4567", href: "tel:+18001234567" },
+  { icon: Fa7EnvelopeSolid, title: "Email", sub: "We'll respond within 24 hours", value: "support@freshcart.com", href: "mailto:support@freshcart.com" },
+  { icon: Fa7LocationDot, title: "Office", sub: "", value: "123 Commerce Street\nNew York, NY 10001\nUnited States", href: "" },
+  { icon: Fa7Clock, title: "Business Hours", sub: "", value: "Monday - Friday: 8am - 6pm\nSaturday: 9am - 4pm\nSunday: Closed", href: "" },
 ];
 
 const socials = [
-  { icon: FaFacebookF, label: "Facebook" },
-  { icon: FaTwitter, label: "Twitter" },
-  { icon: FaInstagram, label: "Instagram" },
-  { icon: FaLinkedinIn, label: "LinkedIn" },
+  { icon: Fa7Facebook, label: "Facebook" },
+  { icon: Fa7Twitter, label: "Twitter" },
+  { icon: Fa7Instagram, label: "Instagram" },
+  { icon: Fa7Linkedin, label: "LinkedIn" },
 ];
 
 export default function ContactPage() {
@@ -155,7 +143,7 @@ export default function ContactPage() {
                   title="The contact form has no backend in this build yet"
                   className="inline-flex w-full cursor-not-allowed items-center justify-center gap-2 rounded-xl bg-primary-600 px-8 py-3.5 font-semibold text-white opacity-60 shadow-sm shadow-primary-600/20 transition-colors hover:bg-primary-700 md:w-auto"
                 >
-                  <FaPaperPlane /> Send Message
+                  <Fa7PaperPlane /> Send Message
                 </button>
                 <p className="text-xs text-gray-400">The contact form isn&apos;t wired to a backend in this build yet.</p>
               </form>
@@ -164,7 +152,7 @@ export default function ContactPage() {
             <div className="mt-6 rounded-2xl border border-primary-100 bg-primary-50 p-6">
               <div className="flex items-start gap-4">
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white shadow-sm">
-                  <FaCircleQuestion className="text-lg text-primary-600" />
+                  <Fa7CircleQuestion className="text-lg text-primary-600" />
                 </div>
                 <div>
                   <h3 className="mb-1 font-semibold text-gray-900">Looking for quick answers?</h3>
