@@ -132,11 +132,15 @@ function ReviewForm({
 export default function ProductTabs({
   product,
   reviews,
+  ratingCounts = [0, 0, 0, 0, 0],
+  ratingTotal = 0,
   currentUserId = null,
   isAuthed = false,
 }: {
   product: Product;
   reviews: Review[];
+  ratingCounts?: number[];
+  ratingTotal?: number;
   currentUserId?: string | null;
   isAuthed?: boolean;
 }) {
@@ -265,16 +269,13 @@ export default function ProductTabs({
                 </div>
                 <div className="w-full flex-1">
                   {[5, 4, 3, 2, 1].map((star) => {
-                    const rounded = Math.round(product.ratingsAverage);
-                    const pct =
-                      star === rounded
-                        ? 60
-                        : star === rounded - 1 || star === rounded + 1
-                          ? 25
-                          : 5;
+                    const count = ratingCounts[star - 1] ?? 0;
+                    const pct = ratingTotal > 0 ? Math.round((count / ratingTotal) * 100) : 0;
                     return (
                       <div key={star} className="mb-2 flex items-center gap-3">
-                        <span className="w-8 text-sm text-gray-600">{star} star</span>
+                        <span className="w-12 shrink-0 whitespace-nowrap text-sm text-gray-600">
+                          {star} star
+                        </span>
                         <div className="h-2 flex-1 overflow-hidden rounded-full bg-gray-200">
                           <div
                             className="h-full rounded-full bg-yellow-400 transition-all duration-300"

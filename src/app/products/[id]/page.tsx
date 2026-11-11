@@ -41,6 +41,35 @@ export default async function ProductDetailsPage({
   const revRes = await fetch(`${API_BASE}/products/${id}/reviews`, { cache: "no-store" });
   const reviews = revRes.ok ? (await revRes.json()).data ?? [] : [];
 
+  // The summary bars must describe real review data, so count ratings across
+  // every review page (the API paginates at 100 here) instead of deriving a
+  // fake split from the average.
+  const ratingCounts = [0, 0, 0, 0, 0]; // index 0 = 1 star ... index 4 = 5 stars
+  let ratingTotal = 0;
+  try {
+    let page = 1;
+    let numberOfPages = 1;
+    do {
+      const r = await fetch(`${API_BASE}/products/${id}/reviews?limit=100&page=${page}`, {
+        cache: "no-store",
+      });
+      if (!r.ok) break;
+      const j = await r.json();
+      const batch: { rating?: number }[] = j.data ?? [];
+      for (const rv of batch) {
+        const s = Math.round(rv.rating ?? 0);
+        if (s >= 1 && s <= 5) {
+          ratingCounts[s - 1]++;
+          ratingTotal++;
+        }
+      }
+      numberOfPages = j.paginationResult?.numberOfPages ?? 1;
+      page++;
+    } while (page <= numberOfPages && page <= 20);
+  } catch {
+    // stats are best-effort; bars render 0% rather than invented numbers
+  }
+
   const simRes = await fetch(
     `${API_BASE}/products?category%5Bin%5D=${product.category._id}&limit=13`,
     { next: { revalidate: 300 } }
@@ -202,7 +231,7 @@ export default async function ProductDetailsPage({
           </div>
         </div>
 
-        <ProductTabs product={product} reviews={reviews} currentUserId={currentUserId} isAuthed={!!token} />
+        <ProductTabs product={product} reviews={reviews} ratingCounts={ratingCounts} ratingTotal={ratingTotal} currentUserId={currentUserId} isAuthed={!!token} />
       </div>
 
       <SimilarProducts products={similar} />
