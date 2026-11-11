@@ -31,11 +31,18 @@ export default async function OrdersPage() {
   const userId = userIdFromToken(token);
 
   let orders: Order[] = [];
+  let loadFailed = false;
   if (userId) {
-    const res = await fetch(`${API_BASE}/orders/user/${userId}`, { headers: { token }, cache: "no-store" });
-    if (res.ok) {
-      const data = await res.json();
-      orders = Array.isArray(data) ? data : data.data ?? [];
+    try {
+      const res = await fetch(`${API_BASE}/orders/user/${userId}`, { headers: { token }, cache: "no-store" });
+      if (res.ok) {
+        const data = await res.json();
+        orders = Array.isArray(data) ? data : data.data ?? [];
+      } else {
+        loadFailed = true;
+      }
+    } catch {
+      loadFailed = true;
     }
   }
 
@@ -53,11 +60,26 @@ export default async function OrdersPage() {
           </div>
           <div>
             <h1 className="text-2xl font-bold text-gray-900">My Orders</h1>
-            <p className="text-sm text-gray-500">{orders.length} order{orders.length === 1 ? "" : "s"}</p>
+            <p className="text-sm text-gray-500">
+              {loadFailed ? "Could not load orders" : `${orders.length} order${orders.length === 1 ? "" : "s"}`}
+            </p>
           </div>
         </div>
 
-        {orders.length === 0 ? (
+        {loadFailed ? (
+          <div className="rounded-xl bg-white p-16 text-center shadow-sm">
+            <p className="mb-2 font-medium text-gray-700">We couldn&apos;t load your orders right now.</p>
+            <p className="mb-6 text-sm text-gray-500">
+              This is usually temporary - refresh the page to try again.
+            </p>
+            <Link
+              href="/orders"
+              className="rounded-xl bg-primary-600 px-6 py-3 font-semibold text-white transition hover:bg-primary-700"
+            >
+              Refresh
+            </Link>
+          </div>
+        ) : orders.length === 0 ? (
           <div className="rounded-xl bg-white p-16 text-center shadow-sm">
             <FaBoxOpen className="mx-auto mb-4 text-5xl text-gray-300" />
             <h2 className="mb-2 text-lg font-bold text-gray-900">No orders yet</h2>

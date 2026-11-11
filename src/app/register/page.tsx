@@ -235,8 +235,14 @@ export default function RegisterPage() {
                 className="mt-0.5 h-4 w-4 rounded border-gray-300 accent-primary-600"
               />
               <span>
-                I agree to the <span className="font-medium text-primary-600">Terms of Service</span> and{" "}
-                <span className="font-medium text-primary-600">Privacy Policy</span>
+                I agree to the{" "}
+                <Link href="/terms" className="font-medium text-primary-600 hover:text-primary-700">
+                  Terms of Service
+                </Link>{" "}
+                and{" "}
+                <Link href="/privacy" className="font-medium text-primary-600 hover:text-primary-700">
+                  Privacy Policy
+                </Link>
                 <span className="text-red-500"> *</span>
               </span>
             </label>

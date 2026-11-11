@@ -36,19 +36,19 @@ const columns: { title: string; links: { label: string; href: string | null }[] 
   {
     title: "Support",
     links: [
-      { label: "Contact Us", href: null },
-      { label: "Help Center", href: null },
-      { label: "Shipping Info", href: null },
-      { label: "Returns & Refunds", href: null },
-      { label: "Track Order", href: null },
+      { label: "Contact Us", href: "/contact" },
+      { label: "Help Center", href: "/help" },
+      { label: "Shipping Info", href: "/shipping" },
+      { label: "Returns & Refunds", href: "/returns" },
+      { label: "Track Order", href: "/track-order" },
     ],
   },
   {
     title: "Legal",
     links: [
-      { label: "Privacy Policy", href: null },
-      { label: "Terms of Service", href: null },
-      { label: "Cookie Policy", href: null },
+      { label: "Privacy Policy", href: "/privacy" },
+      { label: "Terms of Service", href: "/terms" },
+      { label: "Cookie Policy", href: "/cookies" },
     ],
   },
 ];
