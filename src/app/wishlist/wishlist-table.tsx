@@ -3,7 +3,9 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FaTrashCan, FaCartShopping } from "react-icons/fa6";
+import { FaTrashCan, FaCartShopping,
+  FaCheck,
+} from "react-icons/fa6";
 import { removeFromWishlist } from "./actions";
 import { addToCart } from "../products/[id]/actions";
 
@@ -73,11 +75,7 @@ export default function WishlistTable({
               )}
               <div className="mt-2 flex items-center gap-2 text-sm">
                 <span className="text-gray-500">Status:</span>
-                {inCart ? (
-                  <span className="rounded-full bg-primary-50 px-2.5 py-1 text-xs font-semibold text-primary-700">In Cart</span>
-                ) : (
-                  <span className="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-semibold text-gray-600">Saved</span>
-                )}
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-green-50 px-2.5 py-1 text-xs font-medium text-green-600"><span className="h-1.5 w-1.5 rounded-full bg-green-500"></span> In Stock</span>
               </div>
               <div className="mt-3 flex items-center gap-2">
                 {inCart ? (
@@ -85,7 +83,7 @@ export default function WishlistTable({
                     href="/cart"
                     className="flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-gray-100 px-4 py-2.5 text-sm font-medium text-gray-700"
                   >
-                    <FaCartShopping /> View Cart
+                    <FaCheck /> View Cart
                   </Link>
                 ) : (
                   <button
@@ -150,11 +148,7 @@ export default function WishlistTable({
                     )}
                   </td>
                   <td className="px-6 py-4">
-                    {inCart ? (
-                      <span className="rounded-full bg-primary-50 px-2.5 py-1 text-xs font-semibold text-primary-700">In Cart</span>
-                    ) : (
-                      <span className="rounded-full bg-gray-100 px-2.5 py-1 text-xs font-semibold text-gray-600">Saved</span>
-                    )}
+                    <span className="inline-flex items-center gap-1.5 rounded-full bg-green-50 px-2.5 py-1 text-xs font-medium text-green-600"><span className="h-1.5 w-1.5 rounded-full bg-green-500"></span> In Stock</span>
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
