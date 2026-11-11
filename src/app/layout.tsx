@@ -26,7 +26,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${exo.variable} antialiased`}
+        className={`${exo.variable} font-medium antialiased`}
       >
         <TopBar />
         <Header />
