@@ -335,6 +335,20 @@ export function Fa7Star({ className }: { className?: string }) {
     </svg>
   );
 }
+export function Fa7Lock({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 384 512" width="1.25em" height="1em" fill="currentColor" aria-hidden="true" className={className}>
+      <path d="M128 96l0 64 128 0 0-64c0-35.3-28.7-64-64-64s-64 28.7-64 64zM64 160l0-64C64 25.3 121.3-32 192-32S320 25.3 320 96l0 64c35.3 0 64 28.7 64 64l0 224c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 224c0-35.3 28.7-64 64-64z" />
+    </svg>
+  );
+}
+export function Fa7Users({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 640 512" width="1.25em" height="1em" fill="currentColor" aria-hidden="true" className={className}>
+      <path d="M320 16a104 104 0 1 1 0 208 104 104 0 1 1 0-208zM96 88a72 72 0 1 1 0 144 72 72 0 1 1 0-144zM0 416c0-70.7 57.3-128 128-128 12.8 0 25.2 1.9 36.9 5.4-32.9 36.8-52.9 85.4-52.9 138.6l0 16c0 11.4 2.4 22.2 6.7 32L32 480c-17.7 0-32-14.3-32-32l0-32zm521.3 64c4.3-9.8 6.7-20.6 6.7-32l0-16c0-53.2-20-101.8-52.9-138.6 11.7-3.5 24.1-5.4 36.9-5.4 70.7 0 128 57.3 128 128l0 32c0 17.7-14.3 32-32 32l-86.7 0zM472 160a72 72 0 1 1 144 0 72 72 0 1 1 -144 0zM160 432c0-88.4 71.6-160 160-160s160 71.6 160 160l0 16c0 17.7-14.3 32-32 32l-256 0c-17.7 0-32-14.3-32-32l0-16z" />
+    </svg>
+  );
+}
 export function Fa7StarHalf({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 576 512" width="1.25em" height="1em" fill="currentColor" aria-hidden="true" className={className}>

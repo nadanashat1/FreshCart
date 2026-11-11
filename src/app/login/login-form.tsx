@@ -9,6 +9,7 @@ import {
   FaEnvelope, FaLock, FaEye, FaEyeSlash, FaGoogle, FaFacebookF,
   FaTruck, FaShieldHalved, FaClock,
 } from "react-icons/fa6";
+import { Fa7Lock, Fa7Users, Fa7Star } from "@/components/icons/fa7";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -34,7 +35,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 px-4 py-12">
+    <div className="container mx-auto bg-gray-50 px-4 py-16">
       <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 lg:grid-cols-2">
         <div className="hidden lg:block">
           <div className="space-y-6 text-center">
@@ -170,12 +171,12 @@ export default function LoginPage() {
                 Create an account
               </Link>
             </p>
-          </div>
 
-          <div className="mt-6 flex items-center justify-center space-x-6 text-sm text-gray-500">
-            <span>SSL Secured</span>
-            <span>50K+ Users</span>
-            <span>4.9 Rating</span>
+            <div className="mt-6 flex items-center justify-center space-x-6 text-xs text-gray-500">
+              <div className="flex items-center"><Fa7Lock className="mr-1" />SSL Secured</div>
+              <div className="flex items-center"><Fa7Users className="mr-1" />50K+ Users</div>
+              <div className="flex items-center"><Fa7Star className="mr-1" />4.9 Rating</div>
+            </div>
           </div>
         </div>
       </div>
