@@ -40,6 +40,7 @@ export default function RegisterPage() {
   const [agree, setAgree] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
   const strength = passwordStrength(values.password);
 
   async function onSubmit(e: React.FormEvent) {
@@ -135,17 +136,23 @@ export default function RegisterPage() {
           <div className="grid grid-cols-2 gap-3">
             <button
               type="button"
+              onClick={() => setNotice("Social sign-in is not available in this build yet. Please use your email and password.")}
               className="flex items-center justify-center gap-2 rounded-lg border border-gray-200 py-3 font-semibold text-gray-700 transition-colors hover:bg-gray-50"
             >
               <FaGoogle className="text-[#ea4335]" /> Google
             </button>
             <button
               type="button"
+              onClick={() => setNotice("Social sign-in is not available in this build yet. Please use your email and password.")}
               className="flex items-center justify-center gap-2 rounded-lg border border-gray-200 py-3 font-semibold text-gray-700 transition-colors hover:bg-gray-50"
             >
               <FaFacebookF className="text-[#1877f2]" /> Facebook
             </button>
           </div>
+
+          {notice && (
+            <p className="mt-4 rounded-lg bg-amber-50 px-4 py-2 text-center text-sm text-amber-700">{notice}</p>
+          )}
 
           <div className="my-5 flex items-center gap-4">
             <div className="h-px flex-1 bg-gray-200" />
