@@ -122,15 +122,15 @@ export default function Footer() {
               <h3 className="mb-5 text-lg font-semibold text-white">
                 {col.title}
               </h3>
-              <ul className="space-y-4 text-sm">
+              <ul className="space-y-3">
                 {col.links.map((l) => (
                   <li key={l.label}>
                     {l.href ? (
-                      <Link href={l.href} className="text-gray-400 hover:text-green-400">
+                      <Link href={l.href} className="inline-block text-sm text-gray-400 transition-colors hover:text-primary-400">
                         {l.label}
                       </Link>
                     ) : (
-                      <span className="cursor-default text-gray-600" title="Coming soon">
+                      <span className="inline-block cursor-default text-sm text-gray-600" title="Coming soon">
                         {l.label}
                       </span>
                     )}
