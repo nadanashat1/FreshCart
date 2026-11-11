@@ -53,6 +53,7 @@ export default function CheckoutForm({
   const [error, setError] = useState<string | null>(null);
 
   const canSubmit = liveEnabled && !busy;
+  const shippingFee = total >= 500 ? 0 : 50;
 
   async function submit() {
     if (busy || !liveEnabled) return;
@@ -400,13 +401,17 @@ export default function CheckoutForm({
                 <span className="flex items-center gap-2">
                   <FaTruckFast /> Shipping
                 </span>
-                <span className="font-semibold text-green-600">FREE</span>
+                {shippingFee === 0 ? (
+                  <span className="font-semibold text-green-600">FREE</span>
+                ) : (
+                  <span className="font-medium">{shippingFee} EGP</span>
+                )}
               </div>
               <hr className="border-gray-100" />
               <div className="flex items-center justify-between">
                 <span className="text-lg font-bold text-gray-900">Total</span>
                 <div className="text-right">
-                  <span className="text-2xl font-bold text-primary-600">{total.toLocaleString()}</span>
+                  <span className="text-2xl font-bold text-primary-600">{(total + shippingFee).toLocaleString()}</span>
                   <span className="ml-1 text-sm text-gray-500">EGP</span>
                 </div>
               </div>
