@@ -64,15 +64,15 @@ export default function Footer() {
   return (
     <footer>
       <div className="border-y border-primary-100 bg-primary-50">
-        <div className="container mx-auto grid grid-cols-2 gap-6 px-4 py-8 md:grid-cols-4">
+        <div className="container mx-auto grid grid-cols-2 gap-6 px-4 py-6 md:grid-cols-4">
           {perks.map((p) => (
             <div key={p.title} className="flex items-center gap-3">
-              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary-100 text-xl text-primary-600">
+              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary-100 text-lg text-primary-600">
                 <p.icon />
               </span>
               <span>
                 <span className="block text-sm font-semibold text-gray-900">{p.title}</span>
-                <span className="block text-xs text-gray-500">{p.text}</span>
+                <span className="block text-xs font-medium text-gray-500">{p.text}</span>
               </span>
             </div>
           ))}
@@ -107,7 +107,7 @@ export default function Footer() {
                   key={s.name}
                   href="#"
                   aria-label={s.name}
-                  className="rounded-full bg-gray-800 p-2 text-gray-300 hover:bg-brand hover:text-white"
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-800 text-gray-300 hover:bg-brand hover:text-white"
                 >
                   <s.Icon className="text-base" />
                 </a>
@@ -117,10 +117,10 @@ export default function Footer() {
 
           {columns.map((col) => (
             <div key={col.title}>
-              <h3 className="text-sm font-semibold text-white">
+              <h3 className="mb-5 text-lg font-semibold text-white">
                 {col.title}
               </h3>
-              <ul className="mt-4 space-y-2.5 text-sm">
+              <ul className="space-y-4 text-sm">
                 {col.links.map((l) => (
                   <li key={l.label}>
                     {l.href ? (
