@@ -52,3 +52,30 @@ export async function removeAddress(
     return { ok: false, error: "Network error. Please try again." };
   }
 }
+
+export async function updateAddress(
+  addressId: string,
+  input: { name: string; details: string; phone: string; city: string }
+): Promise<{ ok: boolean; needAuth?: boolean; error?: string }> {
+  const token = await getApiToken();
+  if (!token) return { ok: false, needAuth: true };
+  if (!input.name.trim() || !input.details.trim() || !input.phone.trim() || !input.city.trim()) {
+    return { ok: false, error: "All fields are required." };
+  }
+  try {
+    const res = await fetch(`${API_BASE}/addresses/${addressId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json", token },
+      body: JSON.stringify(input),
+      cache: "no-store",
+    });
+    if (!res.ok) {
+      const body = await res.json().catch(() => null);
+      return { ok: false, error: body?.message ?? "Could not update the address." };
+    }
+    revalidatePath("/profile/addresses");
+    return { ok: true };
+  } catch {
+    return { ok: false, error: "Network error. Please try again." };
+  }
+}
