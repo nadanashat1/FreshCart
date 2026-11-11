@@ -9,10 +9,18 @@ import { createHmac } from "crypto";
 // mapped to a conventional Route email/password account:
 //
 // - The Route password is derived deterministically from the account email
-//   with an HMAC keyed by SOCIAL_PROVISION_SECRET (falls back to
-//   NEXTAUTH_SECRET). It is recomputed on each sign-in, never stored, and
-//   never sent to the client. Prefer a dedicated SOCIAL_PROVISION_SECRET so
-//   rotating NEXTAUTH_SECRET does not orphan social-provisioned accounts.
+//   with an HMAC keyed by SOCIAL_PROVISION_SECRET (required when social
+//   sign-in is enabled; there is deliberately no NEXTAUTH_SECRET fallback, so
+//   session-secret rotation can never silently change derived passwords and
+//   orphan social-provisioned Route accounts). The derived password is
+//   recomputed on each sign-in, never stored, and never sent to the client.
+//   Rotating SOCIAL_PROVISION_SECRET orphans social-provisioned accounts
+//   (their old derived password no longer matches); treat it as stable.
+// - Identity is keyed by the provider-verified email: any trusted provider
+//   presenting the same verified email maps to the same Route account. This
+//   relies on Google email_verified being enforced and on the Facebook Graph
+//   API only returning confirmed email addresses (a profile created without
+//   an email, or with an unconfirmed one, returns no email and is rejected).
 // - The phone number Route requires at signup is derived the same way
 //   (Egyptian 011 + 8 digits, deterministic per email).
 //
@@ -24,11 +32,18 @@ import { createHmac } from "crypto";
 const API_BASE =
   process.env.ROUTE_API_BASE ?? "https://ecommerce.routemisr.com/api/v1";
 
+function socialSecret(): string {
+  const secret = process.env.SOCIAL_PROVISION_SECRET;
+  if (!secret) {
+    throw new Error(
+      "SOCIAL_PROVISION_SECRET is required for social sign-in provisioning"
+    );
+  }
+  return secret;
+}
+
 function hmac(parts: string): string {
-  const secret =
-    process.env.SOCIAL_PROVISION_SECRET || process.env.NEXTAUTH_SECRET;
-  if (!secret) throw new Error("Missing SOCIAL_PROVISION_SECRET/NEXTAUTH_SECRET");
-  return createHmac("sha256", secret).update(parts).digest("base64url");
+  return createHmac("sha256", socialSecret()).update(parts).digest("base64url");
 }
 
 function derivedPassword(email: string): string {
@@ -38,9 +53,7 @@ function derivedPassword(email: string): string {
 }
 
 function derivedPhone(email: string): string {
-  const secret =
-    process.env.SOCIAL_PROVISION_SECRET || process.env.NEXTAUTH_SECRET!;
-  const hex = createHmac("sha256", secret)
+  const hex = createHmac("sha256", socialSecret())
     .update(`freshcart-route-phone:${email.toLowerCase()}`)
     .digest("hex");
   let digits = "";

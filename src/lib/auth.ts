@@ -39,10 +39,25 @@ const providers: NextAuthOptions["providers"] = [
     }),
   ];
 
-// Social providers are only enabled when their OAuth app credentials are
-// configured; without them the login UI keeps its honest "not available yet"
-// notice instead of offering a dead button.
-if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+// Social providers are only enabled when their OAuth app credentials AND a
+// dedicated SOCIAL_PROVISION_SECRET are configured; without them the login UI
+// keeps its honest "not available yet" notice instead of offering a dead
+// button. The dedicated secret is mandatory (no NEXTAUTH_SECRET fallback) so
+// session-secret rotation cannot orphan social-provisioned Route accounts.
+const socialReady = Boolean(process.env.SOCIAL_PROVISION_SECRET);
+if (
+  !socialReady &&
+  (process.env.GOOGLE_CLIENT_ID || process.env.FACEBOOK_CLIENT_ID)
+) {
+  console.error(
+    "[auth] SOCIAL_PROVISION_SECRET is missing; social providers disabled."
+  );
+}
+if (
+  socialReady &&
+  process.env.GOOGLE_CLIENT_ID &&
+  process.env.GOOGLE_CLIENT_SECRET
+) {
   providers.push(
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
@@ -50,7 +65,11 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
     })
   );
 }
-if (process.env.FACEBOOK_CLIENT_ID && process.env.FACEBOOK_CLIENT_SECRET) {
+if (
+  socialReady &&
+  process.env.FACEBOOK_CLIENT_ID &&
+  process.env.FACEBOOK_CLIENT_SECRET
+) {
   providers.push(
     FacebookProvider({
       clientId: process.env.FACEBOOK_CLIENT_ID,
@@ -68,6 +87,15 @@ export const authOptions: NextAuthOptions = {
       // Credentials sign-in already returned a Route token from authorize().
       if (!account || account.provider === "credentials") return true;
       // Social sign-in: bridge to a Route account so cart/orders/wishlist work.
+      // Google: only a verified email may authenticate a Route identity.
+      if (account.provider === "google") {
+        const verified = (profile as { email_verified?: boolean } | undefined)
+          ?.email_verified;
+        if (verified !== true) return "/login?error=SocialEmailMissing";
+      }
+      // Facebook: the Graph API only returns confirmed email addresses; a
+      // profile without one (phone-only or unconfirmed) yields no email and
+      // is rejected below.
       const email = profile?.email;
       if (!email) return "/login?error=SocialEmailMissing";
       const result = await provisionRouteAccount(
