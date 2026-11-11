@@ -1,12 +1,13 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { FaEnvelope, FaLeaf, FaTruckFast, FaPercent, FaArrowRight, FaApple, FaGooglePlay } from "react-icons/fa6";
+import { FaEnvelope, FaLeaf, FaArrowRight, FaApple, FaGooglePlay } from "react-icons/fa6";
+import { Fa7Tag, Fa7Truck } from "@/components/icons/fa7";
 
 const perks = [
   { icon: FaLeaf, label: "Fresh Picks Weekly" },
-  { icon: FaTruckFast, label: "Free Delivery Codes" },
-  { icon: FaPercent, label: "Members-Only Deals" },
+  { icon: Fa7Truck, label: "Free Delivery Codes" },
+  { icon: Fa7Tag, label: "Members-Only Deals" },
 ];
 
 export default function Newsletter() {
