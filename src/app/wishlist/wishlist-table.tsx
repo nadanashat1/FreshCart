@@ -49,16 +49,16 @@ export default function WishlistTable({
       )}
       {/* Mobile: one enclosing card with divider rows (demo reflows the same way) */}
       <div className="md:hidden">
-      <div className="divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-sm">
+      <div className="divide-y divide-gray-100 overflow-hidden rounded-2xl border border-gray-100 bg-white">
         {items.map((p) => {
           const hasDiscount = !!p.priceAfterDiscount && p.priceAfterDiscount < p.price;
           const price = hasDiscount ? p.priceAfterDiscount! : p.price;
           const inCart = inCartIds.includes(p._id);
           return (
-            <div key={p._id} className="p-4">
-              <div className="flex items-start gap-3">
+            <div key={p._id} className="flex flex-col gap-4 p-4 transition-colors hover:bg-gray-50/50">
+              <div className="flex items-center gap-4">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={p.imageCover} alt={p.title} className="h-20 w-20 rounded-lg border border-gray-100 object-contain p-1" />
+                <img src={p.imageCover} alt={p.title} className="h-20 w-20 shrink-0 rounded-xl border border-gray-100 bg-gray-50 object-contain p-2" />
                 <div className="min-w-0">
                   <Link href={`/products/${p._id}`} className="font-semibold text-gray-900 hover:text-primary-600">
                     {p.title}
@@ -66,7 +66,7 @@ export default function WishlistTable({
                   <p className="text-xs text-gray-500">{p.category?.name}</p>
                 </div>
               </div>
-              <div className="mt-3 flex items-center gap-2 text-sm">
+              <div className="flex items-center gap-2 text-sm">
                 <span className="text-gray-500">Price:</span>
                 <span className="font-semibold text-gray-900">{price} EGP</span>
                 {hasDiscount && <span className="text-xs text-gray-400 line-through">{p.price} EGP</span>}
@@ -74,7 +74,7 @@ export default function WishlistTable({
               {hasDiscount && (
                 <p className="mt-0.5 text-xs text-amber-600">Cart may charge the pre-discount price.</p>
               )}
-              <div className="mt-2 flex items-center gap-2 text-sm">
+              <div className="flex items-center gap-2 text-sm">
                 <span className="text-gray-500">Status:</span>
                 {inCart ? (
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-green-50 px-2.5 py-1 text-xs font-medium text-green-600"><FaCartShopping /> In Cart</span>
@@ -82,13 +82,13 @@ export default function WishlistTable({
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-green-50 px-2.5 py-1 text-xs font-medium text-green-600"><span className="h-1.5 w-1.5 rounded-full bg-green-500"></span> In Stock</span>
                 )}
               </div>
-              <div className="mt-3 flex items-center gap-2">
+              <div className="flex items-center gap-2">
                 {inCart ? (
                   <Link
                     href="/cart"
                     className="flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-gray-100 px-4 py-2.5 text-sm font-medium text-gray-700"
                   >
-                    <FaCheck /> View Cart
+                    <FaCheck className="text-xs text-green-600" /> View Cart
                   </Link>
                 ) : (
                   <button
@@ -164,7 +164,7 @@ export default function WishlistTable({
                     <div className="flex items-center gap-3">
                       {inCart ? (
                         <Link href="/cart" className="flex items-center gap-1.5 rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-green-600 transition hover:bg-gray-50">
-                          <FaCheck /> View Cart
+                          <FaCheck className="text-xs text-green-600" /> View Cart
                         </Link>
                       ) : (
                         <button

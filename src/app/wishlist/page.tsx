@@ -25,7 +25,7 @@ export default async function WishlistPage() {
     <div className="min-h-screen bg-gray-50/50">
       {items.length > 0 && (
         <div className="border-b border-gray-100 bg-white">
-          <div className="container mx-auto px-4 py-6">
+          <div className="container mx-auto px-4 py-8">
             <nav className="mb-4 flex items-center gap-2 text-sm text-gray-500">
               <Link href="/" className="transition hover:text-primary-600">Home</Link>
               <span>/</span>
