@@ -150,12 +150,12 @@ export default async function CartPage() {
                       </div>
                     )}
                     <div className="flex justify-between text-gray-600">
-                      <span>Shipping</span>
+                      <span>Shipping (est.)</span>
                       <span className="font-medium text-gray-900">{freeShipping ? "FREE" : "50 EGP"}</span>
                     </div>
                     <div className="mt-3 border-t border-dashed border-gray-200 pt-3">
                       <div className="flex items-baseline justify-between">
-                        <span className="font-semibold text-gray-900">Total</span>
+                        <span className="font-semibold text-gray-900">Estimated Total</span>
                         <div className="text-right">
                           <span className="text-2xl font-bold text-gray-900">{(payable + (freeShipping ? 0 : 50)).toLocaleString()}</span>
                           <span className="ml-1 text-sm text-gray-500">EGP</span>

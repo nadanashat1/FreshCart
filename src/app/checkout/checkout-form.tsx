@@ -412,7 +412,7 @@ export default function CheckoutForm({
               )}
               <div className="flex justify-between text-gray-600">
                 <span className="flex items-center gap-2">
-                  <FaTruckFast /> Shipping
+                  <FaTruckFast /> Shipping (est.)
                 </span>
                 {shippingFee === 0 ? (
                   <span className="font-semibold text-green-600">FREE</span>
@@ -422,7 +422,7 @@ export default function CheckoutForm({
               </div>
               <hr className="border-gray-100" />
               <div className="flex items-center justify-between">
-                <span className="text-lg font-bold text-gray-900">Total</span>
+                <span className="text-lg font-bold text-gray-900">Estimated Total</span>
                 <div className="text-right">
                   <span className="text-2xl font-bold text-primary-600">{(total + shippingFee).toLocaleString()}</span>
                   <span className="ml-1 text-sm text-gray-500">EGP</span>

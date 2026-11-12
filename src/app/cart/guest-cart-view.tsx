@@ -227,11 +227,11 @@ export default function GuestCartView() {
                     <span className="font-semibold">{total.toLocaleString()} EGP</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-500">Shipping</span>
+                    <span className="text-gray-500">Shipping (est.)</span>
                     <span className="font-semibold">{freeShipping ? "FREE" : "50 EGP"}</span>
                   </div>
                   <div className="flex justify-between border-t border-gray-100 pt-2 text-base">
-                    <span className="font-bold">Total</span>
+                    <span className="font-bold">Estimated Total</span>
                     <span className="font-bold text-primary-600">{(total + (freeShipping ? 0 : 50)).toLocaleString()} EGP</span>
                   </div>
                 </div>
