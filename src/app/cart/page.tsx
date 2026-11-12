@@ -49,7 +49,7 @@ export default async function CartPage() {
   const freeShipping = payable >= FREE_SHIPPING_THRESHOLD;
 
   return (
-    <section className="py-10">
+    <section className="bg-gray-50/50 py-8">
       <div className="container mx-auto px-4">
         {items.length > 0 && (
         <div className="mb-8">

@@ -47,17 +47,18 @@ export default function WishlistTable({
       {error && (
         <p className="mb-4 rounded-lg bg-red-50 px-4 py-2 text-sm text-red-600">{error}</p>
       )}
-      {/* Mobile: one card per item (demo reflows the same way) */}
-      <div className="space-y-4 md:hidden">
+      {/* Mobile: one enclosing card with divider rows (demo reflows the same way) */}
+      <div className="md:hidden">
+      <div className="divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-sm">
         {items.map((p) => {
           const hasDiscount = !!p.priceAfterDiscount && p.priceAfterDiscount < p.price;
           const price = hasDiscount ? p.priceAfterDiscount! : p.price;
           const inCart = inCartIds.includes(p._id);
           return (
-            <div key={p._id} className="rounded-xl bg-white p-4 shadow-sm">
+            <div key={p._id} className="p-4">
               <div className="flex items-start gap-3">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={p.imageCover} alt={p.title} className="h-16 w-16 rounded-lg object-contain" />
+                <img src={p.imageCover} alt={p.title} className="h-20 w-20 rounded-lg border border-gray-100 object-contain p-1" />
                 <div className="min-w-0">
                   <Link href={`/products/${p._id}`} className="font-semibold text-gray-900 hover:text-primary-600">
                     {p.title}
@@ -102,7 +103,7 @@ export default function WishlistTable({
                   onClick={() => run(p._id, () => removeFromWishlist(p._id))}
                   disabled={busyId === p._id}
                   aria-label="Remove from wishlist"
-                  className="rounded-lg bg-gray-100 p-2.5 text-gray-400 transition hover:text-red-500 disabled:opacity-50"
+                  className="rounded-lg border border-gray-200 p-2.5 text-gray-400 transition hover:text-red-500 disabled:opacity-50"
                 >
                   <FaTrashCan />
                 </button>
@@ -110,6 +111,7 @@ export default function WishlistTable({
             </div>
           );
         })}
+      </div>
       </div>
       {/* Desktop table */}
       <div className="hidden overflow-hidden rounded-xl bg-white shadow-sm md:block">

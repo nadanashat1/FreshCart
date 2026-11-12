@@ -92,7 +92,7 @@ export default function AddressManager({ addresses }: { addresses: Address[] }) 
       {error && <p className="mb-4 rounded-lg bg-red-50 px-4 py-2 text-sm text-red-600">{error}</p>}
 
       {addresses.length === 0 && !showForm && (
-        <div className="mb-6 rounded-2xl border border-gray-100 bg-white p-16 text-center shadow-sm">
+        <div className="mb-6 rounded-2xl border border-gray-100 bg-white px-16 py-12 text-center shadow-sm">
           <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-gray-100">
             <FaLocationDot className="text-3xl text-gray-400" />
           </div>
