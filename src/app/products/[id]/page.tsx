@@ -107,7 +107,7 @@ export default async function ProductDetailsPage({
   return (
     <section id="product-detail" className="py-6">
       <div className="container mx-auto px-4">
-        <nav className="mb-6 flex flex-wrap items-center gap-2 text-sm text-gray-500">
+        <nav className="mb-6 flex flex-nowrap items-center gap-2 overflow-hidden text-sm text-gray-500">
           <Link href="/" className="flex items-center gap-1.5 transition hover:text-primary-600">
             <FaHouse className="text-xs" /> Home
           </Link>
@@ -125,7 +125,7 @@ export default async function ProductDetailsPage({
             </>
           )}
           <FaChevronRight className="h-3 w-[15px] shrink-0 text-gray-400" />
-          <span className="font-medium text-gray-900">{product.title}</span>
+          <span className="truncate font-medium text-gray-900">{product.title}</span>
         </nav>
 
         <div className="flex flex-col gap-8 lg:flex-row">

@@ -112,7 +112,7 @@ export default function WishlistTable({
       <div className="overflow-x-auto">
         <table className="w-full min-w-[640px] text-left text-sm">
           <thead>
-            <tr className="border-b border-gray-100 text-gray-500">
+            <tr className="border-b border-gray-100 bg-gray-50 text-gray-500">
               <th className="px-6 py-4 font-medium">Product</th>
               <th className="px-6 py-4 font-medium">Price</th>
               <th className="px-6 py-4 font-medium">Status</th>
@@ -129,7 +129,7 @@ export default function WishlistTable({
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={p.imageCover} alt={p.title} className="h-14 w-14 rounded-lg object-contain" />
+                      <img src={p.imageCover} alt={p.title} className="h-16 w-16 rounded-lg border border-gray-100 object-contain p-1" />
                       <div>
                         <Link href={`/products/${p._id}`} className="font-semibold text-gray-900 hover:text-primary-600">
                           {p.title}
@@ -148,13 +148,17 @@ export default function WishlistTable({
                     )}
                   </td>
                   <td className="px-6 py-4">
-                    <span className="inline-flex items-center gap-1.5 rounded-full bg-green-50 px-2.5 py-1 text-xs font-medium text-green-600"><span className="h-1.5 w-1.5 rounded-full bg-green-500"></span> In Stock</span>
+                    {inCart ? (
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-green-50 px-2.5 py-1 text-xs font-medium text-green-600"><FaCartShopping /> In Cart</span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1.5 rounded-full bg-green-50 px-2.5 py-1 text-xs font-medium text-green-600"><span className="h-1.5 w-1.5 rounded-full bg-green-500"></span> In Stock</span>
+                    )}
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
                       {inCart ? (
-                        <Link href="/cart" className="text-sm font-medium text-primary-600 hover:text-primary-700">
-                          View Cart
+                        <Link href="/cart" className="flex items-center gap-1.5 rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-green-600 transition hover:bg-gray-50">
+                          <FaCheck /> View Cart
                         </Link>
                       ) : (
                         <button
@@ -169,7 +173,7 @@ export default function WishlistTable({
                         onClick={() => run(p._id, () => removeFromWishlist(p._id))}
                         disabled={busyId === p._id}
                         aria-label="Remove from wishlist"
-                        className="p-1.5 text-gray-400 transition hover:text-red-500 disabled:opacity-50"
+                        className="rounded-lg border border-gray-200 p-2.5 text-gray-400 transition hover:text-red-500 disabled:opacity-50"
                       >
                         <FaTrashCan />
                       </button>

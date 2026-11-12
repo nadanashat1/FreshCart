@@ -92,10 +92,20 @@ export default function AddressManager({ addresses }: { addresses: Address[] }) 
       {error && <p className="mb-4 rounded-lg bg-red-50 px-4 py-2 text-sm text-red-600">{error}</p>}
 
       {addresses.length === 0 && !showForm && (
-        <div className="mb-6 rounded-2xl border border-gray-100 bg-white p-10 text-center shadow-sm">
-          <FaLocationDot className="mx-auto mb-4 text-5xl text-gray-300" />
+        <div className="mb-6 rounded-2xl border border-gray-100 bg-white p-16 text-center shadow-sm">
+          <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-gray-100">
+            <FaLocationDot className="text-3xl text-gray-400" />
+          </div>
           <h3 className="mb-2 text-lg font-bold text-gray-900">No Addresses Yet</h3>
-          <p className="text-gray-500">Add your first delivery address to make checkout faster and easier.</p>
+          <p className="mx-auto mb-6 max-w-sm text-gray-500">
+            Add your first delivery address to make checkout faster and easier.
+          </p>
+          <button
+            onClick={() => setShowForm(true)}
+            className="inline-flex items-center gap-2 rounded-xl bg-primary-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-primary-700"
+          >
+            <span>+</span> Add Your First Address
+          </button>
         </div>
       )}
 

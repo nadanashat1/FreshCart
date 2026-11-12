@@ -22,16 +22,16 @@ export default async function WishlistPage() {
   );
 
   return (
-    <section className="py-10">
-      <div className="container mx-auto px-4">
-        {items.length > 0 && (
-          <>
-            <nav className="mb-6 flex items-center gap-2 text-sm text-gray-500">
+    <div className="min-h-screen bg-gray-50/50">
+      {items.length > 0 && (
+        <div className="border-b border-gray-100 bg-white">
+          <div className="container mx-auto px-4 py-6">
+            <nav className="mb-4 flex items-center gap-2 text-sm text-gray-500">
               <Link href="/" className="transition hover:text-primary-600">Home</Link>
               <span>/</span>
               <span className="font-medium text-gray-900">Wishlist</span>
             </nav>
-            <div className="mb-8 flex items-center gap-4">
+            <div className="mt-4 flex items-center gap-4">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-red-50">
                 <FaHeart className="text-xl text-red-500" />
               </div>
@@ -40,8 +40,10 @@ export default async function WishlistPage() {
                 <p className="text-sm text-gray-500">{items.length} item{items.length === 1 ? "" : "s"} saved</p>
               </div>
             </div>
-          </>
-        )}
+          </div>
+        </div>
+      )}
+      <div className="container mx-auto px-4 py-8">
 
         {items.length === 0 ? (
           <div className="flex min-h-[60vh] items-center justify-center px-4">
@@ -72,12 +74,12 @@ export default async function WishlistPage() {
         ) : (
           <>
             <WishlistTable items={items} inCartIds={inCartIds} />
-            <Link href="/products" className="mt-6 inline-block font-medium text-primary-600 hover:text-primary-700">
-              ← Continue Shopping
+            <Link href="/products" className="mt-6 inline-flex items-center gap-2 text-gray-600 transition-colors hover:text-primary-600">
+              <span>←</span> <span>Continue Shopping</span>
             </Link>
           </>
         )}
       </div>
-    </section>
+    </div>
   );
 }

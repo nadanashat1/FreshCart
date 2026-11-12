@@ -125,8 +125,17 @@ export default async function CartPage() {
                       </div>
                     </div>
                   ) : (
-                    <div className="rounded-xl bg-amber-50 p-4 text-sm text-amber-700">
-                      Add {(FREE_SHIPPING_THRESHOLD - payable).toLocaleString()} EGP more to qualify for free delivery
+                    <div className="rounded-xl bg-amber-50 p-4">
+                      <div className="mb-2 flex items-center gap-2 text-sm text-amber-700">
+                        <FaTruck className="shrink-0" />
+                        <span>Add {(FREE_SHIPPING_THRESHOLD - payable).toLocaleString()} EGP for free shipping</span>
+                      </div>
+                      <div className="h-2 overflow-hidden rounded-full bg-amber-100">
+                        <div
+                          className="h-full rounded-full bg-amber-400 transition-all"
+                          style={{ width: `${Math.min(100, Math.round((payable / FREE_SHIPPING_THRESHOLD) * 100))}%` }}
+                        />
+                      </div>
                     </div>
                   )}
                   <div className="space-y-3">
@@ -142,13 +151,13 @@ export default async function CartPage() {
                     )}
                     <div className="flex justify-between text-gray-600">
                       <span>Shipping</span>
-                      <span className="font-medium text-green-600">{freeShipping ? "FREE" : "Calculated at checkout"}</span>
+                      <span className="font-medium text-gray-900">{freeShipping ? "FREE" : "50 EGP"}</span>
                     </div>
                     <div className="mt-3 border-t border-dashed border-gray-200 pt-3">
                       <div className="flex items-baseline justify-between">
                         <span className="font-semibold text-gray-900">Total</span>
                         <div className="text-right">
-                          <span className="text-2xl font-bold text-gray-900">{payable.toLocaleString()}</span>
+                          <span className="text-2xl font-bold text-gray-900">{(payable + (freeShipping ? 0 : 50)).toLocaleString()}</span>
                           <span className="ml-1 text-sm text-gray-500">EGP</span>
                         </div>
                       </div>

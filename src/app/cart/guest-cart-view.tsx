@@ -208,8 +208,17 @@ export default function GuestCartView() {
                     <span><span className="font-semibold">Free Shipping!</span> You qualify for free delivery</span>
                   </div>
                 ) : (
-                  <div className="mb-4 rounded-lg bg-amber-50 p-3 text-sm text-amber-700">
-                    Add {(FREE_SHIPPING_THRESHOLD - total).toLocaleString()} EGP more to qualify for free delivery
+                  <div className="mb-4 rounded-lg bg-amber-50 p-3">
+                    <div className="mb-2 flex items-center gap-2 text-sm text-amber-700">
+                      <FaTruck className="shrink-0" />
+                      <span>Add {(FREE_SHIPPING_THRESHOLD - total).toLocaleString()} EGP for free shipping</span>
+                    </div>
+                    <div className="h-2 overflow-hidden rounded-full bg-amber-100">
+                      <div
+                        className="h-full rounded-full bg-amber-400 transition-all"
+                        style={{ width: `${Math.min(100, Math.round((total / FREE_SHIPPING_THRESHOLD) * 100))}%` }}
+                      />
+                    </div>
                   </div>
                 )}
                 <div className="space-y-2 border-t border-gray-100 pt-4 text-sm">
@@ -219,11 +228,11 @@ export default function GuestCartView() {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-500">Shipping</span>
-                    <span className="font-semibold text-primary-600">{freeShipping ? "FREE" : "Calculated at checkout"}</span>
+                    <span className="font-semibold">{freeShipping ? "FREE" : "50 EGP"}</span>
                   </div>
                   <div className="flex justify-between border-t border-gray-100 pt-2 text-base">
                     <span className="font-bold">Total</span>
-                    <span className="font-bold text-primary-600">{total.toLocaleString()} EGP</span>
+                    <span className="font-bold text-primary-600">{(total + (freeShipping ? 0 : 50)).toLocaleString()} EGP</span>
                   </div>
                 </div>
                 <button
